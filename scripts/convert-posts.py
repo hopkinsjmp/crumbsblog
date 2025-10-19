@@ -29,7 +29,8 @@ def create_html_template(title, date, content):
 
     <!-- Main Content -->
     <main class="main-container">
-        <article class="post">
+        <div class="post-container">
+            <article class="post">
             <div class="post-header">
                 <h1 class="post-title">{title}</h1>
                 <div class="post-meta">
@@ -44,6 +45,7 @@ def create_html_template(title, date, content):
                 {content}
             </div>
         </article>
+        </div>
     </main>
 
     <div id="sidebar"></div>

@@ -32,8 +32,20 @@ window.addEventListener('load', async function() {
 
             // Update navigation links based on page depth
             if (elementId === 'header') {
-                const homePrefix = window.location.pathname.startsWith('/p/') ? '../' : 
-                                 window.location.pathname.match(/\/\d{4}\/\d{2}\//) ? '../../' : '';
+                const isGitHubPages = window.location.hostname.includes('github.io');
+                let homePrefix = '';
+                
+                // Add /crumbsblog/ prefix if on GitHub Pages
+                if (isGitHubPages) {
+                    homePrefix = '/crumbsblog/';
+                }
+
+                // Add relative path based on current location
+                if (window.location.pathname.includes('/p/')) {
+                    homePrefix += '../';
+                } else if (window.location.pathname.match(/\/\d{4}\/\d{2}\//)) {
+                    homePrefix += '../../';
+                }
                 
                 // Update home links
                 element.querySelectorAll('.home-link').forEach(link => {
@@ -56,12 +68,24 @@ window.addEventListener('load', async function() {
     }
 
     try {
+        // Function to determine if we're on GitHub Pages
+        const isGitHubPages = () => window.location.hostname.includes('github.io');
+        
         // Get the base path for templates based on current page location
-        let basePath = 'templates/';
-        if (window.location.pathname.startsWith('/p/')) {
-            basePath = '../templates/';
+        let basePath = '';
+        
+        // Add /crumbsblog/ prefix if on GitHub Pages
+        if (isGitHubPages()) {
+            basePath = '/crumbsblog/';
+        }
+
+        // Add relative path based on current location
+        if (window.location.pathname.includes('/p/')) {
+            basePath += '../templates/';
         } else if (window.location.pathname.match(/\/\d{4}\/\d{2}\//)) {
-            basePath = '../../templates/';
+            basePath += '../../templates/';
+        } else {
+            basePath += 'templates/';
         }
         
         // Load all templates with correct path

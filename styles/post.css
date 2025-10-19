@@ -2,7 +2,8 @@
 .item-view .post {
     background-color: #fff;
     padding: 40px;
-    margin-bottom: 50px;
+    margin: 0 32px 50px 112px; /* Combined margins into single declaration */
+    width: calc(100% - 144px); /* Keep width calculation */
 }
 
 .post-header {

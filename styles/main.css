@@ -82,7 +82,7 @@ a:hover {
     top: 0;
     width: 100%;
     z-index: 50;
-    padding: 36px 0 24px;
+    padding: 24px 0 16px; /* Reduced from 36px/24px to 24px/16px */
 }
 
 .centered-top {
@@ -179,7 +179,7 @@ body.sidebar-visible .hamburger-menu span:nth-child(3) {
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     color: rgba(0, 0, 0, 0.62);
-    margin: 16px 0 0 0;
+    margin: 8px 0 0 0; /* Reduced from 16px to 8px */
     line-height: 1.4;
 }
 
@@ -215,7 +215,7 @@ body.sidebar-visible .hamburger-menu span:nth-child(3) {
 
 /* Navigation */
 .page-list {
-    margin: 32px 0 0 80px;
+    margin: 12px 0 0 80px; /* Reduced from 16px to 12px */
     width: 100%;
     text-align: left;
 }
@@ -244,10 +244,10 @@ body.sidebar-visible .hamburger-menu span:nth-child(3) {
     color: #2c1d14;
     text-decoration: none;
     font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
+    font-size: 12px; /* Reduced from 14px */
     font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px; /* Reduced from 1px */
     white-space: nowrap;
 }
 
@@ -260,10 +260,23 @@ body.sidebar-visible .hamburger-menu span:nth-child(3) {
 .article-dropdown-button {
     display: flex;
     align-items: center;
-    gap: 8px;
+    position: relative;
+    gap: 12px;
     background: none;
+    border: 0.5px solid rgba(44, 29, 20, 0.7);
+    border-radius: 4px;
+    padding: 4px 12px 4px 14px;
+    cursor: pointer;
+}
+
+.article-dropdown-button .current-article {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     border: none;
-    padding: 0;
+}
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
@@ -311,9 +324,35 @@ body.sidebar-visible .hamburger-menu span:nth-child(3) {
 
 /* Chevron icon */
 .chevron-down {
-    width: 12px;
-    height: 12px;
+    width: 28px; /* Increased from 24px */
+    height: 28px; /* Increased from 24px */
     transition: transform 0.2s ease;
+    cursor: pointer;
+    padding: 6px; /* Slightly reduced to account for larger size */
+    margin: -6px;
+    display: inline-block;
+    color: #2c1d14;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.article-dropdown-button::after {
+    content: '';
+    position: absolute;
+    right: 44px; /* Position before the chevron */
+    top: 50%;
+    transform: translateY(-50%);
+    height: 14px;
+    width: 0.5px;
+    background-color: rgba(44, 29, 20, 0.7); /* Increased opacity to match border */
+}
+
+.chevron-down {
+    margin-left: 16px; /* Add space after the separator */
+}
+
+.chevron-down path {
+    fill: currentColor;
 }
 
 .article-dropdown.active .chevron-down {
@@ -322,9 +361,9 @@ body.sidebar-visible .hamburger-menu span:nth-child(3) {
 
 .page-list .separator {
     color: #2c1d14;
-    font-size: 14px;
+    font-size: 12px; /* Match other text */
     line-height: 1;
-    padding: 0 8px;
+    padding: 0 6px; /* Reduced from 8px */
 }
 
 /* Main Container */
@@ -524,7 +563,7 @@ body.sidebar-visible {
 body.item-view .main-container {
     max-width: 922px;
     margin: 0 auto;
-    padding: 32px;
+    padding: 0 0 32px 0; /* Removed top padding, kept bottom padding */
     transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

@@ -13,7 +13,7 @@ const postConfig = {
     // Posts that are complete but not yet published
     unpublished: [
         '2025/05/recipe-catalogue.html',
-        '2025/05/this-is-post-number-2.html'
+        '2025/05/this-is-post-number-2.html',
         '2025/06/cookies.html',
         '2025/06/copyright.html',
         '2025/06/privacy.html',

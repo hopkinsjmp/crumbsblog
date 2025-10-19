@@ -18,7 +18,7 @@ const articleTitles = [
     {
         path: '2025/07/halloumi-and-the-concentrated-mind.html',
         full: 'Halloumi and the Concentrated Mind',
-        short: 'Halloumi and the Concentrate Mind'
+        short: 'Halloumi and the Concentrated Mind'
     },
     {
         path: '2025/06/a-soothing-smoothie-bowl-1-cashew-and-berry.html',

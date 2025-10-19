@@ -18,6 +18,8 @@ const postTemplate = (title, date, content) => `<!DOCTYPE html>
     
     <script src="../../scripts/config.js"></script>
     <script src="../../scripts/posts.js"></script>
+    <script src="../../scripts/articles.js"></script>
+    <script src="../../scripts/dropdown.js"></script>
     <link rel="stylesheet" href="../../styles/main.css">
     <link rel="stylesheet" href="../../styles/post.css">
 </head>

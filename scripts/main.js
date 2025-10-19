@@ -36,10 +36,18 @@ function toggleSidebar() {
 
 // Handle post visibility
 function handlePostVisibility() {
-    // Check if we're on a post page
+    // Only run redirect logic for actual post/article pages, not info pages
     const postContent = document.querySelector('.post');
-    if (postContent && typeof isPostPublished === 'function') {
-        const currentPath = window.location.pathname.replace(/^\/crumbsblog\//, '');
+    const infoPages = [
+        '/p/about.html',
+        '/p/contribute.html'
+    ];
+    const currentPath = window.location.pathname.replace(/^\/crumbsblog\//, '');
+    if (
+        postContent &&
+        typeof isPostPublished === 'function' &&
+        !infoPages.some(page => currentPath.endsWith(page.replace(/^\//, '')))
+    ) {
         if (!isPostPublished(currentPath)) {
             // Redirect to home if post is not published
             window.location.href = getBasePath();

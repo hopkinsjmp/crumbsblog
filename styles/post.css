@@ -2,9 +2,15 @@
 .item-view .post {
     background-color: #fff;
     padding: 40px;
-    margin: 0 auto 50px; /* Center the post */
-    max-width: 922px; /* Match centered-top-wrapper */
-    width: calc(100% - 64px); /* Account for left and right padding */
+    margin: 0 32px 50px; /* Add horizontal margins */
+    width: auto; /* Let the container control the width */
+}
+
+/* Container for post to allow centering */
+.item-view .post-container {
+    max-width: 922px;
+    margin: 0 auto;
+    padding: 0;
 }
 
 .post-header {

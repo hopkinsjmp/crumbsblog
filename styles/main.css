@@ -367,15 +367,18 @@ body.sidebar-visible .hamburger-menu span:nth-child(3) {
 }
 
 /* Main Container */
+/* Always center main-container and match header alignment */
 .main-container {
     max-width: 922px;
     margin: 0 auto;
-    padding: 32px;
+    padding: 0 32px 32px 32px;
+    width: 100%;
 }
 
 @media (min-width: 1324px) {
     .main-container {
-        margin-left: 284px;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 }
 
@@ -569,11 +572,12 @@ body.item-view .main-container {
 
 @media (min-width: 1324px) {
     body.item-view .main-container {
-        margin-left: 284px; /* Match sidebar width */
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
-    
     body.item-view.sidebar-invisible .main-container {
-        margin-left: 0;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 }
 
@@ -603,7 +607,8 @@ body.item-view .main-container {
 
     /* Ensure main content doesn't move when sidebar opens */
     .main-container {
-        margin-left: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
         transition: none;
     }
 
@@ -628,7 +633,8 @@ body.item-view .main-container {
     .main-container {
         max-width: 922px;
         padding: 0 48px;
-        margin-left: 284px;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 }
 

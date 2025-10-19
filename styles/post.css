@@ -7,10 +7,12 @@
 }
 
 /* Container for post to allow centering */
+/* Match centered-top-wrapper for left alignment */
 .item-view .post-container {
     max-width: 922px;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 32px;
+}
 }
 
 .post-header {

@@ -31,7 +31,7 @@ window.addEventListener('load', async function() {
             }
 
             // Update navigation links based on page depth and hosting
-            if (elementId === 'header') {
+            if (elementId === 'header' || elementId === 'sidebar') {
                 const hostname = window.location.hostname;
                 const path = window.location.pathname;
                 let homePrefix = '';
@@ -76,6 +76,20 @@ window.addEventListener('load', async function() {
                 // Update contribute link
                 element.querySelectorAll('.contribute-link').forEach(link => {
                     link.href = pagesPrefix + 'contribute.html';
+                });
+
+                // Update legal links
+                element.querySelectorAll('.terms-link').forEach(link => {
+                    link.href = pagesPrefix + 'terms.html';
+                });
+                element.querySelectorAll('.privacy-link').forEach(link => {
+                    link.href = pagesPrefix + 'privacy.html';
+                });
+                element.querySelectorAll('.cookies-link').forEach(link => {
+                    link.href = pagesPrefix + 'cookies.html';
+                });
+                element.querySelectorAll('.copyright-link').forEach(link => {
+                    link.href = pagesPrefix + 'copyright.html';
                 });
             }
         } catch (error) {

@@ -40,7 +40,11 @@ function handlePostVisibility() {
     const postContent = document.querySelector('.post');
     const infoPages = [
         '/p/about.html',
-        '/p/contribute.html'
+        '/p/contribute.html',
+        '/p/terms.html',
+        '/p/privacy.html',
+        '/p/cookies.html',
+        '/p/copyright.html'
     ];
     const currentPath = window.location.pathname.replace(/^\/crumbsblog\//, '');
     if (

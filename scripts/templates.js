@@ -84,28 +84,18 @@ window.addEventListener('load', async function() {
         let scriptsPath = '';
         const path = window.location.pathname;
         
-        if (isGitHubPages()) {
-            // GitHub Pages paths - always use absolute paths
-            if (path.includes('/crumbsblog/')) {
-                basePath = '/crumbsblog/templates/';
-                scriptsPath = '/crumbsblog/scripts/';
-            } else {
-                // Fallback if /crumbsblog/ is not in path
-                basePath = '../templates/';
-                scriptsPath = '../scripts/';
-            }
+        if (path.includes('/p/')) {
+            // About/contribute pages
+            basePath = isGitHubPages() ? '/crumbsblog/templates/' : '../templates/';
+            scriptsPath = isGitHubPages() ? '/crumbsblog/scripts/' : '../scripts/';
+        } else if (path.match(/\/\d{4}\/\d{2}\//)) {
+            // Article pages
+            basePath = isGitHubPages() ? '/crumbsblog/templates/' : '../../templates/';
+            scriptsPath = isGitHubPages() ? '/crumbsblog/scripts/' : '../../scripts/';
         } else {
-            // Local server paths
-            if (path.includes('/p/')) {
-                basePath = '../templates/';
-                scriptsPath = '../scripts/';
-            } else if (path.match(/\/\d{4}\/\d{2}\//)) {
-                basePath = '../../templates/';
-                scriptsPath = '../../scripts/';
-            } else {
-                basePath = 'templates/';
-                scriptsPath = 'scripts/';
-            }
+            // Home page
+            basePath = isGitHubPages() ? '/crumbsblog/templates/' : 'templates/';
+            scriptsPath = isGitHubPages() ? '/crumbsblog/scripts/' : 'scripts/';
         }
 
         // Make these paths available globally

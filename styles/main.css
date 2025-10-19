@@ -251,6 +251,75 @@ body.sidebar-visible .hamburger-menu span:nth-child(3) {
     white-space: nowrap;
 }
 
+/* Article Dropdown Styles */
+.article-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.article-dropdown-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #2c1d14;
+}
+
+.article-dropdown-button:hover {
+    text-decoration: underline;
+}
+
+.article-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #e0e6cf;
+    min-width: 200px;
+    border-radius: 8px;
+    padding: 8px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.article-dropdown.active .article-dropdown-content {
+    display: block;
+}
+
+.article-dropdown-content a {
+    display: block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #2c1d14;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.article-dropdown-content a:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* Chevron icon */
+.chevron-down {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.2s ease;
+}
+
+.article-dropdown.active .chevron-down {
+    transform: rotate(180deg);
+}
+
 .page-list .separator {
     color: #2c1d14;
     font-size: 14px;

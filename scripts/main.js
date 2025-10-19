@@ -38,7 +38,7 @@ function toggleSidebar() {
 function handlePostVisibility() {
     // Check if we're on a post page
     const postContent = document.querySelector('.post');
-    if (postContent) {
+    if (postContent && typeof isPostPublished === 'function') {
         const currentPath = window.location.pathname.replace(/^\/crumbsblog\//, '');
         if (!isPostPublished(currentPath)) {
             // Redirect to home if post is not published
@@ -47,44 +47,70 @@ function handlePostVisibility() {
     }
 }
 
-// Initial setup
-function initializePage() {
-    handlePostVisibility();
-    initializeSidebar();
+// Function to wait for templates to load
+function waitForElement(selector, maxTries = 10) {
+    return new Promise((resolve, reject) => {
+        let tries = 0;
+        const interval = setInterval(() => {
+            const element = document.querySelector(selector);
+            tries++;
+            if (element) {
+                clearInterval(interval);
+                resolve(element);
+            } else if (tries >= maxTries) {
+                clearInterval(interval);
+                reject(new Error(`Element ${selector} not found after ${maxTries} tries`));
+            }
+        }, 100);
+    });
 }
 
-function initializeSidebar() {
-    const sidebarContainer = document.querySelector('#sidebar .sidebar-container');
-    const overlay = document.querySelector('.overlay');
-    const body = document.body;
+async function initializeSidebar() {
+    try {
+        const [sidebarContainer, overlay] = await Promise.all([
+            waitForElement('#sidebar .sidebar-container'),
+            waitForElement('.overlay')
+        ]);
 
-    if (!sidebarContainer || !overlay) {
-        console.error('Sidebar or overlay not found', {
-            sidebarContainer: !!sidebarContainer,
-            overlay: !!overlay
-        });
-        return;
-    }
+        const body = document.body;
 
-    // On mobile: start hidden
-    if (window.innerWidth < 1324) {
-        sidebarContainer.classList.add('sidebar-invisible');
-    } else {
-        // On desktop: start visible
-        sidebarContainer.classList.remove('sidebar-invisible');
+        // On mobile: start hidden
+        if (window.innerWidth < 1324) {
+            sidebarContainer.classList.add('sidebar-invisible');
+        } else {
+            // On desktop: start visible
+            sidebarContainer.classList.remove('sidebar-invisible');
+        }
+        
+        // Always start with overlay hidden
+        overlay.classList.remove('active');
+        body.classList.remove('sidebar-visible');
+    } catch (error) {
+        console.warn('Sidebar initialization delayed:', error);
     }
-    
-    // Always start with overlay hidden
-    overlay.classList.remove('active');
-    body.classList.remove('sidebar-visible');
+}
+
+// Debounce function for resize
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Initialize everything when the page loads
+async function initializePage() {
+    handlePostVisibility();
+    await initializeSidebar();
 }
 
 // Run when window is resized
-let resizeTimeout;
-window.addEventListener('resize', function() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(initializeSidebar, 250);
-});
+window.addEventListener('resize', debounce(initializeSidebar, 250));
 
 // Initialize everything when the page loads
 document.addEventListener('DOMContentLoaded', initializePage);

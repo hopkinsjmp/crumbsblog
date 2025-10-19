@@ -3,23 +3,24 @@ const postConfig = {
     // Posts that are ready to be published
     published: [
         '2025/05/how-to-contribute.html',
-        '2025/05/recipe-catalogue.html',
-        '2025/05/this-is-post-number-2.html',
-        '2025/06/a-soothing-smoothie-bowl-1-cashew-and-berry.html',
-        '2025/06/a-vegetable-soup-for-a-fruitless-mind.html',
-        '2025/06/cookies.html',
-        '2025/06/copyright.html',
-        '2025/06/privacy.html',
-        '2025/06/soak-blend-breathe-or-cashew-milk-for-when-everything-s-a-lot.html',
-        '2025/06/terms.html',
-        '2025/07/coming-up-for-air-a-gentle-roast-of-fennel-and-cream.html',
-        '2025/07/courgettes-for-the-countdown.html',
         '2025/07/halloumi-and-the-concentrated-mind.html',
-        '2025/08/a-welcome-interlude-toast-three-ways.html',
+        '2025/06/a-vegetable-soup-for-a-fruitless-mind.html',
+        '2025/06/a-soothing-smoothie-bowl-1-cashew-and-berry.html',
+        '2025/06/soak-blend-breathe-or-cashew-milk-for-when-everything-s-a-lot.html'
+
     ],
     
     // Posts that are complete but not yet published
     unpublished: [
+        '2025/05/recipe-catalogue.html',
+        '2025/05/this-is-post-number-2.html'
+        '2025/06/cookies.html',
+        '2025/06/copyright.html',
+        '2025/06/privacy.html',
+        '2025/06/terms.html',
+        '2025/07/coming-up-for-air-a-gentle-roast-of-fennel-and-cream.html',
+        '2025/07/courgettes-for-the-countdown.html',
+        '2025/08/a-welcome-interlude-toast-three-ways.html'
     ]
 };
 

@@ -34,18 +34,32 @@ function initializeArticleDropdown() {
     // Filter to only include published articles
     const publishedArticles = articleTitles.filter(article => isPostPublished(article.path));
     
-    // Get random article and set it as current
-    const randomIndex = Math.floor(Math.random() * publishedArticles.length);
-    const randomArticle = publishedArticles[randomIndex];
+    // Check if we're on an article page and find the current article
+    const currentPath = window.location.pathname;
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    const pathToCheck = isGitHubPages ? currentPath.replace('/crumbsblog/', '') : currentPath;
+    const currentPageArticle = publishedArticles.find(article => pathToCheck === article.path);
     
-    if (randomArticle) {
+    let selectedArticle, selectedIndex;
+    
+    if (currentPageArticle) {
+        // If we're on an article page, use that article
+        selectedArticle = currentPageArticle;
+        selectedIndex = publishedArticles.indexOf(currentPageArticle);
+    } else {
+        // If we're not on an article page, choose random
+        selectedIndex = Math.floor(Math.random() * publishedArticles.length);
+        selectedArticle = publishedArticles[selectedIndex];
+    }
+    
+    if (selectedArticle) {
         const prefix = getRelativePathPrefix();
-        currentArticle.textContent = randomArticle.short;
-        currentArticle.closest('.article-dropdown-button').setAttribute('data-path', prefix + randomArticle.path);
+        currentArticle.textContent = selectedArticle.short;
+        currentArticle.closest('.article-dropdown-button').setAttribute('data-path', prefix + selectedArticle.path);
         
         // Populate dropdown with all other published articles
         publishedArticles.forEach((article, index) => {
-            if (index !== randomIndex) {
+            if (index !== selectedIndex) {
                 const link = document.createElement('a');
                 link.href = prefix + article.path;
                 link.textContent = article.short;

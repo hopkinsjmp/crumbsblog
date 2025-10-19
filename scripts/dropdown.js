@@ -1,12 +1,18 @@
 // Function to get relative path prefix based on current page
 function getRelativePathPrefix() {
+    const isGitHubPages = window.location.hostname.includes('github.io');
     const path = window.location.pathname;
-    if (path.match(/\/\d{4}\/\d{2}\//)) {
-        return '../../';
-    } else if (path.includes('/p/')) {
-        return '../';
+    
+    if (isGitHubPages) {
+        return '/crumbsblog/';
+    } else {
+        if (path.match(/\/\d{4}\/\d{2}\//)) {
+            return '../../';
+        } else if (path.includes('/p/')) {
+            return '../';
+        }
+        return '';
     }
-    return '';
 }
 
 // Function to initialize the article dropdown

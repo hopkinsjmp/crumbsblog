@@ -85,9 +85,15 @@ window.addEventListener('load', async function() {
         const path = window.location.pathname;
         
         if (isGitHubPages()) {
-            // GitHub Pages paths
-            basePath = '/crumbsblog/templates/';
-            scriptsPath = '/crumbsblog/scripts/';
+            // GitHub Pages paths - always use absolute paths
+            if (path.includes('/crumbsblog/')) {
+                basePath = '/crumbsblog/templates/';
+                scriptsPath = '/crumbsblog/scripts/';
+            } else {
+                // Fallback if /crumbsblog/ is not in path
+                basePath = '../templates/';
+                scriptsPath = '../scripts/';
+            }
         } else {
             // Local server paths
             if (path.includes('/p/')) {

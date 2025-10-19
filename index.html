@@ -5,435 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crumbs of Sanity</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts (EB Garamond for headings, Lora for body, Montserrat for UI) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Brygada+1918:ital,wght@0,400..700;1,400..700&family=EB+Garamond:wght@400;700&family=Lato:wght@300;400;700&family=Lora:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'EB Garamond', serif;
-            font-size: 20px;
-            line-height: 1.7;
-            color: #000000;
-            background-color: #e0e6cf;
-            background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEg8QAx2my2VCVbPy5G1Re0h4xjGDtRggMc5ZDyie0k9f-4MQz5L1IVXsc7YwwBNqTgCJmuhFMQdOTvFXty6-LPmPnz0clMQ6UNh924F376y4kCdMjFHZ15W_Ia2GXJBLUpjdpqxe6EJnBaQftyJW6xgvxhLC4Ufa2VaTEjTibo9ui1IVIA52Kvd__UoRFE=s1600');
-            background-repeat: repeat;
-            min-height: 100vh;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Brygada 1918', serif;
-            font-weight: 400;
-        }
-
-        a {
-            color: #a93e33;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Header Styles */
-        .header-container {
-            background-color: #e0e6cf;
-            padding: 36px 32px 12px;
-            position: relative;
-            z-index: 50;
-        }
-
-        .header-content {
-            max-width: 576px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-
-        .hamburger-menu {
-            cursor: pointer;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-        }
-
-        .hamburger-menu span {
-            display: block;
-            height: 2px;
-            background-color: #000;
-            width: 100%;
-        }
-
-        .blog-name {
-            flex: 1 1 100%;
-            order: 2;
-            text-align: left;
-            margin-top: 12px;
-        }
-
-        .blog-name h1 {
-            font-size: 18px;
-            color: #2c1d14;
-            text-transform: uppercase;
-            margin: 0 0 8px 0;
-        }
-
-        .blog-name h1 a {
-            color: #2c1d14;
-        }
-
-        .blog-name p {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            color: rgba(0, 0, 0, 0.54);
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        .hamburger-menu-container {
-            order: 1;
-        }
-
-        .search-button {
-            background: none;
-            border: none;
-            color: #a93e33;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-weight: 400;
-            order: 3;
-        }
-
-        /* Page Navigation */
-        .page-nav {
-            max-width: 576px;
-            margin: 0 auto;
-            padding: 0 32px;
-            margin-top: 0;
-            padding-top: 16px;
-            padding-bottom: 16px;
-            background-color: #e0e6cf;
-        }
-
-        .page-nav ul {
-            list-style: none;
-            display: flex;
-            gap: 0;
-            flex-wrap: wrap;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-        }
-
-        .page-nav li {
-            display: flex;
-            align-items: center;
-        }
-
-        .page-nav li::before {
-            content: "·";
-            margin: 0 8px;
-            color: #000;
-        }
-
-        .page-nav li:first-child::before {
-            content: none;
-            margin: 0;
-        }
-
-        .page-nav a {
-            color: #000;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        /* Hero Image */
-        .hero-image {
-            width: 100%;
-            height: 400px;
-            background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEg8QAx2my2VCVbPy5G1Re0h4xjGDtRggMc5ZDyie0k9f-4MQz5L1IVXsc7YwwBNqTgCJmuhFMQdOTvFXty6-LPmPnz0clMQ6UNh924F376y4kCdMjFHZ15W_Ia2GXJBLUpjdpqxe6EJnBaQftyJW6xgvxhLC4Ufa2VaTEjTibo9ui1IVIA52Kvd__UoRFE=s1600');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        /* Main Content */
-        .main-container {
-            max-width: 576px;
-            margin: 0 auto;
-            padding: 32px;
-        }
-
-        .section-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            text-transform: uppercase;
-            color: rgba(0, 0, 0, 0.54);
-            margin: 50px 0 24px;
-        }
-
-        /* Featured Post */
-        .featured-post {
-            margin-bottom: 50px;
-            background-color: transparent;
-        }
-
-        .featured-post-content {
-            background-color: #fff;
-            padding: 30px;
-        }
-
-        .featured-post-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            margin-bottom: 0;
-        }
-
-        .post-meta {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            color: rgba(0, 0, 0, 0.54);
-            margin-bottom: 8px;
-        }
-
-        .post-title {
-            font-size: 20px;
-            color: #2c1d14;
-            text-transform: uppercase;
-            margin: 8px 0;
-        }
-
-        .post-title a {
-            color: #2c1d14;
-        }
-
-        .post-snippet {
-            font-family: 'Lora', serif;
-            font-size: 14px;
-            line-height: 1.7;
-            margin: 12px 0;
-        }
-
-        .post-snippet::before {
-            content: "—";
-            margin-right: 4px;
-        }
-
-        .post-footer {
-            margin-top: 8px;
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-
-        .post-footer a,
-        .post-footer button {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            color: #a93e33;
-            background: none;
-            border: none;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-
-        /* Blog Posts Grid */
-        .blog-posts {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 50px;
-        }
-
-        .post-card {
-            background-color: #f4d6d3;
-            padding: 30px;
-        }
-
-        .post-card.has-image {
-            background-color: transparent;
-            padding: 0;
-        }
-
-        .post-card-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            margin-bottom: 16px;
-            position: relative;
-        }
-
-        .image-meta {
-            position: absolute;
-            bottom: 0;
-            background-color: #e0e6cf;
-            padding: 5px 15px 5px 0;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -300px;
-            width: 284px;
-            height: 100vh;
-            background-color: #edf0e6;
-            overflow-y: auto;
-            transition: left 0.3s ease;
-            z-index: 100;
-            box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar.open {
-            left: 0;
-        }
-
-        .sidebar-content {
-            padding: 40px;
-        }
-
-        .sidebar-back {
-            cursor: pointer;
-            margin-bottom: 24px;
-            width: 24px;
-            height: 24px;
-        }
-
-        .sidebar-widget {
-            margin-bottom: 40px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid #000;
-        }
-
-        .sidebar-widget:last-child {
-            border-bottom: none;
-        }
-
-        .widget-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 16px;
-            color: rgba(0, 0, 0, 0.54);
-            margin-bottom: 16px;
-        }
-
-        .widget-content {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .widget-content ul {
-            list-style: none;
-        }
-
-        .widget-content li {
-            margin: 16px 0;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.54);
-            z-index: 99;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 40px 32px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            color: rgba(0, 0, 0, 0.54);
-        }
-
-        /* Responsive */
-        @media (min-width: 640px) {
-            .header-content {
-                width: 576px;
-            }
-
-            .blog-name h1 {
-                font-size: 24px;
-            }
-
-            .search-button {
-                font-size: 14px;
-            }
-
-            .hero-image {
-                height: 500px;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .header-content,
-            .main-container {
-                max-width: 922px;
-                width: 922px;
-            }
-
-            .blog-posts {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-
-            .blog-name h1 {
-                font-size: 36px;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Lora:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/post.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header-container">
-        <div class="header-content">
-            <div class="hamburger-menu" onclick="toggleSidebar()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="blog-name">
-                <h1><a href="/">Crumbs of Sanity</a></h1>
-                <p>Recipes and tales to bring comfort through academia and beyond</p>
-            </div>
-            <button class="search-button">Search</button>
-        </div>
-    </header>
-
-    <!-- Page Navigation -->
-    <nav class="page-nav">
-        <ul>
-            <li><a href="/">THE BLOG</a></li>
-            <li><a href="/about.html">ABOUT</a></li>
-            <li><a href="/contribute.html">HOW TO CONTRIBUTE</a></li>
-        </ul>
-    </nav>
+    <div id="header"></div>
 
     <!-- Hero Image -->
-    <div class="hero-image"></div>
+    <div class="hero-image" style="background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEg8QAx2my2VCVbPy5G1Re0h4xjGDtRggMc5ZDyie0k9f-4MQz5L1IVXsc7YwwBNqTgCJmuhFMQdOTvFXty6-LPmPnz0clMQ6UNh924F376y4kCdMjFHZ15W_Ia2GXJBLUpjdpqxe6EJnBaQftyJW6xgvxhLC4Ufa2VaTEjTibo9ui1IVIA52Kvd__UoRFE=s1600')">
+        <div class="hero-overlay"></div>
+    </div>
 
     <!-- Main Content -->
     <main class="main-container">
@@ -441,16 +26,16 @@
         <section class="featured-post">
             <h3 class="section-title">Featured</h3>
             <article>
-                <img src="https://via.placeholder.com/576x360" alt="Featured post" class="featured-post-image">
+                <img src="/images/posts/2025/06/cashew-berry-smoothie-bowl.jpg" alt="Cashew and Berry Smoothie Bowl" class="featured-post-image">
                 <div class="featured-post-content">
-                    <div class="post-meta">Author Name · January 1, 2025</div>
-                    <h2 class="post-title"><a href="#">Your Featured Post Title Here</a></h2>
+                    <div class="post-meta">Carmel · June 15, 2025</div>
+                    <h2 class="post-title"><a href="/2025/06/a-soothing-smoothie-bowl-1-cashew-and.html">A Soothing Smoothie Bowl #1: Cashew and Berry</a></h2>
                     <div class="post-snippet">
-                        This is where your featured post snippet would go. It gives readers a taste of what the post is about and entices them to click through to read more.
+                        When the stress of PhD life gets overwhelming, sometimes the best remedy is a nourishing breakfast that's both beautiful and delicious. This smoothie bowl has been my go-to comfort food during particularly challenging writing sessions.
                     </div>
                     <div class="post-footer">
                         <button>Share</button>
-                        <a href="#">No comments</a>
+                        <a href="/2025/06/a-soothing-smoothie-bowl-1-cashew-and.html#comments">No comments</a>
                     </div>
                 </div>
             </article>
@@ -462,7 +47,7 @@
             <!-- Post with Image -->
             <article class="post-card has-image">
                 <div style="position: relative;">
-                    <img src="https://via.placeholder.com/576x360" alt="Post" class="post-card-image">
+                    <img src="/images/posts/2025/01/post-title-1.jpg" alt="Post" class="post-card-image">
                     <div class="image-meta">
                         <div class="post-meta">Author · Jan 15, 2025</div>
                     </div>
@@ -487,7 +72,7 @@
             <!-- More posts... -->
             <article class="post-card has-image">
                 <div style="position: relative;">
-                    <img src="https://via.placeholder.com/576x360" alt="Post" class="post-card-image">
+                    <img src="/images/posts/2025/01/post-title-2.jpg" alt="Post" class="post-card-image">
                     <div class="image-meta">
                         <div class="post-meta">Author · Jan 8, 2025</div>
                     </div>
@@ -510,82 +95,11 @@
         </div>
     </main>
 
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-content">
-            <div class="sidebar-back" onclick="toggleSidebar()">
-                ← Back
-            </div>
+    <div id="sidebar"></div>
+    <div class="overlay" id="overlay"></div>
+    <div id="footer"></div>
 
-            <div class="sidebar-widget">
-                <img src="https://blogger.googleusercontent.com/img/a/AVvXsEjB5efNHTOBYahLdXdEjgCcRwEL8S_smsjOLbL98E8A7l22PgVqv1cB-8jPAsATvRsbb7ZKDER3PXDf4zULwEruaIISGLy40fm6GCzzkADaI3DXkEYNhX2WLe0I-CuUXYlebQtkjYQmAtgWZr4tytfQtg5bb6L6o-4frGXt4rULkXPrZ9jpnh7FBminHeo=s435" 
-                     alt="Profile" style="width: 100%; height: auto; margin-bottom: 16px;">
-                <div class="widget-content">
-                    <p>Welcome to 'Crumbs of Sanity,' where I share recipes and food musings that kept me sane during my PhD journey and beyond. Expect a dash of humor, a sprinkle of personal anecdotes, and a dollop of delicious distractions.</p>
-                    <p>- Carmel, PhD survivor</p>
-                </div>
-            </div>
-
-            <div class="sidebar-widget">
-                <div style="text-align: center;">
-                    <a href="https://instagram.com/crumbsofsanityblog" target="_blank" style="display: block; margin-bottom: 12px;">
-                        Follow us on Instagram!
-                    </a>
-                    <a href="https://crumbsofsanity.substack.com/subscribe" target="_blank" 
-                       style="display: inline-block; padding: 10px 20px; background-color: #f587d7; color: white; border-radius: 6px;">
-                        📬 Subscribe to Crumbs
-                    </a>
-                </div>
-            </div>
-
-            <div class="sidebar-widget">
-                <h3 class="widget-title">Archive</h3>
-                <div class="widget-content">
-                    <ul>
-                        <li><a href="#">January 2025 (4)</a></li>
-                        <li><a href="#">December 2024 (8)</a></li>
-                        <li><a href="#">November 2024 (6)</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="sidebar-widget">
-                <h3 class="widget-title">Legal</h3>
-                <div class="widget-content">
-                    <ul>
-                        <li><a href="/terms.html">Terms</a></li>
-                        <li><a href="/privacy.html">Privacy</a></li>
-                        <li><a href="/cookies.html">Cookies</a></li>
-                        <li><a href="/copyright.html">Copyright</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="sidebar-widget">
-                <h3 class="widget-title">Labels</h3>
-                <div class="widget-content">
-                    <a href="#">Recipes</a>, <a href="#">Baking</a>, <a href="#">Desserts</a>, <a href="#">PhD Life</a>, <a href="#">Quick Meals</a>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Overlay -->
-    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div>Powered by Blogger</div>
-        <div>Copyright © 2025 Carmel Heeley</div>
-    </footer>
-
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('active');
-        }
-    </script>
+    <script src="/scripts/main.js"></script>
+    <script src="/scripts/templates.js"></script>
 </body>
 </html>

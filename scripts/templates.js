@@ -1,0 +1,79 @@
+// Load templates first, then initialize sidebar
+window.addEventListener('load', async function() {
+    // Function to fetch and insert template content
+    async function includeTemplate(elementId, templatePath) {
+        try {
+            console.log(`Loading template: ${templatePath}`);
+            const response = await fetch(templatePath);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const content = await response.text();
+            console.log(`Template loaded: ${templatePath}`);
+            
+            const element = document.getElementById(elementId);
+            if (!element) {
+                throw new Error(`Element #${elementId} not found`);
+            }
+            
+            // Special handling for sidebar
+            if (elementId === 'sidebar') {
+                element.innerHTML = `
+                    <aside class="sidebar-container sidebar-invisible">
+                        <div class="sidebar-content">
+                            ${content}
+                        </div>
+                    </aside>
+                `;
+                console.log('Sidebar content inserted');
+            } else {
+                element.innerHTML = content;
+            }
+
+            // Update navigation links based on page depth
+            if (elementId === 'header') {
+                const homePrefix = window.location.pathname.startsWith('/p/') ? '../' : 
+                                 window.location.pathname.match(/\/\d{4}\/\d{2}\//) ? '../../' : '';
+                
+                // Update home links
+                element.querySelectorAll('.home-link').forEach(link => {
+                    link.href = homePrefix;
+                });
+
+                // Update about link
+                element.querySelectorAll('.about-link').forEach(link => {
+                    link.href = homePrefix + 'p/about.html';
+                });
+
+                // Update contribute link
+                element.querySelectorAll('.contribute-link').forEach(link => {
+                    link.href = homePrefix + 'p/contribute.html';
+                });
+            }
+        } catch (error) {
+            console.error(`Error loading template ${templatePath}:`, error);
+        }
+    }
+
+    try {
+        // Get the base path for templates based on current page location
+        let basePath = 'templates/';
+        if (window.location.pathname.startsWith('/p/')) {
+            basePath = '../templates/';
+        } else if (window.location.pathname.match(/\/\d{4}\/\d{2}\//)) {
+            basePath = '../../templates/';
+        }
+        
+        // Load all templates with correct path
+        await Promise.all([
+            includeTemplate('header', basePath + 'header.html'),
+            includeTemplate('footer', basePath + 'footer.html'),
+            includeTemplate('sidebar', basePath + 'sidebar.html')
+        ]);
+
+        // Initialize sidebar only after all templates are loaded successfully
+        setTimeout(initializeSidebar, 0);
+    } catch (error) {
+        console.error('Error loading templates:', error);
+    }
+});

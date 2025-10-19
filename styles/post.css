@@ -2,8 +2,8 @@
 .item-view .post {
     background-color: #fff;
     padding: 40px;
-    margin: 0 32px 50px 160px; /* Increased left margin for better alignment */
-    width: calc(100% - 192px); /* Updated width calculation to account for new margin */
+    margin: 0 32px 50px 80px; /* Match blog-name left margin */
+    width: calc(100% - 112px); /* Account for left margin (80px) and right margin (32px) */
 }
 
 .post-header {

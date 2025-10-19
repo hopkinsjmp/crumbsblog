@@ -47,10 +47,8 @@
         .header-container {
             background-color: #e0e6cf;
             padding: 36px 32px 12px;
-            position: sticky;
-            top: 0;
+            position: relative;
             z-index: 50;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .header-content {
@@ -167,9 +165,7 @@
         /* Hero Image */
         .hero-image {
             width: 100%;
-            height: 62.5vw;
-            max-height: 75vh;
-            min-height: 200px;
+            height: 400px;
             background-image: url('https://blogger.googleusercontent.com/img/a/AVvXsEg8QAx2my2VCVbPy5G1Re0h4xjGDtRggMc5ZDyie0k9f-4MQz5L1IVXsc7YwwBNqTgCJmuhFMQdOTvFXty6-LPmPnz0clMQ6UNh924F376y4kCdMjFHZ15W_Ia2GXJBLUpjdpqxe6EJnBaQftyJW6xgvxhLC4Ufa2VaTEjTibo9ui1IVIA52Kvd__UoRFE=s1600');
             background-size: cover;
             background-position: center;
@@ -194,13 +190,19 @@
         /* Featured Post */
         .featured-post {
             margin-bottom: 50px;
+            background-color: transparent;
+        }
+
+        .featured-post-content {
+            background-color: #fff;
+            padding: 30px;
         }
 
         .featured-post-image {
             width: 100%;
             height: auto;
             display: block;
-            margin-bottom: 16px;
+            margin-bottom: 0;
         }
 
         .post-meta {
@@ -377,8 +379,12 @@
                 font-size: 24px;
             }
 
-            .subscribe-button {
+            .search-button {
                 font-size: 14px;
+            }
+
+            .hero-image {
+                height: 500px;
             }
         }
 
@@ -436,14 +442,16 @@
             <h3 class="section-title">Featured</h3>
             <article>
                 <img src="https://via.placeholder.com/576x360" alt="Featured post" class="featured-post-image">
-                <div class="post-meta">Author Name · January 1, 2025</div>
-                <h2 class="post-title"><a href="#">Your Featured Post Title Here</a></h2>
-                <div class="post-snippet">
-                    This is where your featured post snippet would go. It gives readers a taste of what the post is about and entices them to click through to read more.
-                </div>
-                <div class="post-footer">
-                    <button>Share</button>
-                    <a href="#">No comments</a>
+                <div class="featured-post-content">
+                    <div class="post-meta">Author Name · January 1, 2025</div>
+                    <h2 class="post-title"><a href="#">Your Featured Post Title Here</a></h2>
+                    <div class="post-snippet">
+                        This is where your featured post snippet would go. It gives readers a taste of what the post is about and entices them to click through to read more.
+                    </div>
+                    <div class="post-footer">
+                        <button>Share</button>
+                        <a href="#">No comments</a>
+                    </div>
                 </div>
             </article>
         </section>

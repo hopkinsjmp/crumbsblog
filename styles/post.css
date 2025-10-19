@@ -2,8 +2,9 @@
 .item-view .post {
     background-color: #fff;
     padding: 40px;
-    margin: 0 32px 50px 80px; /* Match blog-name left margin */
-    width: calc(100% - 112px); /* Account for left margin (80px) and right margin (32px) */
+    margin: 0 auto 50px; /* Center the post */
+    max-width: 922px; /* Match centered-top-wrapper */
+    width: calc(100% - 64px); /* Account for left and right padding */
 }
 
 .post-header {
@@ -171,6 +172,7 @@
 @media screen and (max-width: 640px) {
     .item-view .post {
         padding: 24px;
+        width: calc(100% - 48px); /* Account for smaller padding on mobile */
     }
 
     .post-featured-image {

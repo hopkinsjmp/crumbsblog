@@ -34,7 +34,25 @@ function toggleSidebar() {
     }
 }
 
+// Handle post visibility
+function handlePostVisibility() {
+    // Check if we're on a post page
+    const postContent = document.querySelector('.post');
+    if (postContent) {
+        const currentPath = window.location.pathname.replace(/^\/crumbsblog\//, '');
+        if (!isPostPublished(currentPath)) {
+            // Redirect to home if post is not published
+            window.location.href = getBasePath();
+        }
+    }
+}
+
 // Initial setup
+function initializePage() {
+    handlePostVisibility();
+    initializeSidebar();
+}
+
 function initializeSidebar() {
     const sidebarContainer = document.querySelector('#sidebar .sidebar-container');
     const overlay = document.querySelector('.overlay');
@@ -67,3 +85,6 @@ window.addEventListener('resize', function() {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(initializeSidebar, 250);
 });
+
+// Initialize everything when the page loads
+document.addEventListener('DOMContentLoaded', initializePage);

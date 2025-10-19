@@ -1,0 +1,12 @@
+{
+  "name": "crumbsblog",
+  "version": "1.0.0",
+  "description": "Crumbs of Sanity Blog",
+  "scripts": {
+    "convert": "node scripts/convert-posts.js"
+  },
+  "dependencies": {
+    "marked": "^11.0.0",
+    "js-yaml": "^4.1.0"
+  }
+}

@@ -1,0 +1,8 @@
+{
+    "liveServer.settings.CustomHeader": "Content-Type: text/javascript",
+    "liveServer.settings.mimeTypes": {
+        "js": "text/javascript",
+        "css": "text/css",
+        "html": "text/html"
+    }
+}

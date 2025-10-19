@@ -33,18 +33,26 @@ window.addEventListener('load', async function() {
             // Update navigation links based on page depth
             if (elementId === 'header') {
                 const isGitHubPages = window.location.hostname.includes('github.io');
+                const path = window.location.pathname;
                 let homePrefix = '';
+                let pagesPrefix = '';
                 
-                // Add /crumbsblog/ prefix if on GitHub Pages
                 if (isGitHubPages) {
+                    // GitHub Pages paths
                     homePrefix = '/crumbsblog/';
-                }
-
-                // Add relative path based on current location
-                if (window.location.pathname.includes('/p/')) {
-                    homePrefix += '../';
-                } else if (window.location.pathname.match(/\/\d{4}\/\d{2}\//)) {
-                    homePrefix += '../../';
+                    pagesPrefix = '/crumbsblog/p/';
+                } else {
+                    // Local server paths
+                    if (path.includes('/p/')) {
+                        homePrefix = '../';
+                        pagesPrefix = '';
+                    } else if (path.match(/\/\d{4}\/\d{2}\//)) {
+                        homePrefix = '../../';
+                        pagesPrefix = '../../p/';
+                    } else {
+                        homePrefix = '';
+                        pagesPrefix = 'p/';
+                    }
                 }
                 
                 // Update home links
@@ -54,12 +62,12 @@ window.addEventListener('load', async function() {
 
                 // Update about link
                 element.querySelectorAll('.about-link').forEach(link => {
-                    link.href = homePrefix + 'p/about.html';
+                    link.href = pagesPrefix + 'about.html';
                 });
 
                 // Update contribute link
                 element.querySelectorAll('.contribute-link').forEach(link => {
-                    link.href = homePrefix + 'p/contribute.html';
+                    link.href = pagesPrefix + 'contribute.html';
                 });
             }
         } catch (error) {
@@ -73,19 +81,20 @@ window.addEventListener('load', async function() {
         
         // Get the base path for templates based on current page location
         let basePath = '';
+        const path = window.location.pathname;
         
-        // Add /crumbsblog/ prefix if on GitHub Pages
         if (isGitHubPages()) {
-            basePath = '/crumbsblog/';
-        }
-
-        // Add relative path based on current location
-        if (window.location.pathname.includes('/p/')) {
-            basePath += '../templates/';
-        } else if (window.location.pathname.match(/\/\d{4}\/\d{2}\//)) {
-            basePath += '../../templates/';
+            // GitHub Pages paths
+            basePath = '/crumbsblog/templates/';
         } else {
-            basePath += 'templates/';
+            // Local server paths
+            if (path.includes('/p/')) {
+                basePath = '../templates/';
+            } else if (path.match(/\/\d{4}\/\d{2}\//)) {
+                basePath = '../../templates/';
+            } else {
+                basePath = 'templates/';
+            }
         }
         
         // Load all templates with correct path

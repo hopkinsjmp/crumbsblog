@@ -30,17 +30,25 @@ window.addEventListener('load', async function() {
                 element.innerHTML = content;
             }
 
-            // Update navigation links based on page depth
+            // Update navigation links based on page depth and hosting
             if (elementId === 'header') {
-                const isGitHubPages = window.location.hostname.includes('github.io');
+                const hostname = window.location.hostname;
                 const path = window.location.pathname;
                 let homePrefix = '';
                 let pagesPrefix = '';
-                
+
+                // Detect hosting environment
+                const isGitHubPages = hostname.includes('github.io');
+                const isCustomDomain = !(isGitHubPages || hostname === 'localhost' || hostname === '127.0.0.1');
+
                 if (isGitHubPages) {
                     // GitHub Pages paths
                     homePrefix = '/crumbsblog/';
                     pagesPrefix = '/crumbsblog/p/';
+                } else if (isCustomDomain) {
+                    // Custom domain: root-relative paths
+                    homePrefix = '/';
+                    pagesPrefix = '/p/';
                 } else {
                     // Local server paths
                     if (path.includes('/p/')) {
@@ -54,7 +62,7 @@ window.addEventListener('load', async function() {
                         pagesPrefix = 'p/';
                     }
                 }
-                
+
                 // Update home links
                 element.querySelectorAll('.home-link').forEach(link => {
                     link.href = homePrefix;

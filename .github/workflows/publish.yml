@@ -1,0 +1,29 @@
+name: Crumbs Blog Publish
+
+# This tells GitHub to listen for the custom event from your Google Script
+on:
+  repository_dispatch:
+    types: [crumbs_publish]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Log Payload Information
+        run: |
+          echo "Processing Document: ${{ github.event.client_payload.name }}"
+          echo "Document ID: ${{ github.event.client_payload.fileId }}"
+          echo "Publish Status: ${{ github.event.client_payload.published }}"
+          echo "Timestamp: ${{ github.event.client_payload.publishedAt }}"
+
+      # --- START YOUR BUILD LOGIC HERE ---
+      # Example: If you use a static site generator like Hugo, Jekyll, or Next.js:
+      # - name: Build Site
+      #   run: npm run build
+      
+      # - name: Deploy to GitHub Pages (or Vercel/Netlify)
+      #   run: npm run deploy
+      # --- END YOUR BUILD LOGIC HERE ---

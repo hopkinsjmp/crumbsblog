@@ -8,22 +8,44 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    # Granting write permission so the bot can push files back to the repo
+    permissions:
+      contents: write
+      
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Log Payload Information
+      - name: Create Post File
         run: |
-          echo "Processing Document: ${{ github.event.client_payload.name }}"
-          echo "Document ID: ${{ github.event.client_payload.fileId }}"
-          echo "Publish Status: ${{ github.event.client_payload.published }}"
-          echo "Timestamp: ${{ github.event.client_payload.publishedAt }}"
+          # Create the folder if it doesn't exist
+          mkdir -p content/posts
+          
+          # Create a Markdown file using the File ID as the filename
+          # We use a 'heredoc' (the EOF block) to write multiple lines at once
+          cat <<EOF > "content/posts/${{ github.event.client_payload.fileId }}.md"
+          ---
+          title: "${{ github.event.client_payload.name }}"
+          date: "${{ github.event.client_payload.publishedAt }}"
+          fileId: "${{ github.event.client_payload.fileId }}"
+          ---
 
-      # --- START YOUR BUILD LOGIC HERE ---
-      # Example: If you use a static site generator like Hugo, Jekyll, or Next.js:
-      # - name: Build Site
-      #   run: npm run build
-      
-      # - name: Deploy to GitHub Pages (or Vercel/Netlify)
-      #   run: npm run deploy
-      # --- END YOUR BUILD LOGIC HERE ---
+          ${{ github.event.client_payload.content }}
+          EOF
+
+      - name: Commit and Push
+        run: |
+          # Configure a fake user for the commit message
+          git config --global user.name "Crumbs Bot"
+          git config --global user.email "bot@crumbsblog.com"
+          
+          # Stage the new file, commit it, and push to the main branch
+          git add content/posts/*.md
+          
+          # Only commit if there are actually changes to avoid errors
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Publish post: ${{ github.event.client_payload.name }}"
+            git push
+          fi

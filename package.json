@@ -6,7 +6,7 @@
     "convert": "node scripts/convert-posts.js"
   },
   "dependencies": {
-    "marked": "^11.0.0",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.1",
+    "marked": "^11.2.0"
   }
 }

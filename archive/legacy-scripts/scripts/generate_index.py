@@ -199,7 +199,7 @@ def generate_index_html(articles):
         featured_year=featured['year'],
         featured_path=featured['path'],
         featured_title=featured['full'],
-        latest_posts_html='\\n'.join(latest_posts_list)
+        latest_posts_html='\n'.join(latest_posts_list)
     )
 
     with open('../index.html', 'w', encoding='utf-8') as f:

@@ -135,12 +135,12 @@ def main():
 const postConfig = {{
     // Posts that are ready to be published
     published: [
-        {',\\n        '.join(f"'{post}'" for post in published_posts)}
+        {',\n        '.join(f"'{post}'" for post in published_posts)}
     ],
     
     // Posts that are complete but not yet published
     unpublished: [
-        {',\\n        '.join(f"'{post}'" for post in unpublished_posts)}
+        {',\n        '.join(f"'{post}'" for post in unpublished_posts)}
     ]
 }};
 
@@ -148,12 +148,12 @@ function isPostPublished(postPath) {{
     // Remove any leading slash and normalize the path
     const normalizedPath = postPath.replace(/^\\//, '');
     return postConfig.published.includes(normalizedPath);
-}
+}}
 
 // Export functions for use in other scripts
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { postConfig, isPostPublished };
-}"""
+if (typeof module !== 'undefined' && module.exports) {{
+    module.exports = {{ postConfig, isPostPublished }};
+}}"""
 
     with open('/Users/josephhopkins/Desktop/crumbsblog/scripts/posts.js', 'w', encoding='utf-8') as f:
         f.write(posts_js_content)

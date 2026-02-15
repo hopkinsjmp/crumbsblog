@@ -124,7 +124,7 @@ def write_posts_js(published_posts, unpublished_posts):
         '}',
         '',
         '// Export functions for use in other scripts',
-        'if (typeof module !== "undefined" && module.exports) {',
+        "if (typeof module !== \"undefined\" && module.exports) {",
         '    module.exports = { postConfig, isPostPublished };',
         '}'
     ])

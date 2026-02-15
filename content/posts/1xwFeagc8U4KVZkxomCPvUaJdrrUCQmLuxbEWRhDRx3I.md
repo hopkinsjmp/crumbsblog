@@ -1,6 +1,6 @@
 ---
 title: "Soba Noodles"
-date: ""
+date: "2026-02-27"
 tags: null
 labels: ""
 handsOn: ""

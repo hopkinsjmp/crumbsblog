@@ -1,6 +1,11 @@
 // Article titles and their short versions
 const articleTitles = [
     {
+        path: '2026/02/the-sunk-cost-mousse.html',
+        full: 'The Sunk Cost Mousse',
+        short: 'The Sunk Cost Mousse'
+    },
+    {
         path: '2026/02/soba-noodles.html',
         full: 'Soba Noodles',
         short: 'Soba Noodles'

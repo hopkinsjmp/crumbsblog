@@ -2,6 +2,7 @@
 const postConfig = {
     // Posts that are ready to be published
     published: [
+        '2026/02/the-sunk-cost-mousse.html',
         '2026/02/soba-noodles.html',
         '2026/02/tender-moments-broccoli-with-lemon-almonds.html',
         '2026/02/coming-up-for-air-a-gentle-roast-of-fennel-and-cream.html',

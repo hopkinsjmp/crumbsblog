@@ -1,112 +1,109 @@
 const fs = require('fs');
 const path = require('path');
-const { marked } = require('marked'); // Updated for newer marked versions
+const marked = require('marked');
 const yaml = require('js-yaml');
 
-// Configuration
-const POSTS_DIR = path.join(__dirname, '../content/posts');
-const TEMPLATE_PATH = path.join(__dirname, '../templates/post-template.html');
-
-// Helper to create URL-friendly filenames
-function slugify(text) {
-  return text
-    .toString()
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/[^\w\-]+/g, '')
-    .replace(/\-\-+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
-}
+// Paths
+const postsDir = path.join(__dirname, '../content/posts');
+const templatesDir = path.join(__dirname, '../templates');
+const scriptsDir = __dirname;
 
 function convert() {
-  if (!fs.existsSync(POSTS_DIR)) {
-    console.error("Posts directory not found!");
-    return;
-  }
+    const postTemplate = fs.readFileSync(path.join(templatesDir, 'post-template.html'), 'utf8');
+    const files = fs.readdirSync(postsDir);
 
-  const template = fs.readFileSync(TEMPLATE_PATH, 'utf8');
-  const files = fs.readdirSync(POSTS_DIR).filter(f => f.endsWith('.md'));
+    files.forEach(file => {
+        if (!file.endsWith('.md')) return;
 
-  files.forEach(file => {
-    const rawContent = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
-    
-    // Split Frontmatter from Content
-    const parts = rawContent.split('---');
-    if (parts.length < 3) return;
-    
-    const meta = yaml.load(parts[1]);
-    const markdownBody = parts.slice(2).join('---');
-    const htmlBody = marked.parse(markdownBody);
+        const filePath = path.join(postsDir, file);
+        const content = fs.readFileSync(filePath, 'utf8');
 
-    // --- NEW RECIPE FORMATTING LOGIC ---
-    // We convert the raw "Ingredients" and "Method" text into HTML lists
-    // Support both multi-line strings and YAML arrays.
-    const normalizeMultiline = (val) => {
-      if (!val) return null;
-      if (Array.isArray(val)) return val.join('\n');
-      return String(val);
-    };
+        // Parse Frontmatter
+        const parts = content.split('---');
+        if (parts.length < 3) return;
 
-    const rawIngredients = normalizeMultiline(meta.ingredients);
-    const rawMethod = normalizeMultiline(meta.method);
+        const meta = yaml.load(parts[1]);
+        const markdownBody = parts.slice(2).join('---');
+        const bodyHtml = marked.parse(markdownBody);
 
-    const ingredientsHtml = rawIngredients
-      ? `<h3>Ingredients</h3><ul>${rawIngredients.split('\n').filter(line => line.trim()).map(line => `<li>${line.replace(/^[*-]\s*/, '')}</li>`).join('')}</ul>`
-      : "";
+        // Date Logic for folder structure
+        const date = meta.date ? new Date(meta.date) : new Date();
+        const year = date.getFullYear().toString();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        
+        const slug = meta.title.toLowerCase()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .trim();
 
-    const methodHtml = rawMethod
-      ? `<h3>Method</h3><ol>${rawMethod.split('\n').filter(line => line.trim()).map(line => `<li>${line.replace(/^\d+\.\s*/, '')}</li>`).join('')}</ol>`
-      : "";
+        // --- RECIPE FORMATTING LOGIC ---
+        const ingredientsHtml = (meta.ingredients && meta.ingredients.trim()) 
+            ? `<div class="recipe-card"><h3>Ingredients</h3><ul>${meta.ingredients.split('\n').filter(l => l.trim()).map(l => `<li>${l.replace(/^[*-]\s*/, '')}</li>`).join('')}</ul>` 
+            : "";
 
-    const timeInfoHtml = (meta.handsOn || meta.handsOff)
-      ? `<div class="recipe-meta">\n          ${meta.handsOn ? `<span><strong>Prep:</strong> ${meta.handsOn}</span>` : ''}\n          ${meta.handsOff ? `<span><strong>Wait:</strong> ${meta.handsOff}</span>` : ''}\n         </div>`
-      : "";
+        const methodHtml = (meta.method && meta.method.trim()) 
+            ? `<h3>Method</h3><ol>${meta.method.split('\n').filter(l => l.trim()).map(l => `<li>${l.replace(/^\d+\.\s*/, '')}</li>`).join('')}</ol></div>` 
+            : "";
 
-    const labelsHtml = (function(){
-      if (!meta.labels) return '';
-      if (Array.isArray(meta.labels)) return `<span class="post-labels">${meta.labels.join(' ')}</span>`;
-      return `<span class="post-labels">${meta.labels}</span>`;
-    })();
+        const timeInfoHtml = (meta.handsOn || meta.handsOff) 
+            ? `<div class="recipe-meta">
+                ${meta.handsOn ? `<span><strong>Prep:</strong> ${meta.handsOn}</span>` : ''}
+                ${meta.handsOff ? `<span><strong>Wait:</strong> ${meta.handsOff}</span>` : ''}
+               </div>` 
+            : "";
 
-    // Combine standard content with our new recipe sections
-    const fullRecipeBody = `\n      ${timeInfoHtml}\n      <div class="post-story">${htmlBody}</div>\n      <div class="recipe-card">\n        ${ingredientsHtml}\n        ${methodHtml}\n      </div>\n    `;
+        // Combine all content parts
+        const fullContent = timeInfoHtml + bodyHtml + ingredientsHtml + methodHtml;
 
-    // Date Logic
-    const date = new Date(meta.date || new Date());
-    const year = date.getFullYear().toString();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const postDateString = date.toLocaleDateString('en-US', { 
-        month: 'long', day: 'numeric', year: 'numeric' 
+        // Populate Template
+        const finalHtml = postTemplate
+            .replace(/{POST_TITLE}/g, meta.title)
+            .replace(/{POST_DATE}/g, date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))
+            .replace(/{POST_CONTENT}/g, fullContent)
+            .replace(/{LABELS}/g, meta.labels || '');
+
+        // Ensure directory exists
+        const outputDir = path.join(__dirname, `../${year}/${month}`);
+        if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+
+        const outputPath = path.join(outputDir, `${slug}.html`);
+        fs.writeFileSync(outputPath, finalHtml);
+        console.log(`Generated: ${year}/${month}/${slug}.html`);
+
+        // --- AUTO-REGISTRATION LOGIC ---
+        const relativePath = `${year}/${month}/${slug}.html`;
+        updateRegistrationFiles(relativePath, meta.title);
     });
-
-    // Determine Output Path
-    const slug = slugify(meta.title);
-    const outputDir = path.join(__dirname, '../', year, month);
-    const outputPath = path.join(outputDir, `${slug}.html`);
-
-    // Create Year/Month folders
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-
-    // Fill Template Placeholders
-    let finalHtml = template
-      .replace(/{POST_TITLE}/g, meta.title)
-      .replace(/{POST_DATE}/g, postDateString)
-      .replace(/{POST_CONTENT}/g, fullRecipeBody)
-      // Defaults for metadata we haven't automated yet
-      .replace(/{POST_DESCRIPTION}/g, meta.title)
-      .replace(/{FEATURED_IMAGE_URL}/g, meta.image || "/images/default-hero.jpg")
-      .replace(/{FEATURED_IMAGE_ALT}/g, meta.title)
-      .replace(/{POST_LABELS}/g, labelsHtml)
-      .replace(/{RELATED_POSTS}/g, "Coming soon...");
-
-    fs.writeFileSync(outputPath, finalHtml);
-    console.log(`✅ Success: ${year}/${month}/${slug}.html`);
-  });
 }
 
-convert();
+function updateRegistrationFiles(relativePath, title) {
+    // 1. Update articles.js (The titles list)
+    const articlesPath = path.join(scriptsDir, 'articles.js');
+    let articlesContent = fs.readFileSync(articlesPath, 'utf8');
+
+    if (!articlesContent.includes(relativePath)) {
+        const newEntry = `    {\n        path: '${relativePath}',\n        full: '${title}',\n        short: '${title}'\n    },`;
+        // Insert after the opening bracket
+        articlesContent = articlesContent.replace('const articleTitles = [', `const articleTitles = [\n${newEntry}`);
+        fs.writeFileSync(articlesPath, articlesContent);
+        console.log(`Registered in articles.js: ${title}`);
+    }
+
+    // 2. Update posts.js (The published status list)
+    const postsJsPath = path.join(scriptsDir, 'posts.js');
+    let postsJsContent = fs.readFileSync(postsJsPath, 'utf8');
+
+    if (!postsJsContent.includes(relativePath)) {
+        // Insert at the top of the published array
+        postsJsContent = postsJsContent.replace('published: [', `published: [\n        '${relativePath}',`);
+        fs.writeFileSync(postsJsPath, postsJsContent);
+        console.log(`Registered in posts.js: ${relativePath}`);
+    }
+}
+
+try {
+    convert();
+} catch (err) {
+    console.error("Conversion failed:", err);
+    process.exit(1);
+}

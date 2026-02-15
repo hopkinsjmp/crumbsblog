@@ -1,9 +1,11 @@
 ---
 title: "Lemon Scones by Joe"
 date: ""
-tags: null
+tags: [
+  "lemons"
+]
 labels: ""
-handsOn: "15 mins"
+handsOn: "15 hours"
 handsOff: "5 mins"
 ingredients: |
   2 cups Flour

@@ -2,6 +2,9 @@
 const postConfig = {
     // Posts that are ready to be published
     published: [
+        '2026/02/tender-moments-broccoli-with-lemon-almonds.html',
+        '2026/02/coming-up-for-air-a-gentle-roast-of-fennel-and-cream.html',
+        '2026/02/lemon-scones-by-joe.html',
         '2025/05/how-to-contribute.html',
         '2025/07/halloumi-and-the-concentrated-mind.html',
         '2025/06/a-vegetable-soup-for-a-fruitless-mind.html',

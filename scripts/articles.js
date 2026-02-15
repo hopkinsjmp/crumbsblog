@@ -1,6 +1,21 @@
 // Article titles and their short versions
 const articleTitles = [
     {
+        path: '2026/02/tender-moments-broccoli-with-lemon-almonds.html',
+        full: 'Tender Moments: Broccoli with Lemon & Almonds',
+        short: 'Tender Moments: Broccoli with Lemon & Almonds'
+    },
+    {
+        path: '2026/02/coming-up-for-air-a-gentle-roast-of-fennel-and-cream.html',
+        full: 'Coming Up for Air: A Gentle Roast of Fennel and Cream',
+        short: 'Coming Up for Air: A Gentle Roast of Fennel and Cream'
+    },
+    {
+        path: '2026/02/lemon-scones-by-joe.html',
+        full: 'Lemon Scones by Joe',
+        short: 'Lemon Scones by Joe'
+    },
+    {
         path: '2025/08/a-welcome-interlude-toast-three-ways.html',
         full: 'A Welcome Interlude: Toast, Three Ways',
         short: 'Toast, Three Ways'

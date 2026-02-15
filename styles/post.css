@@ -2,17 +2,15 @@
 .item-view .post {
     background-color: #fff;
     padding: 40px;
-    margin: 0 32px 50px; /* Add horizontal margins */
-    width: auto; /* Let the container control the width */
+    margin: 0 32px 50px;
+    width: auto;
 }
 
 /* Container for post to allow centering */
-/* Match centered-top-wrapper for left alignment */
 .item-view .post-container {
     max-width: 922px;
     margin: 0 auto;
     padding: 0 32px;
-}
 }
 
 .post-header {
@@ -76,6 +74,78 @@
     margin: 32px 0 16px 0;
 }
 
+/* RECIPE ADDITIONS */
+
+/* Recipe Time Info (Prep/Wait) */
+.recipe-meta {
+    display: flex;
+    gap: 24px;
+    margin: 32px 0;
+    padding: 16px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #555;
+    letter-spacing: 0.5px;
+}
+
+.recipe-meta strong {
+    color: #a93e33; /* Matches your links/buttons */
+    margin-right: 4px;
+}
+
+/* The Recipe Card Section (Ingredients & Method) */
+.recipe-card {
+    background-color: #fdfaf6; /* Soft cream/paper color */
+    border: 1px solid #f0e6d2;
+    border-radius: 4px;
+    padding: 32px;
+    margin: 48px 0;
+}
+
+.recipe-card h3 {
+    font-family: 'EB Garamond', serif;
+    font-size: 22px;
+    color: #2c1d14;
+    margin: 0 0 16px 0;
+    border-bottom: 1px solid rgba(169, 62, 51, 0.2);
+    padding-bottom: 8px;
+}
+
+/* Ingredients List */
+.recipe-card ul {
+    list-style-type: none;
+    padding-left: 0 !important; /* Overriding standard post-body padding */
+    margin-bottom: 32px;
+}
+
+.recipe-card ul li {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(0,0,0,0.05);
+}
+
+.recipe-card ul li:last-child {
+    border-bottom: none;
+}
+
+/* Method List */
+.recipe-card ol {
+    padding-left: 24px !important;
+    margin-bottom: 0;
+}
+
+.recipe-card ol li {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    padding-left: 8px;
+    margin-bottom: 16px;
+}
+
+/* Standard List styling (for the narrative part) */
 .post-body ul, 
 .post-body ol {
     margin: 16px 0;
@@ -85,6 +155,8 @@
 .post-body li {
     margin: 8px 0;
 }
+
+/* FOOTER & PROFILES */
 
 .post-footer {
     margin-top: 48px;
@@ -180,7 +252,7 @@
 @media screen and (max-width: 640px) {
     .item-view .post {
         padding: 24px;
-        width: calc(100% - 48px); /* Account for smaller padding on mobile */
+        width: calc(100% - 48px);
     }
 
     .post-featured-image {
@@ -188,12 +260,21 @@
     }
 
     .post-title {
-        font-size: 28px;
+        font-size: 22px; /* Adjusted slightly smaller for mobile headings */
     }
 
     .author-profile {
         flex-direction: column;
         align-items: center;
         text-align: center;
+    }
+
+    .recipe-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .recipe-card {
+        padding: 20px;
     }
 }

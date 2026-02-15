@@ -5,7 +5,7 @@ tags: [
   "lemons"
 ]
 labels: ""
-handsOn: "15 hours"
+handsOn: "15 mins"
 handsOff: "5 mins"
 ingredients: |
   2 cups Flour

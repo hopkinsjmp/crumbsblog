@@ -1,6 +1,5 @@
 name: Crumbs Blog Publish
 
-# This tells GitHub to listen for the custom event from your Google Script
 on:
   repository_dispatch:
     types: [crumbs_publish]
@@ -8,7 +7,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    # Granting write permission so the bot can push files back to the repo
     permissions:
       contents: write
       
@@ -16,36 +14,53 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Create Post File
+      - name: Set up Environment
         run: |
-          # Create the folder if it doesn't exist
-          mkdir -p content/posts
+          # 1. Generate Year and Month
+          YEAR=$(date +'%Y')
+          MONTH=$(date +'%m')
           
-          # Create a Markdown file using the File ID as the filename
-          # We use a 'heredoc' (the EOF block) to write multiple lines at once
-          cat <<EOF > "content/posts/${{ github.event.client_payload.fileId }}.md"
+          # 2. Create a URL-friendly filename from the title
+          # This removes special chars, replaces spaces with hyphens, and makes it lowercase
+          TITLE_SLUG=$(echo "${{ github.event.client_payload.name }}" | iconv -t ascii//TRANSLIT | sed -r 's/[^a-zA-Z0-9 ]+//g' | tr ' ' '-' | tr '[:upper:]' '[:lower:]' | sed 's/--/-/g')
+          
+          echo "DEST_DIR=$YEAR/$MONTH" >> $GITHUB_ENV
+          echo "FILE_NAME=$TITLE_SLUG" >> $GITHUB_ENV
+
+      - name: Save Markdown Source
+        run: |
+          mkdir -p content/posts
+          cat <<EOF > "content/posts/${{ env.FILE_NAME }}.md"
           ---
           title: "${{ github.event.client_payload.name }}"
           date: "${{ github.event.client_payload.publishedAt }}"
-          fileId: "${{ github.event.client_payload.fileId }}"
           ---
 
           ${{ github.event.client_payload.content }}
           EOF
 
+      - name: Generate HTML and Update Index
+        run: |
+          # Install dependencies defined in your package.json
+          npm install
+          
+          # Run your existing conversion script
+          # (Note: You may need to adjust this script to handle the new .md files)
+          npm run convert
+          
+          # If you have a python script that updates the index/sidebar, run it here:
+          # python3 scripts/generate_index.py
+
       - name: Commit and Push
         run: |
-          # Configure a fake user for the commit message
           git config --global user.name "Crumbs Bot"
           git config --global user.email "bot@crumbsblog.com"
           
-          # Stage the new file, commit it, and push to the main branch
-          git add content/posts/*.md
+          git add .
           
-          # Only commit if there are actually changes to avoid errors
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Publish post: ${{ github.event.client_payload.name }}"
+            git commit -m "Publish: ${{ github.event.client_payload.name }}"
             git push
           fi

@@ -24,6 +24,12 @@ jobs:
         # This saves the raw text AND all your new custom metadata
         run: |
           mkdir -p content/posts
+          
+          # Prepare indented versions of the multiline content to prevent YAML syntax errors
+          # sed 's/^/  /' adds two spaces to the start of every line
+          INGRED=$(echo "${{ github.event.client_payload.appProperties.ingredients }}" | sed 's/^/  /')
+          METHOD=$(echo "${{ github.event.client_payload.appProperties.method }}" | sed 's/^/  /')
+
           cat <<EOF > "content/posts/${{ env.FILE_ID }}.md"
           ---
           title: "${{ github.event.client_payload.name }}"
@@ -33,9 +39,9 @@ jobs:
           handsOn: "${{ github.event.client_payload.appProperties.handsOn }}"
           handsOff: "${{ github.event.client_payload.appProperties.handsOff }}"
           ingredients: |
-            ${{ github.event.client_payload.appProperties.ingredients }}
+          $INGRED
           method: |
-            ${{ github.event.client_payload.appProperties.method }}
+          $METHOD
           ---
 
           ${{ github.event.client_payload.content }}

@@ -21,25 +21,25 @@ jobs:
           echo "FILE_ID=${{ github.event.client_payload.fileId }}" >> $GITHUB_ENV
 
       - name: Save Markdown Source
-              # This saves the raw text AND all your new custom metadata
-              run: |
-                mkdir -p content/posts
-                cat <<EOF > "content/posts/${{ env.FILE_ID }}.md"
-                ---
-                title: "${{ github.event.client_payload.name }}"
-                date: "${{ github.event.client_payload.publishedDate }}"
-                tags: ${{ toJson(github.event.client_payload.appProperties.tags) }}
-                labels: "${{ github.event.client_payload.appProperties.labels }}"
-                handsOn: "${{ github.event.client_payload.appProperties.handsOn }}"
-                handsOff: "${{ github.event.client_payload.appProperties.handsOff }}"
-                ingredients: |
-                  ${{ github.event.client_payload.appProperties.ingredients }}
-                method: |
-                  ${{ github.event.client_payload.appProperties.method }}
-                ---
-      
-                ${{ github.event.client_payload.content }}
-                EOF
+        # This saves the raw text AND all your new custom metadata
+        run: |
+          mkdir -p content/posts
+          cat <<EOF > "content/posts/${{ env.FILE_ID }}.md"
+          ---
+          title: "${{ github.event.client_payload.name }}"
+          date: "${{ github.event.client_payload.publishedDate }}"
+          tags: ${{ toJson(github.event.client_payload.appProperties.tags) }}
+          labels: "${{ github.event.client_payload.appProperties.labels }}"
+          handsOn: "${{ github.event.client_payload.appProperties.handsOn }}"
+          handsOff: "${{ github.event.client_payload.appProperties.handsOff }}"
+          ingredients: |
+            ${{ github.event.client_payload.appProperties.ingredients }}
+          method: |
+            ${{ github.event.client_payload.appProperties.method }}
+          ---
+
+          ${{ github.event.client_payload.content }}
+          EOF
 
       - name: Generate HTML Files
         # This runs your Universal Converter script to build the Year/Month folders

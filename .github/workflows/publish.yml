@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: write
       
@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create Slugified Filename
-        # We create a simple ID-based slug here for the .md file to keep it unique
+        # We use the Google File ID as the filename for the raw markdown source
         run: |
           echo "FILE_ID=${{ github.event.client_payload.fileId }}" >> $GITHUB_ENV
 
@@ -40,7 +40,7 @@ jobs:
           node scripts/convert-posts.js
 
       - name: Commit and Push
-        # This pushes the new .md file AND the new .html file back to your repo
+        # This pushes the new .md file AND the new generated .html file back to your repo
         run: |
           git config --global user.name "Crumbs Bot"
           git config --global user.email "bot@crumbsblog.com"

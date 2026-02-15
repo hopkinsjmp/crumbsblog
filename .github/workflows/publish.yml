@@ -1,12 +1,13 @@
 name: Crumbs Blog Publish
 
+# This tells GitHub to listen for the custom event from your Google Script
 on:
   repository_dispatch:
     types: [crumbs_publish]
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-runs-on: ubuntu-latest
     permissions:
       contents: write
       
@@ -14,23 +15,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Environment
+      - name: Create Slugified Filename
+        # We create a simple ID-based slug here for the .md file to keep it unique
         run: |
-          # 1. Generate Year and Month
-          YEAR=$(date +'%Y')
-          MONTH=$(date +'%m')
-          
-          # 2. Create a URL-friendly filename from the title
-          # This removes special chars, replaces spaces with hyphens, and makes it lowercase
-          TITLE_SLUG=$(echo "${{ github.event.client_payload.name }}" | iconv -t ascii//TRANSLIT | sed -r 's/[^a-zA-Z0-9 ]+//g' | tr ' ' '-' | tr '[:upper:]' '[:lower:]' | sed 's/--/-/g')
-          
-          echo "DEST_DIR=$YEAR/$MONTH" >> $GITHUB_ENV
-          echo "FILE_NAME=$TITLE_SLUG" >> $GITHUB_ENV
+          echo "FILE_ID=${{ github.event.client_payload.fileId }}" >> $GITHUB_ENV
 
       - name: Save Markdown Source
+        # This saves the raw text from Google Docs into your 'content/posts' folder
         run: |
           mkdir -p content/posts
-          cat <<EOF > "content/posts/${{ env.FILE_NAME }}.md"
+          cat <<EOF > "content/posts/${{ env.FILE_ID }}.md"
           ---
           title: "${{ github.event.client_payload.name }}"
           date: "${{ github.event.client_payload.publishedAt }}"
@@ -39,19 +33,14 @@ jobs:
           ${{ github.event.client_payload.content }}
           EOF
 
-      - name: Generate HTML and Update Index
+      - name: Generate HTML Files
+        # This runs your Universal Converter script to build the Year/Month folders
         run: |
-          # Install dependencies defined in your package.json
           npm install
-          
-          # Run your existing conversion script
-          # (Note: You may need to adjust this script to handle the new .md files)
-          npm run convert
-          
-          # If you have a python script that updates the index/sidebar, run it here:
-          # python3 scripts/generate_index.py
+          node scripts/convert-posts.js
 
       - name: Commit and Push
+        # This pushes the new .md file AND the new .html file back to your repo
         run: |
           git config --global user.name "Crumbs Bot"
           git config --global user.email "bot@crumbsblog.com"

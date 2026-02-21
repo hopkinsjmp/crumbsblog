@@ -81,9 +81,12 @@ jobs:
       - name: Build TinaCMS admin (cloud)
         run: |
           pnpm exec tinacms build --skip-cloud-checks
+          # next build already copied public/admin/ (dev version) to out/admin/.
+          # If out/admin exists, 'cp -r src dst' puts src INSIDE dst instead of
+          # replacing it. Delete first so the copy lands at out/admin/ directly.
+          rm -rf out/admin
           cp -r public/admin out/admin
-          # public/admin/.gitignore excludes index.html (it's dev-generated).
-          # Remove it from out/ so peaceiris/git actually commits index.html.
+          # Remove the .gitignore that would cause peaceiris to drop index.html
           rm -f out/admin/.gitignore
         env:
           NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}

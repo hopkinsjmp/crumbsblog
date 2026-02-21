@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
     output: 'export',
     trailingSlash: true, // GH Pages serves index.html from /path/
     basePath: '/crumbsblog', // GitHub Pages serves from /<repo-name>/
+    assetPrefix: '/crumbsblog/', // Ensures CSS/JS/images load with the correct path
   }),
   images: {
     // next/image requires unoptimized:true for static export

@@ -42,18 +42,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Build the admin SPA into public/admin/ using cloud config.
-      # This is what lets editors use /admin on the deployed site.
-      - name: Build TinaCMS admin (cloud)
-        run: npx tinacms build --skip-cloud-checks
-        env:
-          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
-          NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}
-          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
-
-      # next build fetches page data at build time. We run a local TinaCMS
-      # server in the background so it reads from the local content/ files
-      # rather than hitting Tina Cloud (avoids 400 if branch isn't indexed).
+      # next build fetches page data at build time. Run a local TinaCMS
+      # server in the background so it reads from local content/ files.
       - name: Build Next.js (static export)
         run: |
           pnpm exec tinacms dev --port 4001 -c "sleep 600" &
@@ -74,6 +64,16 @@ jobs:
           exit $BUILD_EXIT
         env:
           NEXT_EXPORT: "true"
+          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
+          NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}
+          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
+
+      # Build admin SPA AFTER next build so tinacms dev cannot overwrite it.
+      - name: Build TinaCMS admin (cloud)
+        run: |
+          npx tinacms build --skip-cloud-checks
+          cp -r public/admin out/admin
+        env:
           NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
           NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}
           TINA_TOKEN: ${{ secrets.TINA_TOKEN }}

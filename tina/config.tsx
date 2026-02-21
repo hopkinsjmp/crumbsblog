@@ -29,7 +29,10 @@ const config = defineConfig({
   build: {
     publicFolder: "public", // The public asset folder for your framework
     outputFolder: "admin", // within the public folder
-    basePath: nextConfig.basePath?.replace(/^\//, '') || '', // The base path of the app (could be /blog)
+    // Hardcoded to match the GitHub Pages repo name.
+    // nextConfig.basePath is only set when NEXT_EXPORT=true, so we can't
+    // rely on it here — tinacms build runs without that env var.
+    basePath: "crumbsblog",
     host: true, // Bind Vite dev server to 0.0.0.0 so Codespaces can forward port 4001
   },
   schema: {

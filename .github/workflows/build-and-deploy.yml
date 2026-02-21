@@ -48,19 +48,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # ── 6. Build TinaCMS admin (cloud) ──────────────────────────────────────
-      # Builds the admin SPA into public/admin/ so editors can use /admin
-      # on the deployed GitHub Pages site without any technical access.
-      - name: Build TinaCMS admin (cloud)
-        run: pnpm exec tinacms build --skip-cloud-checks
-        env:
-          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
-          NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}
-          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
-
-      # ── 7. Build Next.js (static export → out/) ───────────────────────────
-      # Runs a local TinaCMS server in the background so next build reads
-      # content from local files rather than hitting Tina Cloud.
+      # ── 6. Build Next.js (static export → out/) ──────────────────────────
+      # Runs a local TinaCMS dev server in the background so next build can
+      # query content from local files (avoids Tina Cloud 400 errors).
       - name: Build Next.js (static export)
         run: |
           pnpm exec tinacms dev --port 4001 -c "sleep 600" &
@@ -85,7 +75,19 @@ jobs:
           NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}
           TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
 
-      # ── 8. Add .nojekyll so GH Pages serves files starting with _ ────────────
+      # ── 7. Build TinaCMS admin SPA and copy into out/ ─────────────────────
+      # Must run AFTER next build so tinacms dev (step 6) cannot overwrite
+      # the production admin bundle. Writes to public/admin/, then copy to out/.
+      - name: Build TinaCMS admin (cloud)
+        run: |
+          pnpm exec tinacms build --skip-cloud-checks
+          cp -r public/admin out/admin
+        env:
+          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
+          NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}
+          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
+
+      # ── 8. Add .nojekyll so GH Pages serves files starting with _ ──────────
       - name: Add .nojekyll
         run: touch out/.nojekyll
 

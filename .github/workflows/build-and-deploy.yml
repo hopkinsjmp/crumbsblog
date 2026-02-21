@@ -82,6 +82,9 @@ jobs:
         run: |
           pnpm exec tinacms build --skip-cloud-checks
           cp -r public/admin out/admin
+          # public/admin/.gitignore excludes index.html (it's dev-generated).
+          # Remove it from out/ so peaceiris/git actually commits index.html.
+          rm -f out/admin/.gitignore
         env:
           NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
           NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}

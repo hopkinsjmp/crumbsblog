@@ -1,0 +1,65 @@
+---
+title: "Tender Moments: Broccoli with Lemon & Almonds"
+date: 2026-02-05T08:16:00.000Z
+excerpt: "This is yet another recipe borne out of a last-minute attempt to be sociable. That is to say, I had invited a friend over to safeguard what little people skills I had left, without really thinking through what that would enlist."
+---
+
+🎓 Post-PhD • 📘 History • 💫 Spontaneous
+
+This is yet another recipe borne out of a last-minute attempt to be sociable. That is to say, I had invited a friend over to safeguard what little people skills I had left, without really thinking through what that would enlist. 
+
+There was never a reality in which I wasn’t going to serve food in some sense of the word. Firstly, I’m a feeder. I really am. And secondly, food makes up for poor conversational skills or a stark lack of topical contributions. As many fellow academics, or ex-academics, may know too well, living for your research renders you dumb to what’s actually happening in the real world or what normal people actually do. Ok, so this particular event took place after my PhD was finished (a few years after, actually) but unfortunately, the curse of the PhD still lived on, namely its effects on my being able to talk to someone like a regular human being.
+
+So, where was I? Oh yes, I had invited a friend over as part of my continued attempts to pretend that I was reintegrating into society (this has been a slow process) and I was going to serve food. The problem was, I didn’t know what.
+
+Owning enough recipe books to build a child’s fort, I’m well acquainted with the hosting wisdom of always cooking dishes for guests that are either possible to pre-prepare or can be thrown together at the last minute, thereby not detracting from the ‘good conversation’ that was meant to take place, while simultaneously making you look like a Domestic God(dess).
+
+With that in mind, I rushed to the shops to buy a few tapas-y things that might look nice on a pre-prepared grazing board: bread, melon, smoked salmon, a couple of figs, mozzarella, which I paired with some nuts occupying the back of my cupboard. My initial thought had been to serve an entire cheese board but, honestly, once faced with a cheese fridge it’s difficult not to get too carried away and spend a small fortune. So, I decided to cook something instead, saving me from being seduced by cheese and to ensure that the Domestic Goddess title was secured. 
+
+Here’s what I came up with in my bid to lean into the vague Italian vibe I was going for, to abide by said hosting doctrine, and to extend the culinary colour palette a little further.
+
+A few notes on the recipe: 
+
+This can also work with regular broccoli, of course, and other vegetables too (try brussel sprouts and perhaps carrots or cauliflower, but the roasting times may be longer). I choose tenderstem broccoli here because the long spears look very pretty and crisp up quickly in the oven. Also, barely any hacking away is required.
+
+![](https://blogger.googleusercontent.com/img/a/AVvXsEiwy4Zs808PteIrWt6pHVUf2Ydg6o3b7ox0ahK5KhBor8PnSTil_Oks_dB2ii5Qy365aCwBExw3KTF2dUBIuYmYHCdx6jmjMCbiDRTWnbRUZ19itBClZ6d7VFW2xtqQmty08-rw6rpYzQrBABmj_daJ8q7pyxDe37cOrZvAB5GuTVjJL0wMqF8MlXIYRSM)
+
+Servings: 2           🥖 GF    🥛 LF    🥕 V    🌱 VE
+
+Time:  
+👐 Hands-on: 10 minutes  
+⏳ Hands-off: 20 minutes
+
+### 
+
+**Ingredients**
+
+-   A packet of tenderstem broccoli (usually around 200g)
+    
+-   A few glugs of olive oil
+    
+-   Grated zest of 1 unwaxed lemon (feel free to also use some of the juice)
+    
+-   Handful of flaked almonds (approx. 10g)
+    
+-   A good grinding of salt and pepper
+    
+
+### 
+
+**Instructions**
+
+1.  Preheat the oven to 200°C (180°C fan). Chop off the ends of the tenderstem broccoli and place on a baking tray (I line mine with foil). Toss with a few glugs of olive oil. 
+    
+2.  Put in the oven for 20 minutes, turning halfway through the roasting time until the spears are slightly shrivelled, burnished, and the florets are a tad charred. As guidance, you should be able to put a fork through it but with a little resistance; the broccoli is best (in my opinion) with a bit of bite.
+    
+3.  In the meantime, add the flaked almonds to a dry frying pan and, on a medium heat, toast until bronzed. Keep watching and shaking the pan as this will happen very quickly and will easily burn.
+    
+4.  Take the broccoli out of the oven and, using tongs, place onto a serving plate. At this stage, you may wish to add a little more olive oil and/or a spritz of the juice from the grated lemon, if you think it needs more moisture. 
+    
+5.  In any case, apply a good grinding of salt and a little pepper, sprinkle on as much lemon zest as you fancy and strew over the toasted almond flakes. 
+    
+
+Storage
+
+Best on the day. It will keep for a day or two in the fridge but will go a bit soggy.

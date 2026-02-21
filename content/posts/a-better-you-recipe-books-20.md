@@ -1,0 +1,27 @@
+---
+title: "A Better You: Recipe Books 2.0"
+date: 2026-02-09T08:18:00.000Z
+excerpt: "Once upon a time, recipe books seemed to generally fall into four categories, if my mum’s kitchen bookshelves were anything to go by."
+---
+
+Once upon a time, recipe books seemed to generally fall into four categories, if my mum’s kitchen bookshelves were anything to go by.
+
+First off, you had the culinary bibles—hefty publications, sometimes with spiral binding, sometimes a volume of many—filled with all the recipes a home chef could ever need or frankly, want. They were practical, straight to the point, no poetry needed. You wanted a recipe for a sponge? You got just that, devoid of any literary bells or whistles. 
+
+Secondly, you had those shiny paperbacks, the front page usually sporting gaudy photos of either food or the authoring chef. Its contents were part picture book, part instruction manual. There would often be introductory pages with photos detailing the intricate steps of making, let’s say, bread dough. They were written in the same vein as the bibles, but more focused on culinary subcategories: pasta, cakes, one-pot meals. 
+
+Thirdly—and, ok, this isn’t technically a ‘book’—was the magazine, either partly or wholly dedicated to recipes, Good Housekeeping and the like. It seemed to me that around the time I was born (early 90s) was its heyday. I wasn’t alive to witness what came prior, of course, and my PhD is not in food (before anyone starts poking my claims), but it appeared as though magazines were your initial go-to literature when seeking easy and on-trend cooking. 
+
+Last but not least, and again, not quite fitting the recipe book mold, was the homemade recipe book. Notebooks the woman of the house would keep her family’s culinary secrets in, alongside glued-in magazine excerpts of the recipes that indeed worked. 
+
+Recipe books are a different beast today. They have levelled up, if not been entirely reconceptualised. Far from just being a practical guide to feeding yourself and your family, perhaps ensuring that meal plans were refreshed from time to time, recipe books now aim to fulfil a much more profound role. 
+
+You can see this in the way they are put together: beautiful hardbacks filled with high resolution photos and curated colour schemes that evoke the two things you want to feel in your kitchen as a home chef: that it is a safe, uncomplicated, and reassuring space which at the same time promises to bestow onto you an array of virtues through the mere act of cooking. 
+
+Recipe books are produced not just to be read, but to be poured over, contemplated and studied. They are designed to be ‘casually’ left out on your coffee table or to be kept pride of place on your kitchen shelf, the soup-splattered magazines hidden away. The satin ribbon that often serves as a bookmark isn’t just there as a handy placemarker. It signals to the reader that this book demands to be treasured, to be carefully perused. It’s no wonder so many upmarket homeware shops now sell recipe books specifically of this breed: it’s the literary equivalent to Le Creuset. Yes, they are wonderfully functional but more importantly, don’t they announce sophistication?
+
+Recipe books inspire a lifestyle. They offer a haven, a promise, a therapy. Prefacing each publication and the recipes themselves are no longer brief introductions (if at all), but long essays and anecdotes educating the reader on the nuances of cooking. The nuances of living. The nuances that, upon acquainting, whisper: here, this is how you can be a better you.
+
+And I buy it, I buy all of it.
+
+![](https://blogger.googleusercontent.com/img/a/AVvXsEjZcSe_NQTJxZWeRs1oBQahgkS5zeRq-4OZuhE5mlZC7FDD5dXh6wcLZC6ZjgzZH4EwOKM9abI3uEja_AQAYh3Mfi-chAbPwTUxwx0aZONN3QfW4C6PRmqbp-aX2_1xm-iiYuZzXGTqbDGzRvfK5E5AlDUUTUsf_H_ucNNlkklsjoCsFYBYGqZiWlfU4VA)

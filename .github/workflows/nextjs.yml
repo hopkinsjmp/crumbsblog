@@ -42,15 +42,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build TinaCMS + Next.js (static export)
+      # Build the admin SPA into public/admin/ using cloud config.
+      # This is what lets editors use /admin on the deployed site.
+      - name: Build TinaCMS admin (cloud)
+        run: npx tinacms build
+        env:
+          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
+          NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}
+          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
+
+      # next build fetches page data at build time. We run a local TinaCMS
+      # server in the background so it reads from the local content/ files
+      # rather than hitting Tina Cloud (avoids 400 if branch isn't indexed).
+      - name: Build Next.js (static export)
         run: |
-          # Start the TinaCMS local GraphQL server in the background.
-          # tinacms build --local only creates the DB; next build needs the
-          # server listening at localhost:4001 to collect page data.
           pnpm exec tinacms dev --port 4001 -c "sleep 600" &
           TINA_PID=$!
 
-          # Wait up to 120 s for the GraphQL endpoint to be ready.
           echo "Waiting for TinaCMS local server..."
           timeout 120 bash -c \
             'until curl -sf -X POST http://localhost:4001/graphql \
@@ -59,7 +67,6 @@ jobs:
              do sleep 3; done'
           echo "TinaCMS local server ready."
 
-          # Build the Next.js static export.
           pnpm exec next build
           BUILD_EXIT=$?
 

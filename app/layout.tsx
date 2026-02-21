@@ -1,6 +1,6 @@
 import React from "react";
 import { Metadata } from "next";
-import { Inter as FontSans, Lato, Nunito, Playfair_Display } from "next/font/google";
+import { EB_Garamond, Lato, Lora, Montserrat, Nunito, Playfair_Display } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { VideoDialogProvider } from "@/components/ui/VideoDialogContext";
 import VideoDialog from "@/components/ui/VideoDialog";
@@ -9,11 +9,28 @@ import client from "@/tina/__generated__/client";
 import "@/styles.css";
 import { TailwindIndicator } from "@/components/ui/breakpoint-indicator";
 
-const fontSans = FontSans({
+// EB Garamond — heading font matching the original crumbsofsanity.com
+const ebGaramond = EB_Garamond({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-eb-garamond",
+  display: "swap",
 });
 
+// Lora — body serif matching the original crumbsofsanity.com
+const lora = Lora({
+  subsets: ["latin"],
+  variable: "--font-lora",
+  display: "swap",
+});
+
+// Montserrat — UI / navigation labels
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
+
+// Keep Playfair loaded so the legacy TinaCMS "playfair" option still renders
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
@@ -46,14 +63,16 @@ function hexToCustomProp(hex: string, prop: string): string {
 function headingFontStack(token?: string | null): string {
   switch (token) {
     case "georgia":
-      return "Georgia, \"Times New Roman\", serif";
+      return `Georgia, "Times New Roman", serif`;
     case "serif":
       return "serif";
     case "sans":
       return "ui-sans-serif, system-ui, sans-serif";
     case "playfair":
+      return `var(--font-playfair), "Playfair Display", Georgia, serif`;
+    case "garamond":
     default:
-      return "var(--font-playfair), \"Playfair Display\", Georgia, serif";
+      return `var(--font-eb-garamond), "EB Garamond", Georgia, serif`;
   }
 }
 
@@ -71,8 +90,8 @@ export default async function RootLayout({
     // During static builds or if TinaCMS isn't running, use CSS defaults
   }
 
-  const primaryColor = theme.primaryColor ?? "#2a5db0";
-  const accentColor  = theme.accentColor  ?? "#dce8f8";
+  const primaryColor = theme.primaryColor ?? "#a93e33";
+  const accentColor  = theme.accentColor  ?? "#e0e6cf";
   const headingFont  = headingFontStack(theme.headingFont);
 
   // Build inline CSS variable overrides — these take precedence over styles.css defaults
@@ -87,7 +106,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(fontSans.variable, playfair.variable, nunito.variable, lato.variable)}
+      className={cn(ebGaramond.variable, lora.variable, montserrat.variable, playfair.variable, nunito.variable, lato.variable)}
       style={{ ["--brand-primary" as string]: primaryColor } as React.CSSProperties}
     >
       <head>

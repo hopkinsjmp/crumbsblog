@@ -29,11 +29,11 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  /* Brand font stacks */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-playfair), "Playfair Display", Georgia, "Times New Roman", serif;
-  /* Heading font — used for h1-h4 and site title */
-  --font-heading: var(--font-playfair), "Playfair Display", Georgia, serif;
+  /* Brand font stacks — matching crumbsofsanity.com */
+  --font-sans: var(--font-montserrat), "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-lora), "Lora", Georgia, serif;
+  /* Heading font — EB Garamond as on the original site */
+  --font-heading: var(--font-eb-garamond), "EB Garamond", Georgia, serif;
   /* Narrow readable column, ~800 px */
   --width-site: 50rem;
   --color-chart-1: var(--chart-1);
@@ -61,28 +61,34 @@
    * To change via TinaCMS admin, read the theme.primaryColor field in layout.tsx
    * and write it as an inline style on <html> to override these CSS vars.
    * ──────────────────────────────────────────────────────────────────────── */
-  --brand-primary: #2a5db0;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  /* Primary = brand blue */
-  --primary: oklch(0.44 0.14 264);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  /* Accent = very light blue tint for hover/focus backgrounds */
-  --accent: oklch(0.94 0.04 264);
-  --accent-foreground: oklch(0.30 0.12 264);
+  /* ── crumbsofsanity.com palette ─────────────────────────────────────────
+   * Background  : #e0e6cf  sage / olive green
+   * Text        : #2c1d14  dark brown
+   * Primary     : #a93e33  terracotta red (links, buttons, highlights)
+   * Accent bg   : #f5ede8  very light terracotta tint for hover
+   * ──────────────────────────────────────────────────────────────────────── */
+  --brand-primary: #a93e33;
+  --background: #e0e6cf;
+  --foreground: #2c1d14;
+  --card: #edf0e4;
+  --card-foreground: #2c1d14;
+  --popover: #edf0e4;
+  --popover-foreground: #2c1d14;
+  /* Primary = terracotta */
+  --primary: #a93e33;
+  --primary-foreground: #fff;
+  --secondary: #d5dbc5;
+  --secondary-foreground: #2c1d14;
+  --muted: #d5dbc5;
+  --muted-foreground: #5a4a3a;
+  /* Accent = light terracotta tint */
+  --accent: #f5ede8;
+  --accent-foreground: #7a2d24;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  /* Ring uses primary blue */
-  --ring: oklch(0.44 0.14 264);
+  --border: #bfc8a8;
+  --input: #bfc8a8;
+  /* Ring uses primary terracotta */
+  --ring: #a93e33;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -138,7 +144,10 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-sans);
+    /* Lora serif as body font — matches crumbsofsanity.com */
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1.75;
   }
 
   /* Headings use the serif brand font */
@@ -152,7 +161,7 @@
     color: var(--brand-primary);
   }
   a:hover {
-    color: oklch(0.36 0.12 264); /* slightly darker on hover */
+    color: #7a2d24; /* darker terracotta on hover */
   }
 }
 
@@ -173,10 +182,10 @@
   }
   .prose a {
     color: var(--brand-primary);
-    text-decoration-color: oklch(0.44 0.14 264 / 40%);
+    text-decoration-color: color-mix(in srgb, #a93e33 40%, transparent);
   }
   .prose a:hover {
-    color: oklch(0.36 0.12 264);
-    text-decoration-color: oklch(0.36 0.12 264);
+    color: #7a2d24;
+    text-decoration-color: #7a2d24;
   }
 }

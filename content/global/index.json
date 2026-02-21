@@ -1,11 +1,11 @@
 {
   "header": {
     "icon": {
-      "name": "Tina",
+      "name": "BiCoffeeTogo",
       "color": "orange",
       "style": "float"
     },
-    "name": "Tina Starter",
+    "name": "Crumbs of Sanity",
     "color": "default",
     "nav": [
       {
@@ -26,36 +26,24 @@
     "social": [
       {
         "icon": {
-          "name": "FaLinkedin"
-        },
-        "url": "https://www.linkedin.com/company/tinacms"
-      },
-      {
-        "icon": {
-          "name": "FaGithub"
-        },
-        "url": "https://github.com/tinacms/tinacms"
-      },
-      {
-        "icon": {
-          "name": "FaYoutube"
-        },
-        "url": "https://www.youtube.com/@TinaCMS"
-      },
-      {
-        "icon": {
           "name": "FaXTwitter"
         },
-        "url": "https://x.com/TinaCMS"
+        "url": ""
+      },
+      {
+        "icon": {
+          "name": "AiFillInstagram"
+        },
+        "url": ""
       }
     ]
   },
   "theme": {
-    "color": "blue",
+    "color": "orange",
     "font": "sans",
     "darkMode": "light",
-    "primaryColor": "#2a5db0",
-    "accentColor": "#dce8f8",
-    "headingFont": "playfair"
+    "primaryColor": "#a93e33",
+    "accentColor": "#e0e6cf",
+    "headingFont": "garamond"
   }
 }

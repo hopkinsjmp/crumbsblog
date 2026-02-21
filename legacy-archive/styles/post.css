@@ -1,0 +1,280 @@
+/* Post-specific styles */
+.item-view .post {
+    background-color: #fff;
+    padding: 40px;
+    margin: 0 32px 50px;
+    width: auto;
+}
+
+/* Container for post to allow centering */
+.item-view .post-container {
+    max-width: 922px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+.post-header {
+    margin-bottom: 32px;
+}
+
+.post-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 24px;
+    color: #2c1d14;
+    text-transform: uppercase;
+    margin: 0 0 16px 0;
+    line-height: 1.2;
+}
+
+.post-meta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.54);
+    margin-bottom: 24px;
+}
+
+.post-meta > * {
+    display: inline-block;
+}
+
+.post-meta > *:not(:last-child)::after {
+    content: "·";
+    margin: 0 8px;
+}
+
+.post-meta a {
+    color: #a93e33;
+}
+
+.post-featured-image {
+    margin: -40px -40px 32px -40px;
+    display: flex;
+    justify-content: center;
+    background-color: #f9f9f9;
+}
+
+.post-featured-image img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    display: block;
+}
+
+.post-body {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #000000;
+}
+
+.post-body h2 {
+    font-family: 'EB Garamond', serif;
+    font-size: 24px;
+    color: #2c1d14;
+    margin: 32px 0 16px 0;
+}
+
+/* RECIPE ADDITIONS */
+
+/* Recipe Time Info (Prep/Wait) */
+.recipe-meta {
+    display: flex;
+    gap: 24px;
+    margin: 32px 0;
+    padding: 16px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #555;
+    letter-spacing: 0.5px;
+}
+
+.recipe-meta strong {
+    color: #a93e33; /* Matches your links/buttons */
+    margin-right: 4px;
+}
+
+/* The Recipe Card Section (Ingredients & Method) */
+.recipe-card {
+    background-color: #fdfaf6; /* Soft cream/paper color */
+    border: 1px solid #f0e6d2;
+    border-radius: 4px;
+    padding: 32px;
+    margin: 48px 0;
+}
+
+.recipe-card h3 {
+    font-family: 'EB Garamond', serif;
+    font-size: 22px;
+    color: #2c1d14;
+    margin: 0 0 16px 0;
+    border-bottom: 1px solid rgba(169, 62, 51, 0.2);
+    padding-bottom: 8px;
+}
+
+/* Ingredients List */
+.recipe-card ul {
+    list-style-type: none;
+    padding-left: 0 !important; /* Overriding standard post-body padding */
+    margin-bottom: 32px;
+}
+
+.recipe-card ul li {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(0,0,0,0.05);
+}
+
+.recipe-card ul li:last-child {
+    border-bottom: none;
+}
+
+/* Method List */
+.recipe-card ol {
+    padding-left: 24px !important;
+    margin-bottom: 0;
+}
+
+.recipe-card ol li {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    padding-left: 8px;
+    margin-bottom: 16px;
+}
+
+/* Standard List styling (for the narrative part) */
+.post-body ul, 
+.post-body ol {
+    margin: 16px 0;
+    padding-left: 24px;
+}
+
+.post-body li {
+    margin: 8px 0;
+}
+
+/* FOOTER & PROFILES */
+
+.post-footer {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.share-buttons {
+    margin-bottom: 32px;
+}
+
+.share-buttons h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.54);
+    margin-bottom: 16px;
+}
+
+.share-button {
+    background: none;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #a93e33;
+    cursor: pointer;
+    padding: 8px 16px;
+    margin-right: 8px;
+}
+
+.author-profile {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    background-color: #f9f9f9;
+    padding: 24px;
+    margin: 32px 0;
+}
+
+.author-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.author-info h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin: 0 0 12px 0;
+}
+
+.author-info p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.related-posts {
+    margin-top: 48px;
+}
+
+.related-posts h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.54);
+    margin-bottom: 24px;
+}
+
+.related-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+}
+
+/* Comments Section */
+.comments {
+    background-color: #fff;
+    padding: 40px;
+}
+
+.comments h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.54);
+    margin-bottom: 24px;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 640px) {
+    .item-view .post {
+        padding: 24px;
+        width: calc(100% - 48px);
+    }
+
+    .post-featured-image {
+        margin: -24px -24px 24px -24px;
+    }
+
+    .post-title {
+        font-size: 22px; /* Adjusted slightly smaller for mobile headings */
+    }
+
+    .author-profile {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .recipe-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .recipe-card {
+        padding: 20px;
+    }
+}

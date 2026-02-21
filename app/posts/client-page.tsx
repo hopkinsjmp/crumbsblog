@@ -6,10 +6,6 @@ import { format } from 'date-fns';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { PostConnectionQuery, PostConnectionQueryVariables } from '@/tina/__generated__/types';
 import ErrorBoundary from '@/components/error-boundary';
-import { ArrowRight, UserRound } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Section } from '@/components/layout/section';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface ClientPostProps {
   data: PostConnectionQuery;
@@ -37,94 +33,93 @@ export default function PostsClientPage(props: ClientPostProps) {
       author: {
         name: post.author?.name || 'Anonymous',
         avatar: post.author?.avatar,
-      }
-    }
+      },
+    };
   });
 
   return (
     <ErrorBoundary>
-      <Section>
-        <div className="container flex flex-col items-center gap-16">
-          <div className="text-center">
-            <h2 className="mx-auto mb-6 text-pretty text-3xl font-semibold md:text-4xl lg:max-w-3xl">
-              Latest Posts
-            </h2>
-          </div>
-
-          <div className="grid gap-y-10 sm:grid-cols-12 sm:gap-y-12 md:gap-y-16 lg:gap-y-20">
-            {posts.map((post) => (
-              <Card
-                key={post.id}
-                className="order-last border-0 bg-transparent shadow-none sm:order-first sm:col-span-12 lg:col-span-10 lg:col-start-2"
-              >
-                <div className="grid gap-y-6 sm:grid-cols-10 sm:gap-x-5 sm:gap-y-0 md:items-center md:gap-x-8 lg:gap-x-12">
-                  <div className="sm:col-span-5">
-                    <div className="mb-4 md:mb-6">
-                      <div className="flex flex-wrap gap-3 text-xs uppercase tracking-wider text-muted-foreground md:gap-5 lg:gap-6">
-                        {post.tags?.map((tag) => <span key={tag}>{tag}</span>)}
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-semibold md:text-2xl lg:text-3xl">
-                      <Link
-                        href={post.url}
-                        className="hover:underline"
-                      >
-                        {post.title}
-                      </Link>
-                    </h3>
-                    <div className="mt-4 text-muted-foreground md:mt-5">
-                      <TinaMarkdown content={post.excerpt} />
-                    </div>
-                    <div className="mt-6 flex items-center space-x-4 text-sm md:mt-8">
-                      <Avatar>
-                        {post.author.avatar && (
-                          <AvatarImage
-                            src={post.author.avatar}
-                            alt={post.author.name}
-                            className="h-8 w-8"
-                          />
-                        )}
-                        <AvatarFallback>
-                          <UserRound size={16} strokeWidth={2} className="opacity-60" aria-hidden="true" />
-                        </AvatarFallback>
-                      </Avatar>
-                      <span className="text-muted-foreground">{post.author.name}</span>
-                      <span className="text-muted-foreground">•</span>
-                      <span className="text-muted-foreground">
-                        {post.published}
-                      </span>
-                    </div>
-                    <div className="mt-6 flex items-center space-x-2 md:mt-8">
-                      <Link
-                        href={post.url}
-                        className="inline-flex items-center font-semibold hover:underline md:text-base"
-                      >
-                        <span>Read more</span>
-                        <ArrowRight className="ml-2 size-4 transition-transform" />
-                      </Link>
-                    </div>
+      <div className="mx-auto max-w-[922px] px-6 py-10">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <Link
+              key={post.id}
+              href={post.url}
+              className="group flex flex-col overflow-hidden rounded-lg bg-[#f7f4ef] shadow-md transition-shadow duration-200 hover:shadow-lg no-underline"
+            >
+              {/* Hero image */}
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#e8e4db]">
+                {post.heroImg ? (
+                  <Image
+                    src={post.heroImg}
+                    alt={post.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                    unoptimized
+                  />
+                ) : (
+                  /* Placeholder when no hero image */
+                  <div className="flex h-full items-center justify-center">
+                    <span className="font-heading text-5xl text-[#2c1d14]/20">
+                      🍞
+                    </span>
                   </div>
-                  {post.heroImg && (
-                    <div className="order-first sm:order-last sm:col-span-5">
-                      <Link href={post.url} className="block">
-                        <div className="aspect-[16/9] overflow-clip rounded-lg border border-border">
-                          <Image
-                            width={533}
-                            height={300}
-                            src={post.heroImg}
-                            alt={post.title}
-                            className="h-full w-full object-cover transition-opacity duration-200 fade-in hover:opacity-70"
-                          />
-                        </div>
-                      </Link>
-                    </div>
+                )}
+              </div>
+
+              {/* Card body */}
+              <div className="flex flex-1 flex-col p-5">
+                {/* Tags */}
+                {post.tags.length > 0 && (
+                  <div className="mb-2 flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="font-sans text-[10px] uppercase tracking-widest text-[#a93e33]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* Title */}
+                <h2 className="mb-3 font-heading text-xl font-normal leading-snug text-[#2c1d14] group-hover:underline">
+                  {post.title}
+                </h2>
+
+                {/* Excerpt */}
+                {post.excerpt && (
+                  <div className="mb-4 line-clamp-3 font-serif text-sm leading-relaxed text-[#2c1d14]/70">
+                    <TinaMarkdown content={post.excerpt} />
+                  </div>
+                )}
+
+                {/* Footer — author + date pushed to bottom */}
+                <div className="mt-auto flex items-center gap-2 font-sans text-xs text-[#2c1d14]/50">
+                  {post.author.avatar ? (
+                    <Image
+                      src={post.author.avatar}
+                      alt={post.author.name}
+                      width={20}
+                      height={20}
+                      className="rounded-full object-cover"
+                      unoptimized
+                    />
+                  ) : null}
+                  <span>{post.author.name}</span>
+                  {post.published && (
+                    <>
+                      <span>·</span>
+                      <span>{post.published}</span>
+                    </>
                   )}
                 </div>
-              </Card>
-            ))}
-          </div>
+              </div>
+            </Link>
+          ))}
         </div>
-      </Section>
+      </div>
     </ErrorBoundary>
   );
 }

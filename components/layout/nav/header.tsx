@@ -1,12 +1,16 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSidebar } from "../sidebar-context";
 
 const NAV = [
   { label: "About",     href: "/about" },
   { label: "All Posts", href: "/posts" },
 ];
+
+const HERO_SRC =
+  "https://blogger.googleusercontent.com/img/a/AVvXsEg8QAx2my2VCVbPy5G1Re0h4xjGDtRggMc5ZDyie0k9f-4MQz5L1IVXsc7YwwBNqTgCJmuhFMQdOTvFXty6-LPmPnz0clMQ6UNh924F376y4kCdMjFHZ15W_Ia2GXJBLUpjdpqxe6EJnBaQftyJW6xgvxhLC4Ufa2VaTEjTibo9ui1IVIA52Kvd__UoRFE=s1600";
 
 export const Header = () => {
   const { toggle } = useSidebar();
@@ -66,6 +70,20 @@ export const Header = () => {
             </ul>
           </nav>
         </div>
+      </div>
+
+      {/* ── Hero banner — full-width, 400px tall on desktop, fluid on mobile */}
+      <div className="relative mb-8 h-[min(400px,62.5vw)] min-h-[200px] w-full overflow-hidden">
+        <Image
+          src={HERO_SRC}
+          alt="Crumbs of Sanity — hero image"
+          fill
+          priority
+          className="object-cover object-center"
+          unoptimized
+        />
+        {/* Subtle dark scrim matching the original site */}
+        <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
       </div>
     </header>
   );

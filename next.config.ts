@@ -25,7 +25,25 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
         port: '',
-      }
+      },
+      {
+        // Blogger-hosted images (hero banner, author photo, post images)
+        protocol: 'https',
+        hostname: 'blogger.googleusercontent.com',
+        port: '',
+      },
+      {
+        // Alternative Blogger CDN hostname
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+      },
+      {
+        // Images hosted on www.crumbsofsanity.com
+        protocol: 'https',
+        hostname: 'www.crumbsofsanity.com',
+        port: '',
+      },
     ],
   },
   // headers() and rewrites() are unsupported with output:'export'.

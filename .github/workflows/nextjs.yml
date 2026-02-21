@@ -42,11 +42,29 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build TinaCMS (local content)
-        run: npx tinacms build --local --skip-indexing --skip-cloud-checks
+      - name: Build TinaCMS + Next.js (static export)
+        run: |
+          # Start the TinaCMS local GraphQL server in the background.
+          # tinacms build --local only creates the DB; next build needs the
+          # server listening at localhost:4001 to collect page data.
+          pnpm exec tinacms dev --port 4001 -c "sleep 600" &
+          TINA_PID=$!
 
-      - name: Build Next.js (static export)
-        run: npx next build
+          # Wait up to 90 s for the GraphQL endpoint to be ready.
+          echo "Waiting for TinaCMS local server..."
+          timeout 90 bash -c \
+            'until curl -sf -X POST http://localhost:4001/api/tina/gql \
+               -H "Content-Type: application/json" \
+               -d "{\"query\":\"{__typename}\"}" > /dev/null 2>&1; \
+             do sleep 3; done'
+          echo "TinaCMS local server ready."
+
+          # Build the Next.js static export.
+          pnpm exec next build
+          BUILD_EXIT=$?
+
+          kill $TINA_PID 2>/dev/null || true
+          exit $BUILD_EXIT
         env:
           NEXT_EXPORT: "true"
           NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}

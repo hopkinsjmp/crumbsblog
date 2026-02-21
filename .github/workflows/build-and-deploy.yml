@@ -48,13 +48,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # ── 6. Build TinaCMS (generates schema types + admin assets) ─────────────
-      - name: Build TinaCMS
-        run: pnpm exec tinacms build --skip-cloud-checks
-        env:
-          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
-          NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}
-          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
+      # ── 6. Build TinaCMS (local content — reads from content/ dir, no cloud needed) ──
+      - name: Build TinaCMS (local content)
+        run: pnpm exec tinacms build --local --skip-indexing --skip-cloud-checks
 
       # ── 7. Build Next.js (static export → out/) ───────────────────────────────
       - name: Build Next.js (static export)

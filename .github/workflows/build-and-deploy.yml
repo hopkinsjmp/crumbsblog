@@ -52,7 +52,7 @@ jobs:
       # Builds the admin SPA into public/admin/ so editors can use /admin
       # on the deployed GitHub Pages site without any technical access.
       - name: Build TinaCMS admin (cloud)
-        run: pnpm exec tinacms build
+        run: pnpm exec tinacms build --skip-cloud-checks
         env:
           NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
           NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}

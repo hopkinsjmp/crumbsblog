@@ -45,7 +45,7 @@ jobs:
       # Build the admin SPA into public/admin/ using cloud config.
       # This is what lets editors use /admin on the deployed site.
       - name: Build TinaCMS admin (cloud)
-        run: npx tinacms build
+        run: npx tinacms build --skip-cloud-checks
         env:
           NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
           NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}

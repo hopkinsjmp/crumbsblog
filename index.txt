@@ -1,0 +1,268 @@
+1:"$Sreact.fragment"
+4:I[29297,[],"OutletBoundary"]
+7:I[67455,[],"AsyncMetadataOutlet"]
+9:I[29297,[],"ViewportBoundary"]
+b:I[29297,[],"MetadataBoundary"]
+d:I[16118,[],""]
+:HL["/crumbsblog/_next/static/media/4de1fea1a954a5b6-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/crumbsblog/_next/static/media/e4af272ccee01ff0-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/crumbsblog/_next/static/media/eaead17c7dbfcd5d-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/crumbsblog/_next/static/media/ee40bb094c99a29a-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/crumbsblog/_next/static/css/57123ff0a3126456.css","style"]
+:HL["/crumbsblog/_next/static/css/965ac22009eba706.css","style"]
+0:{"P":null,"b":"o5B5-z_T4Nhnji2hoql_t","p":"/crumbsblog","c":["",""],"i":false,"f":[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/crumbsblog/_next/static/css/57123ff0a3126456.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/crumbsblog/_next/static/css/965ac22009eba706.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],"$L2"]}],{"children":["__PAGE__",["$","$1","c",{"children":["$L3",null,["$","$L4",null,{"children":["$L5","$L6",["$","$L7",null,{"promise":"$@8"}]]}]]}],{},null,false]},null,false],["$","$1","h",{"children":[null,["$","$1","pPtfNTiPgMbEPVVKjNIX-v",{"children":[["$","$L9",null,{"children":"$La"}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],["$","$Lb",null,{"children":"$Lc"}]]}],false]],"m":"$undefined","G":["$d","$undefined"],"s":false,"S":true}
+e:"$Sreact.suspense"
+f:I[67455,[],"AsyncMetadata"]
+c:["$","div",null,{"hidden":true,"children":["$","$e",null,{"fallback":null,"children":["$","$Lf",null,{"promise":"$@10"}]}]}]
+6:null
+a:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+5:null
+8:{"metadata":[["$","title","0",{"children":"Crumbs of Sanity"}],["$","meta","1",{"name":"description","content":"A blog about life, learning, and everything in between."}]],"error":null,"digest":"$undefined"}
+10:{"metadata":"$8:metadata","error":null,"digest":"$undefined"}
+11:I[28350,["2121","static/chunks/2121-45dbf371fbb88c1a.js","7177","static/chunks/app/layout-494538c210c1636f.js"],"VideoDialogProvider"]
+12:I[55971,[],""]
+13:I[14591,[],""]
+14:I[76762,["6762","static/chunks/6762-3a2d43433b2159da.js","4345","static/chunks/app/not-found-bda502cd7582f755.js"],""]
+15:I[90701,["2121","static/chunks/2121-45dbf371fbb88c1a.js","7177","static/chunks/app/layout-494538c210c1636f.js"],"default"]
+2:["$","html",null,{"lang":"en","className":"__variable_8e9b9f __variable_bef9e3 __variable_61733c __variable_56ec27","style":{"--brand-primary":"#2a5db0"},"children":[["$","head",null,{"children":["$","style",null,{"children":":root { --brand-primary: #2a5db0; --primary: #2a5db0; --accent: #dce8f8; --font-heading: var(--font-playfair), \"Playfair Display\", Georgia, serif; }"}]}],["$","body",null,{"className":"min-h-screen bg-background font-sans antialiased","children":[["$","$L11",null,{"children":[["$","$L12",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L13",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","div",null,{"className":"relative text-center z-[1] pt-52","children":[["$","h1",null,{"className":"mt-4 text-balance text-5xl font-semibold tracking-tight text-primary sm:text-7xl","children":"Page not found"}],["$","p",null,{"className":"mt-6 text-pretty text-lg font-medium text-muted-foreground sm:text-xl/8","children":"Lost, this page is. In another system, it may be."}],["$","div",null,{"className":"mt-10 mx-auto","children":["$","$L14",null,{"href":"/","children":"Take me home","data-slot":"button","className":"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 h-9 px-4 py-2 has-[>svg]:px-3","ref":null}]}]]}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}],["$","$L15",null,{}]]}],null]}]]}]
+16:I[23824,["6191","static/chunks/a57d9bf0-0e18a868243b6e81.js","3372","static/chunks/3aece8b2-081d0b9da69a9097.js","9726","static/chunks/9e4386a5-0cece909cade74bb.js","2131","static/chunks/7f54a5ee-616be3844e653379.js","8547","static/chunks/586b7356-d2da4f604082002f.js","6074","static/chunks/9f49c61e-d4bcabcacf770943.js","7924","static/chunks/3f76de95-af34bf279392dea0.js","8901","static/chunks/b8e0fbc6-652a604c1fbbbb27.js","2481","static/chunks/32190fa6-1b88df818a50b608.js","8793","static/chunks/7694e0e6-a13bcdead6a4ed43.js","3209","static/chunks/1e5764bd-118fbb1b29c508ea.js","1774","static/chunks/dee06eec-95c33e43c8ed950a.js","6625","static/chunks/6625-0f33053821d3a328.js","6762","static/chunks/6762-3a2d43433b2159da.js","593","static/chunks/593-decce4046cee841c.js","2533","static/chunks/2533-43254b3fc9f83e14.js","2121","static/chunks/2121-45dbf371fbb88c1a.js","8225","static/chunks/8225-5b64b0e7ed426892.js","9176","static/chunks/9176-6feb17a66ff683d8.js","1635","static/chunks/1635-b9877589cc75597e.js","3428","static/chunks/3428-669202ab0b065e92.js","8974","static/chunks/app/page-26d845d75b1c1d9c.js"],"LayoutProvider"]
+18:I[72489,["6191","static/chunks/a57d9bf0-0e18a868243b6e81.js","3372","static/chunks/3aece8b2-081d0b9da69a9097.js","9726","static/chunks/9e4386a5-0cece909cade74bb.js","2131","static/chunks/7f54a5ee-616be3844e653379.js","8547","static/chunks/586b7356-d2da4f604082002f.js","6074","static/chunks/9f49c61e-d4bcabcacf770943.js","7924","static/chunks/3f76de95-af34bf279392dea0.js","8901","static/chunks/b8e0fbc6-652a604c1fbbbb27.js","2481","static/chunks/32190fa6-1b88df818a50b608.js","8793","static/chunks/7694e0e6-a13bcdead6a4ed43.js","3209","static/chunks/1e5764bd-118fbb1b29c508ea.js","1774","static/chunks/dee06eec-95c33e43c8ed950a.js","6625","static/chunks/6625-0f33053821d3a328.js","6762","static/chunks/6762-3a2d43433b2159da.js","593","static/chunks/593-decce4046cee841c.js","2533","static/chunks/2533-43254b3fc9f83e14.js","2121","static/chunks/2121-45dbf371fbb88c1a.js","8225","static/chunks/8225-5b64b0e7ed426892.js","9176","static/chunks/9176-6feb17a66ff683d8.js","1635","static/chunks/1635-b9877589cc75597e.js","3428","static/chunks/3428-669202ab0b065e92.js","8974","static/chunks/app/page-26d845d75b1c1d9c.js"],"Header"]
+19:I[31170,["6191","static/chunks/a57d9bf0-0e18a868243b6e81.js","3372","static/chunks/3aece8b2-081d0b9da69a9097.js","9726","static/chunks/9e4386a5-0cece909cade74bb.js","2131","static/chunks/7f54a5ee-616be3844e653379.js","8547","static/chunks/586b7356-d2da4f604082002f.js","6074","static/chunks/9f49c61e-d4bcabcacf770943.js","7924","static/chunks/3f76de95-af34bf279392dea0.js","8901","static/chunks/b8e0fbc6-652a604c1fbbbb27.js","2481","static/chunks/32190fa6-1b88df818a50b608.js","8793","static/chunks/7694e0e6-a13bcdead6a4ed43.js","3209","static/chunks/1e5764bd-118fbb1b29c508ea.js","1774","static/chunks/dee06eec-95c33e43c8ed950a.js","6625","static/chunks/6625-0f33053821d3a328.js","6762","static/chunks/6762-3a2d43433b2159da.js","593","static/chunks/593-decce4046cee841c.js","2533","static/chunks/2533-43254b3fc9f83e14.js","2121","static/chunks/2121-45dbf371fbb88c1a.js","8225","static/chunks/8225-5b64b0e7ed426892.js","9176","static/chunks/9176-6feb17a66ff683d8.js","1635","static/chunks/1635-b9877589cc75597e.js","3428","static/chunks/3428-669202ab0b065e92.js","8974","static/chunks/app/page-26d845d75b1c1d9c.js"],"default"]
+1b:I[33139,["6191","static/chunks/a57d9bf0-0e18a868243b6e81.js","3372","static/chunks/3aece8b2-081d0b9da69a9097.js","9726","static/chunks/9e4386a5-0cece909cade74bb.js","2131","static/chunks/7f54a5ee-616be3844e653379.js","8547","static/chunks/586b7356-d2da4f604082002f.js","6074","static/chunks/9f49c61e-d4bcabcacf770943.js","7924","static/chunks/3f76de95-af34bf279392dea0.js","8901","static/chunks/b8e0fbc6-652a604c1fbbbb27.js","2481","static/chunks/32190fa6-1b88df818a50b608.js","8793","static/chunks/7694e0e6-a13bcdead6a4ed43.js","3209","static/chunks/1e5764bd-118fbb1b29c508ea.js","1774","static/chunks/dee06eec-95c33e43c8ed950a.js","6625","static/chunks/6625-0f33053821d3a328.js","6762","static/chunks/6762-3a2d43433b2159da.js","593","static/chunks/593-decce4046cee841c.js","2533","static/chunks/2533-43254b3fc9f83e14.js","2121","static/chunks/2121-45dbf371fbb88c1a.js","8225","static/chunks/8225-5b64b0e7ed426892.js","9176","static/chunks/9176-6feb17a66ff683d8.js","1635","static/chunks/1635-b9877589cc75597e.js","3428","static/chunks/3428-669202ab0b065e92.js","8974","static/chunks/app/page-26d845d75b1c1d9c.js"],"Footer"]
+17:T6f5,
+    query page($relativePath: String!) {
+  page(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...PageParts
+  }
+}
+    
+    fragment PageParts on Page {
+  __typename
+  blocks {
+    __typename
+    ... on PageBlocksHero {
+      background
+      headline
+      tagline
+      actions {
+        __typename
+        label
+        type
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        link
+      }
+      image {
+        __typename
+        src
+        alt
+        videoUrl
+      }
+    }
+    ... on PageBlocksCallout {
+      background
+      text
+      url
+    }
+    ... on PageBlocksFeatures {
+      background
+      title
+      description
+      items {
+        __typename
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        title
+        text
+      }
+    }
+    ... on PageBlocksStats {
+      background
+      title
+      description
+      stats {
+        __typename
+        stat
+        type
+      }
+    }
+    ... on PageBlocksCta {
+      title
+      description
+      actions {
+        __typename
+        label
+        type
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        link
+      }
+    }
+    ... on PageBlocksContent {
+      background
+      body
+    }
+    ... on PageBlocksTestimonial {
+      background
+      title
+      description
+      testimonials {
+        __typename
+        quote
+        author
+        role
+        avatar
+      }
+    }
+    ... on PageBlocksVideo {
+      background
+      color
+      url
+      autoPlay
+      loop
+    }
+  }
+}
+    1a:T6f5,
+    query page($relativePath: String!) {
+  page(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...PageParts
+  }
+}
+    
+    fragment PageParts on Page {
+  __typename
+  blocks {
+    __typename
+    ... on PageBlocksHero {
+      background
+      headline
+      tagline
+      actions {
+        __typename
+        label
+        type
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        link
+      }
+      image {
+        __typename
+        src
+        alt
+        videoUrl
+      }
+    }
+    ... on PageBlocksCallout {
+      background
+      text
+      url
+    }
+    ... on PageBlocksFeatures {
+      background
+      title
+      description
+      items {
+        __typename
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        title
+        text
+      }
+    }
+    ... on PageBlocksStats {
+      background
+      title
+      description
+      stats {
+        __typename
+        stat
+        type
+      }
+    }
+    ... on PageBlocksCta {
+      title
+      description
+      actions {
+        __typename
+        label
+        type
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        link
+      }
+    }
+    ... on PageBlocksContent {
+      background
+      body
+    }
+    ... on PageBlocksTestimonial {
+      background
+      title
+      description
+      testimonials {
+        __typename
+        quote
+        author
+        role
+        avatar
+      }
+    }
+    ... on PageBlocksVideo {
+      background
+      color
+      url
+      autoPlay
+      loop
+    }
+  }
+}
+    3:["$","$L16",null,{"globalSettings":{"_sys":{"filename":"index","basename":"index.json","hasReferences":false,"breadcrumbs":["index"],"path":"content/global/index.json","relativePath":"index.json","extension":".json"},"id":"content/global/index.json","__typename":"Global","header":{"__typename":"GlobalHeader","icon":{"__typename":"GlobalHeaderIcon","name":"Tina","color":"orange","style":"float"},"name":"Tina Starter","color":"default","nav":[{"__typename":"GlobalHeaderNav","href":"/","label":"Home"},{"__typename":"GlobalHeaderNav","href":"/about","label":"About"},{"__typename":"GlobalHeaderNav","href":"/posts","label":"Blog"}]},"footer":{"__typename":"GlobalFooter","social":[{"__typename":"GlobalFooterSocial","icon":{"__typename":"GlobalFooterSocialIcon","name":"FaLinkedin","color":null,"style":null},"url":"https://www.linkedin.com/company/tinacms"},{"__typename":"GlobalFooterSocial","icon":{"__typename":"GlobalFooterSocialIcon","name":"FaGithub","color":null,"style":null},"url":"https://github.com/tinacms/tinacms"},{"__typename":"GlobalFooterSocial","icon":{"__typename":"GlobalFooterSocialIcon","name":"FaYoutube","color":null,"style":null},"url":"https://www.youtube.com/@TinaCMS"},{"__typename":"GlobalFooterSocial","icon":{"__typename":"GlobalFooterSocialIcon","name":"FaXTwitter","color":null,"style":null},"url":"https://x.com/TinaCMS"}]},"theme":{"__typename":"GlobalTheme","color":"blue","font":"sans","darkMode":"light","primaryColor":"#2a5db0","accentColor":"#dce8f8","headingFont":"playfair"}},"pageData":{"data":{"page":{"_sys":{"filename":"home","basename":"home.mdx","hasReferences":false,"breadcrumbs":["home"],"path":"content/pages/home.mdx","relativePath":"home.mdx","extension":".mdx"},"id":"content/pages/home.mdx","__typename":"Page","blocks":[{"__typename":"PageBlocksCallout","background":"","text":"Support for live editing and editorial workflow","url":"https://tina.io/editorial-workflow"},{"__typename":"PageBlocksHero","background":"bg-orange-50/80","headline":"Welcome to the TinaCloud Starter","tagline":"Build 10x Faster with TinaCMS","actions":[{"__typename":"PageBlocksHeroActions","label":"Get Started","type":"button","icon":{"__typename":"PageBlocksHeroActionsIcon","name":"Tina","color":"white","style":null},"link":"/about"},{"__typename":"PageBlocksHeroActions","label":"Read Blog","type":"link","icon":null,"link":"/posts"}],"image":{"__typename":"PageBlocksHeroImage","src":"","alt":"Getting started with TinaCMS","videoUrl":"https://www.youtube.com/embed/j8egYW7Jpgk"}},{"__typename":"PageBlocksStats","background":"bg-zinc-50","title":"TinaCMS by the numbers","description":"TinaCMS is an open-source content management system that allows developers to create and manage content for their websites and applications. It provides a flexible and customizable framework for building content-driven applications.","stats":[{"__typename":"PageBlocksStatsStats","stat":"12K","type":"Stars on GitHub"},{"__typename":"PageBlocksStatsStats","stat":"11K","type":"Active Users"},{"__typename":"PageBlocksStatsStats","stat":"22K","type":"Powered Apps"}]},{"__typename":"PageBlocksFeatures","background":null,"title":"Built to cover your needs","description":"We have a lot of features to cover your needs","items":[{"__typename":"PageBlocksFeaturesItems","icon":{"__typename":"PageBlocksFeaturesItemsIcon","name":"BiBookOpen","color":"orange","style":"float"},"title":"Check out the docs","text":{"type":"root","children":[{"type":"p","children":[{"type":"text","text":"Find everything you need to get started with TinaCMS in the "},{"type":"a","url":"https://tina.io/docs/","title":null,"children":[{"type":"text","text":"official documentation"}]},{"type":"text","text":". Setup guides, API references, and troubleshooting tips all in one place."}]}]}},{"__typename":"PageBlocksFeaturesItems","icon":{"__typename":"PageBlocksFeaturesItemsIcon","name":"BiCloud","color":"","style":"float"},"title":"Try TinaCloud","text":{"type":"root","children":[{"type":"p","children":[{"type":"text","text":"Sign up for "},{"type":"a","url":"https://app.tina.io/","title":null,"children":[{"type":"text","text":"TinaCloud"}]},{"type":"text","text":" to enable real-time editing and Git-backed content management. Follow the "},{"type":"a","url":"https://tina.io/docs/tina-cloud/","title":null,"children":[{"type":"text","text":"getting started guide"}]},{"type":"text","text":" to set up your project."}]}]}},{"__typename":"PageBlocksFeaturesItems","icon":{"__typename":"PageBlocksFeaturesItemsIcon","name":"BiLogoDiscordAlt","color":"","style":"float"},"title":"Get support from Discord","text":{"type":"root","children":[{"type":"p","children":[{"type":"text","text":"Need help? Ask questions and get support from the community in our "},{"type":"a","url":"https://discord.com/invite/zumN63Ybpf","title":null,"children":[{"type":"text","text":"Discord server"}]},{"type":"text","text":". Whether you’re troubleshooting or looking for best practices, our team and users are there to help."}]}]}}]},{"__typename":"PageBlocksTestimonial","background":null,"title":"Build by makers, loved by thousand developers","description":"Gemini is evolving to be more than just the models. It supports an entire to the APIs and platforms helping developers and businesses innovate.","testimonials":[{"__typename":"PageBlocksTestimonialTestimonials","quote":"Gosh! Most CMSs are like, the worst. TinaCMS? It’s pretty much the liger of content management—majestic, powerful, and totally awesome.","author":"Napoleon Dynamite AI","role":"Meme-Fueled CTO","avatar":"/uploads/testimonials/napoleon.webp"},{"__typename":"PageBlocksTestimonialTestimonials","quote":"Editing content used to feel like defusing a bomb. TinaCMS made it feel like playing Mario Kart—fun, fast, and kinda addictive.","author":"DevRel Luigi","role":"Pixelated Evangelist of Speed","avatar":"/uploads/testimonials/luigi.webp"},{"__typename":"PageBlocksTestimonialTestimonials","quote":"Our marketing team cried tears of joy. Actual tears. TinaCMS gave them real-time editing like it was NBD.","author":"Head of Hype @FakeCorp","role":"Vibes Architect","avatar":"/uploads/testimonials/24.webp"},{"__typename":"PageBlocksTestimonialTestimonials","quote":"I once tried to build a CMS from scratch. Then I met Tina. She's prettier, smarter, and doesn't crash at 3AM.","author":"Brogrammer Dan","role":"Lead Coffee-to-Code Transpiler","avatar":"/uploads/testimonials/3.webp"},{"__typename":"PageBlocksTestimonialTestimonials","quote":"My boss thinks I’m a genius now. All I did was install TinaCMS and sip coffee.","author":"Totally Not A Junior Dev","role":"Senior Coffee Optimization Engineer","avatar":"/uploads/testimonials/50.webp"},{"__typename":"PageBlocksTestimonialTestimonials","quote":"TinaCMS turned my spaghetti content into a Michelin-starred experience.","author":"Chef Coder","role":"Culinary Code Alchemist","avatar":"/uploads/testimonials/8.webp"},{"__typename":"PageBlocksTestimonialTestimonials","quote":"We replaced our enterprise CMS with Tina. Nobody noticed—except the devs, who high-fived for 3 hours straight.","author":"Director of ChillOps","role":"VP of Zero-Outage Zen","avatar":"/uploads/testimonials/70.webp"},{"__typename":"PageBlocksTestimonialTestimonials","quote":"I asked ChatGPT for the best CMS. It said Tina. I don’t question gods.","author":"GPT Whisperer","role":"AI Summoner-in-Chief","avatar":"/uploads/testimonials/29.webp"},{"__typename":"PageBlocksTestimonialTestimonials","quote":"TinaCMS is like having a content butler—polite, efficient, and always in draft mode.","author":"Lady Markdownsworth","role":"Markdown Royalty and CMS Whisperer","avatar":"/uploads/testimonials/4.webp"},{"__typename":"PageBlocksTestimonialTestimonials","quote":"Our site used to be haunted by broken previews. TinaCMS exorcised the bugs.","author":"Paranormal Webtivity Expert","role":"Digital Exorcist","avatar":"/uploads/testimonials/92.webp"}]},{"__typename":"PageBlocksCta","title":"Start Building","description":"Get started with TinaCMS today and take your content management to the next level.","actions":[{"__typename":"PageBlocksCtaActions","label":"Get Started","type":"button","icon":{"__typename":"PageBlocksCtaActionsIcon","name":"Tina","color":"white","style":""},"link":"/"},{"__typename":"PageBlocksCtaActions","label":"Book Demo","type":"link","icon":null,"link":"https://tina.io"}]}]}},"errors":null,"query":"$17","variables":{"relativePath":"home.mdx"}},"children":[["$","$L18",null,{}],["$","main",null,{"className":"overflow-x-hidden pt-20","children":["$","$L19",null,{"data":"$3:props:pageData:data","errors":null,"query":"$1a","variables":"$3:props:pageData:variables"}]}],["$","$L1b",null,{}]]}]

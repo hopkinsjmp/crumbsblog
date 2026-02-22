@@ -1,3 +1,5 @@
+// trigger re-index
+
 import { defineConfig } from "tinacms";
 import nextConfig from '../next.config'
 

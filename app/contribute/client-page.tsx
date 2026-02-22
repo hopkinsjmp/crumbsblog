@@ -2,17 +2,17 @@
 import { tinaField, useTina } from 'tinacms/dist/react';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { components } from '@/components/mdx-components';
-import { InfoQuery, InfoQueryVariables } from '@/tina/__generated__/types';
+import { PageQuery, PageQueryVariables } from '@/tina/__generated__/types';
 
 interface ClientInfoPageProps {
-  data: InfoQuery;
-  variables: InfoQueryVariables;
+  data: PageQuery;
+  variables: PageQueryVariables;
   query: string;
 }
 
 export default function InfoClientPage(props: ClientInfoPageProps) {
   const { data } = useTina({ ...props });
-  const page = data.info;
+  const page = data.page as any;
 
   return (
     <div className="mx-auto max-w-[922px] px-8 py-12">

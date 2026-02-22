@@ -24,6 +24,17 @@ const Page: Collection = {
   },
   fields: [
     {
+      type: 'string',
+      label: 'Title',
+      name: 'title',
+    },
+    {
+      type: 'rich-text',
+      label: 'Body',
+      name: 'body',
+      isBody: true,
+    },
+    {
       type: 'object',
       list: true,
       name: 'blocks',

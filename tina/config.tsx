@@ -6,7 +6,6 @@ import Global from "./collection/global";
 import Author from "./collection/author";
 import Page from "./collection/page";
 import Tag from "./collection/tag";
-import Info from "./collection/info";
 
 const config = defineConfig({
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID!,
@@ -37,7 +36,7 @@ const config = defineConfig({
     host: true, // Bind Vite dev server to 0.0.0.0 so Codespaces can forward port 4001
   },
   schema: {
-    collections: [Page, Post, Author, Tag, Global, Info],
+    collections: [Page, Post, Author, Tag, Global],
   },
 });
 

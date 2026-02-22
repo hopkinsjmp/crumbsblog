@@ -6,8 +6,8 @@ import ClientPage from './client-page';
 export default async function AboutPage() {
   let data;
   try {
-    data = await client.queries.info({
-      relativePath: 'about.md',
+    data = await client.queries.page({
+      relativePath: 'about.mdx',
     });
   } catch (error) {
     notFound();

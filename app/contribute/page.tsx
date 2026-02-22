@@ -6,8 +6,8 @@ import ClientPage from './client-page';
 export default async function ContributePage() {
   let data;
   try {
-    data = await client.queries.info({
-      relativePath: 'contribute.md',
+    data = await client.queries.page({
+      relativePath: 'contribute.mdx',
     });
   } catch (error) {
     notFound();

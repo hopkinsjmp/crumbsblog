@@ -11,10 +11,7 @@ import Tag from "./collection/tag";
 
 const config = defineConfig({
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID!,
-  branch:
-    process.env.NEXT_PUBLIC_TINA_BRANCH! || // custom branch env override
-    process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF! || // Vercel branch env
-    process.env.HEAD!, // Netlify branch env
+  branch: "main",
   token: process.env.TINA_TOKEN!,
   media: {
     // If you wanted cloudinary do this
@@ -29,14 +26,10 @@ const config = defineConfig({
     },
   },
   build: {
-    publicFolder: "public", // The public asset folder for your framework
-    outputFolder: "admin", // within the public folder
-    // Hardcoded to match the GitHub Pages repo name.
-    // nextConfig.basePath is only set when NEXT_EXPORT=true, so we can't
-    // rely on it here — tinacms build runs without that env var.
-    basePath: "crumbsblog",
-    host: true, // Bind Vite dev server to 0.0.0.0 so Codespaces can forward port 4001
-  },
+      publicFolder: "public", 
+      outputFolder: "admin", 
+      basePath: "crumbsblog", // This is correct for hopkinsjmp.github.io/crumbsblog/
+    },
   schema: {
     collections: [Page, Post, Author, Tag, Global],
   },

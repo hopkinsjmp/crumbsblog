@@ -11,11 +11,16 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write # needed to push to gh-pages branch
+  contents: read
+  pages: write      # needed to deploy to GitHub Pages
+  id-token: write   # needed to authenticate the deployment
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       # ── 1. Checkout ──────────────────────────────────────────────────────────
@@ -97,11 +102,13 @@ jobs:
       - name: Add .nojekyll
         run: touch out/.nojekyll
 
-      # ── 9. Deploy out/ to gh-pages branch ────────────────────────────────────
-      - name: Deploy to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
+      # ── 9. Upload Pages artifact ──────────────────────────────────────────────
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
-          publish_branch: gh-pages
-          commit_message: "deploy: ${{ github.sha }}"
+          path: ./out
+
+      # ── 10. Deploy to GitHub Pages ────────────────────────────────────────────
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -31,7 +31,9 @@
     "strictNullChecks": true
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "_trash",
+    "legacy-archive"
   ],
   "include": [
     "next-env.d.ts",

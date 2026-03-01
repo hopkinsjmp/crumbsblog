@@ -57,7 +57,7 @@ export const Header = () => {
                     {TABS.map((tab, i) => {
                       const isActive =
                         (tab.href === "/" && pathname === "/") ||
-                        (tab.href !== "/" && pathname.startsWith(tab.href));
+                        (tab.href !== "/" && pathname?.startsWith(tab.href));
                       return (
                         <React.Fragment key={tab.href}>
                           {i > 0 && (

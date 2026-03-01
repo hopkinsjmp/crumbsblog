@@ -34,7 +34,9 @@ export default async function Page({
 }
 
 export async function generateStaticParams() {
-  let pages = await client.queries.pageConnection();
+  let pages = await client.queries.pageConnection({
+    first: Number(process.env.MAX_STATIC_PARAMS ?? 200),
+  });
   const allPages = pages;
 
   if (!allPages.data.pageConnection.edges) {
@@ -43,6 +45,7 @@ export async function generateStaticParams() {
 
   while (pages.data.pageConnection.pageInfo.hasNextPage) {
     pages = await client.queries.pageConnection({
+      first: Number(process.env.MAX_STATIC_PARAMS ?? 200),
       after: pages.data.pageConnection.pageInfo.endCursor,
     });
 

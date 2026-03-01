@@ -24,7 +24,9 @@ export default async function PostPage({
 }
 
 export async function generateStaticParams() {
-  let posts = await client.queries.postConnection();
+  let posts = await client.queries.postConnection({
+    first: Number(process.env.MAX_STATIC_PARAMS ?? 200),
+  });
   const allPosts = posts;
 
   if (!allPosts.data.postConnection.edges) {
@@ -33,6 +35,7 @@ export async function generateStaticParams() {
 
   while (posts.data?.postConnection.pageInfo.hasNextPage) {
     posts = await client.queries.postConnection({
+      first: Number(process.env.MAX_STATIC_PARAMS ?? 200),
       after: posts.data.postConnection.pageInfo.endCursor,
     });
 

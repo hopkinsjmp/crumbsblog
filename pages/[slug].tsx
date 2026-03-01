@@ -1,5 +1,4 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next';
-import { useTina } from 'tinacms/dist/react';
 import client from '@/tina/__generated__/client';
 import type { PageQuery, PageQueryVariables } from '@/tina/__generated__/types';
 import { Blocks } from '@/components/blocks';
@@ -14,17 +13,17 @@ type SlugPageProps = {
 export default function SlugPage(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ) {
-  const { data } = useTina(props);
-
   return (
     <ErrorBoundary>
-      <Blocks {...data.page} />
+      <Blocks {...props.data.page} />
     </ErrorBoundary>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await client.queries.pageConnection();
+  const { data } = await client.queries.pageConnection({
+    first: Number(process.env.MAX_STATIC_PARAMS ?? 200),
+  });
 
   const paths = (data.pageConnection.edges || [])
     .map((edge) => edge?.node?._sys?.breadcrumbs || [])

@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface SidebarContextValue {
   isOpen: boolean;
@@ -19,6 +19,22 @@ export const useSidebar = () => useContext(SidebarContext);
 
 export function SidebarProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1280px)");
+
+    const syncSidebarState = () => {
+      setIsOpen(mediaQuery.matches);
+    };
+
+    syncSidebarState();
+    mediaQuery.addEventListener("change", syncSidebarState);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncSidebarState);
+    };
+  }, []);
+
   return (
     <SidebarContext.Provider
       value={{

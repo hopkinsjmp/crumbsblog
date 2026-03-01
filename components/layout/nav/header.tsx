@@ -18,7 +18,7 @@ const HERO_SRC =
 
 
 export const Header = () => {
-  const { toggle } = useSidebar();
+  const { toggle, isOpen } = useSidebar();
   const pathname = usePathname();
 
   return (
@@ -28,11 +28,11 @@ export const Header = () => {
           <div className="grid grid-cols-1 relative">
             {/* Main column: logo row, then tagline/tabs */}
             <div className="flex flex-col justify-start relative">
-              {/* Hamburger — mobile / < xl, absolutely positioned */}
+              {/* Sidebar toggle */}
               <button
                 onClick={toggle}
-                aria-label="Open menu"
-                className="xl:hidden flex h-6 w-6 flex-col justify-between py-1 absolute -left-10 top-2"
+                aria-label={isOpen ? "Close menu" : "Open menu"}
+                className="flex h-6 w-6 flex-col justify-between py-1 absolute -left-10 top-2"
                 style={{ zIndex: 10 }}
               >
                 <span className="block h-0.5 w-full bg-[#2c1d14]" />
@@ -89,20 +89,19 @@ export const Header = () => {
         </div>
       </div>
 
-
-      {/* ── Hero banner — full-width, 400px tall on desktop, fluid on mobile */}
-      <div className="relative mb-8 h-[min(400px,62.5vw)] min-h-[200px] w-full overflow-hidden">
-        <Image
-          src={HERO_SRC}
-          alt="Crumbs of Sanity — hero image"
-          fill
-          priority
-          className="object-cover object-center"
-          unoptimized
-        />
-        {/* Subtle dark scrim matching the original site */}
-        <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
-      </div>
+      {pathname === "/" && (
+        <div className="relative mb-8 h-[min(400px,62.5vw)] min-h-[200px] w-full overflow-hidden">
+          <Image
+            src={HERO_SRC}
+            alt="Crumbs of Sanity — hero image"
+            fill
+            priority
+            className="object-cover object-center"
+            unoptimized
+          />
+          <div className="absolute inset-0 bg-black/20" aria-hidden="true" />
+        </div>
+      )}
     </header>
   );
 };

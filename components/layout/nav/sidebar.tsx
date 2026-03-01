@@ -36,9 +36,7 @@ export function Sidebar() {
         className={[
           "fixed top-0 left-0 z-[1000] h-full w-[284px] overflow-y-auto",
           "bg-[#edf0e6] transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-          /* desktop: always visible; mobile: slide in when open */
-          "translate-x-[-284px]", // default hidden on mobile
-          "xl:translate-x-0",    // always visible ≥1280px (xl breakpoint)
+          "translate-x-[-284px]",
           isOpen ? "!translate-x-0" : "",
         ].join(" ")}
         aria-label="Sidebar"
@@ -47,7 +45,7 @@ export function Sidebar() {
           {/* Back / close button */}
           <button
             onClick={close}
-            className="mb-6 flex items-center gap-2 font-sans text-sm uppercase tracking-widest text-[#2c1d14] xl:hidden"
+            className="mb-6 flex items-center gap-2 font-sans text-sm uppercase tracking-widest text-[#2c1d14]"
           >
             <span className="text-xl leading-none">←</span>
             <span>Back</span>

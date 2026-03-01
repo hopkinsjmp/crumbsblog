@@ -5,6 +5,7 @@ import type { NextConfig } from 'next'
 const isStaticExport = process.env.NEXT_EXPORT === 'true';
 
 const nextConfig: NextConfig = {
+  transpilePackages: ['color-string'],
   // Static HTML export — only enabled for GitHub Pages build
   ...(isStaticExport && {
     output: 'export',

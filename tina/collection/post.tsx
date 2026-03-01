@@ -31,12 +31,13 @@ const Post: Collection = {
       type: 'string',
       label: 'Subject',
       name: 'subject',
-      required: true,
+      required: false,
     },
     {
       type: 'object',
       label: 'Frame of Mind',
       name: 'frameOfMind',
+      required: false,
       fields: [
         {
           type: 'string',
@@ -55,11 +56,13 @@ const Post: Collection = {
       name: 'heroImg',
       label: 'Hero Image',
       uploadDir: () => 'posts',
+      required: false,
     },
     {
       type: 'rich-text',
       label: 'Excerpt',
       name: 'excerpt',
+      required: false,
       overrides: {
         toolbar: ['bold', 'italic', 'link'],
       },
@@ -68,42 +71,50 @@ const Post: Collection = {
       type: 'string',
       label: 'Hands On Time',
       name: 'handsOnTime',
+      required: false,
     },
     {
       type: 'string',
       label: 'Hand Off Time',
       name: 'handOffTime',
+      required: false,
     },
     {
       type: 'number',
       label: 'Servings',
       name: 'servings',
+      required: false,
     },
     {
       type: 'string',
       label: 'Dietary Notes',
       name: 'dietaryNotes',
+      required: false,
     },
     {
       type: 'rich-text',
       label: 'Ingredients',
       name: 'ingredients',
+      required: false,
     },
     {
       type: 'rich-text',
       label: 'Method',
       name: 'method',
+      required: false,
     },
     {
       type: 'string',
       label: 'Storage',
       name: 'storage',
+      required: false,
     },
     {
       type: 'reference',
       label: 'Author',
       name: 'author',
       collections: ['author'],
+      required: false,
       ui: {
         //@ts-ignore
         optionComponent: (
@@ -137,6 +148,7 @@ const Post: Collection = {
       type: 'datetime',
       label: 'Posted Date',
       name: 'date',
+      required: false,
       ui: {
         dateFormat: 'MMMM DD YYYY',
         timeFormat: 'hh:mm A',
@@ -147,6 +159,7 @@ const Post: Collection = {
       label: 'Tags',
       name: 'tags',
       list: true,
+      required: false,
       fields: [
         {
           type: 'reference',

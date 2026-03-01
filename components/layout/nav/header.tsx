@@ -41,7 +41,7 @@ export const Header = () => {
               </button>
               {/* Logo row: logo horizontally aligned */}
               <div className="flex items-center">
-                <h1 className="font-serif text-4xl font-normal uppercase tracking-[0.15em] text-[#2c1d14] m-0 p-0 leading-none">
+                <h1 className="font-serif text-4xl font-normal tracking-[0.05em] text-[#2c1d14] m-0 p-0 leading-none">
                   <Link
                     href="/"
                     className="text-[#2c1d14] no-underline hover:no-underline"
@@ -50,7 +50,6 @@ export const Header = () => {
                       wordBreak: "break-word",
                       wordWrap: "break-word",
                       margin: 0,
-                      textTransform: "uppercase",
                       color: "#2c1d14",
                       font: "normal 400 36px EB Garamond, serif",
                     }}

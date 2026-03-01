@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { PostConnectionQuery, PostConnectionQueryVariables } from '@/tina/__generated__/types';
 import ErrorBoundary from '@/components/error-boundary';
+import { withBasePath } from '@/lib/utils';
 
 interface ClientPostProps {
   data: PostConnectionQuery;
@@ -99,7 +100,7 @@ export default function PostsClientPage(props: ClientPostProps) {
                 <div className="mt-auto flex items-center gap-2 font-sans text-xs text-[#2c1d14]/50">
                   {post.author.avatar ? (
                     <Image
-                      src={post.author.avatar}
+                      src={withBasePath(post.author.avatar)}
                       alt={post.author.name}
                       width={20}
                       height={20}

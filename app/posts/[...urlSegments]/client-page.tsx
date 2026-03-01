@@ -7,6 +7,7 @@ import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { PostQuery } from '@/tina/__generated__/types';
 import { components } from '@/components/mdx-components';
 import ErrorBoundary from '@/components/error-boundary';
+import { withBasePath } from '@/lib/utils';
 
 const titleColorClasses = {
   blue: 'from-blue-400 to-blue-600 dark:from-blue-300 dark:to-blue-500',
@@ -71,7 +72,7 @@ export default function PostClientPage(props: ClientPostProps) {
           {post.author?.avatar && (
             <Image
               data-tina-field={tinaField(post.author, 'avatar')}
-              src={post.author.avatar}
+              src={withBasePath(post.author.avatar)}
               alt={post.author.name ?? ''}
               width={40}
               height={40}

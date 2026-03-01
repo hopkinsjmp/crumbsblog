@@ -64,6 +64,88 @@ export default function PostClientPage(props: ClientPostProps) {
           {post.title}
         </h1>
 
+        {/* ── Metadata row: degreeStage, subject, frameOfMind ──────────────── */}
+        {(post.degreeStage || post.subject || post.frameOfMind) && (
+          <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-[#2c1d14]/70">
+            {post.degreeStage && (
+              <span
+                data-tina-field={tinaField(post, 'degreeStage')}
+                className="rounded-full bg-[#2c1d14]/5 px-3 py-1"
+              >
+                {post.degreeStage}
+              </span>
+            )}
+            {post.subject && (
+              <span
+                data-tina-field={tinaField(post, 'subject')}
+                className="rounded-full bg-[#2c1d14]/5 px-3 py-1"
+              >
+                {post.subject}
+              </span>
+            )}
+            {post.frameOfMind && (
+              <span
+                data-tina-field={tinaField(post, 'frameOfMind')}
+                className="flex items-center gap-2 rounded-full bg-[#2c1d14]/5 px-3 py-1"
+              >
+                {post.frameOfMind.emoji && (
+                  <span data-tina-field={tinaField(post.frameOfMind, 'emoji')}>
+                    {post.frameOfMind.emoji}
+                  </span>
+                )}
+                {post.frameOfMind.description && (
+                  <span data-tina-field={tinaField(post.frameOfMind, 'description')}>
+                    {post.frameOfMind.description}
+                  </span>
+                )}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* ── Excerpt ────────────────────────────────────────────────────── */}
+        {post.excerpt && (
+          <div
+            data-tina-field={tinaField(post, 'excerpt')}
+            className="mb-4 font-serif text-lg italic leading-relaxed text-[#2c1d14]/80"
+          >
+            <TinaMarkdown content={post.excerpt} />
+          </div>
+        )}
+
+        {/* ── Servings & Dietary Notes ───────────────────────────────────── */}
+        {(post.servings || post.dietaryNotes) && (
+          <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-[#2c1d14]/70">
+            {post.servings && (
+              <span data-tina-field={tinaField(post, 'servings')}>
+                <strong className="text-[#2c1d14]">Servings:</strong> {post.servings}
+              </span>
+            )}
+            {post.dietaryNotes && (
+              <span data-tina-field={tinaField(post, 'dietaryNotes')}>
+                <strong className="text-[#2c1d14]">Dietary Notes:</strong> {post.dietaryNotes}
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* ── Time ───────────────────────────────────────────────────────── */}
+        {(post.handsOnTime || post.handOffTime) && (
+          <div className="mb-6 text-sm text-[#2c1d14]/70">
+            <strong className="text-[#2c1d14]">Time:</strong>
+            {post.handsOnTime && (
+              <div data-tina-field={tinaField(post, 'handsOnTime')} className="ml-4">
+                Hands-on: {post.handsOnTime}
+              </div>
+            )}
+            {post.handOffTime && (
+              <div data-tina-field={tinaField(post, 'handOffTime')} className="ml-4">
+                Hands-off: {post.handOffTime}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* ── Author + date byline ────────────────────────────────────────── */}
         <div
           data-tina-field={tinaField(post, 'author')}
@@ -97,6 +179,64 @@ export default function PostClientPage(props: ClientPostProps) {
             )}
           </div>
         </div>
+
+        {/* ── Ingredients ────────────────────────────────────────────────── */}
+        {post.ingredients && (
+          <div className="mb-8">
+            <h2
+              data-tina-field={tinaField(post, 'ingredients')}
+              className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]"
+            >
+              Ingredients
+            </h2>
+            <div
+              data-tina-field={tinaField(post, 'ingredients')}
+              className="prose prose-stone max-w-none
+                prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed
+                prose-ul:font-serif prose-li:text-[#2c1d14]"
+            >
+              <TinaMarkdown content={post.ingredients} components={components} />
+            </div>
+          </div>
+        )}
+
+        {/* ── Method/Instructions ────────────────────────────────────────── */}
+        {post.method && (
+          <div className="mb-8">
+            <h2
+              data-tina-field={tinaField(post, 'method')}
+              className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]"
+            >
+              Instructions
+            </h2>
+            <div
+              data-tina-field={tinaField(post, 'method')}
+              className="prose prose-stone max-w-none
+                prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed
+                prose-ol:font-serif prose-li:text-[#2c1d14]"
+            >
+              <TinaMarkdown content={post.method} components={components} />
+            </div>
+          </div>
+        )}
+
+        {/* ── Storage ────────────────────────────────────────────────────── */}
+        {post.storage && (
+          <div className="mb-8">
+            <h2
+              data-tina-field={tinaField(post, 'storage')}
+              className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]"
+            >
+              Storage
+            </h2>
+            <p
+              data-tina-field={tinaField(post, 'storage')}
+              className="font-serif text-[#2c1d14] leading-relaxed"
+            >
+              {post.storage}
+            </p>
+          </div>
+        )}
 
         {/* ── Body ───────────────────────────────────────────────────────── */}
         <div

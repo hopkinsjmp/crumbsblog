@@ -6,7 +6,7 @@
     "dev": "tinacms dev --port 4001 -c \"next dev --hostname 0.0.0.0 --port 3000\"",
     "dev:rebuild": "pnpm rebuild esbuild && pnpm run dev",
     "build": "NEXT_EXPORT=true tinacms build && NEXT_EXPORT=true next build && mkdir -p out/admin && cp public/admin/tina-lock.json out/admin/tina-lock.json",
-    "build-local": "tinacms build --local --skip-indexing --skip-cloud-checks && next build",
+    "build-local": "TINA_PUBLIC_IS_LOCAL=true tinacms build --local --skip-cloud-checks",
     "start": "tinacms build && next start",
     "export": "npm run build && next export",
     "lint": "biome lint",

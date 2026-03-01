@@ -42,7 +42,19 @@ export const Header = () => {
               {/* Logo row: logo horizontally aligned */}
               <div className="flex items-center">
                 <h1 className="font-serif text-4xl font-normal uppercase tracking-[0.15em] text-[#2c1d14] m-0 p-0 leading-none">
-                  <Link href="/" className="text-[#2c1d14] no-underline hover:no-underline">
+                  <Link
+                    href="/"
+                    className="text-[#2c1d14] no-underline hover:no-underline"
+                    style={{
+                      WebkitTextSizeAdjust: "100%",
+                      wordBreak: "break-word",
+                      wordWrap: "break-word",
+                      margin: 0,
+                      textTransform: "uppercase",
+                      color: "#2c1d14",
+                      font: "normal 400 36px EB Garamond, serif",
+                    }}
+                  >
                     Crumbs of Sanity
                   </Link>
                 </h1>

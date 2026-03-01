@@ -394,6 +394,11 @@ type PageConnection implements Connection {
   edges: [PageConnectionEdges]
 }
 
+type PostFrameOfMind {
+  emoji: String
+  description: String
+}
+
 union PostAuthor = Author
 
 union PostTagsTag = Tag
@@ -404,8 +409,18 @@ type PostTags {
 
 type Post implements Node & Document {
   title: String!
+  degreeStage: String
+  subject: String!
+  frameOfMind: PostFrameOfMind
   heroImg: String
   excerpt: JSON
+  handsOnTime: String
+  handOffTime: String
+  servings: Float
+  dietaryNotes: String
+  ingredients: JSON
+  method: JSON
+  storage: String
   author: PostAuthor
   date: String
   tags: [PostTags]
@@ -413,6 +428,21 @@ type Post implements Node & Document {
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
+}
+
+input PostFrameOfMindFilter {
+  emoji: StringFilter
+  description: StringFilter
+}
+
+input NumberFilter {
+  lt: Float
+  lte: Float
+  gte: Float
+  gt: Float
+  eq: Float
+  exists: Boolean
+  in: [Float]
 }
 
 input PostAuthorFilter {
@@ -468,8 +498,18 @@ input Post_bodyFilter {
 
 input PostFilter {
   title: StringFilter
+  degreeStage: StringFilter
+  subject: StringFilter
+  frameOfMind: PostFrameOfMindFilter
   heroImg: ImageFilter
   excerpt: RichTextFilter
+  handsOnTime: StringFilter
+  handOffTime: StringFilter
+  servings: NumberFilter
+  dietaryNotes: StringFilter
+  ingredients: RichTextFilter
+  method: RichTextFilter
+  storage: StringFilter
   author: PostAuthorFilter
   date: DatetimeFilter
   tags: PostTagsFilter
@@ -805,14 +845,29 @@ input PageMutation {
   blocks: [PageBlocksMutation]
 }
 
+input PostFrameOfMindMutation {
+  emoji: String
+  description: String
+}
+
 input PostTagsMutation {
   tag: String
 }
 
 input PostMutation {
   title: String
+  degreeStage: String
+  subject: String
+  frameOfMind: PostFrameOfMindMutation
   heroImg: String
   excerpt: JSON
+  handsOnTime: String
+  handOffTime: String
+  servings: Float
+  dietaryNotes: String
+  ingredients: JSON
+  method: JSON
+  storage: String
   author: String
   date: String
   tags: [PostTagsMutation]

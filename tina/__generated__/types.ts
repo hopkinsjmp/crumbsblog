@@ -552,6 +552,12 @@ export type PageConnection = Connection & {
   edges?: Maybe<Array<Maybe<PageConnectionEdges>>>;
 };
 
+export type PostFrameOfMind = {
+  __typename?: 'PostFrameOfMind';
+  emoji?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+};
+
 export type PostAuthor = Author;
 
 export type PostTagsTag = Tag;
@@ -564,8 +570,18 @@ export type PostTags = {
 export type Post = Node & Document & {
   __typename?: 'Post';
   title: Scalars['String']['output'];
+  degreeStage?: Maybe<Scalars['String']['output']>;
+  subject: Scalars['String']['output'];
+  frameOfMind?: Maybe<PostFrameOfMind>;
   heroImg?: Maybe<Scalars['String']['output']>;
   excerpt?: Maybe<Scalars['JSON']['output']>;
+  handsOnTime?: Maybe<Scalars['String']['output']>;
+  handOffTime?: Maybe<Scalars['String']['output']>;
+  servings?: Maybe<Scalars['Float']['output']>;
+  dietaryNotes?: Maybe<Scalars['String']['output']>;
+  ingredients?: Maybe<Scalars['JSON']['output']>;
+  method?: Maybe<Scalars['JSON']['output']>;
+  storage?: Maybe<Scalars['String']['output']>;
   author?: Maybe<PostAuthor>;
   date?: Maybe<Scalars['String']['output']>;
   tags?: Maybe<Array<Maybe<PostTags>>>;
@@ -573,6 +589,21 @@ export type Post = Node & Document & {
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
+};
+
+export type PostFrameOfMindFilter = {
+  emoji?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+};
+
+export type NumberFilter = {
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  eq?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
 };
 
 export type PostAuthorFilter = {
@@ -628,8 +659,18 @@ export type Post_BodyFilter = {
 
 export type PostFilter = {
   title?: InputMaybe<StringFilter>;
+  degreeStage?: InputMaybe<StringFilter>;
+  subject?: InputMaybe<StringFilter>;
+  frameOfMind?: InputMaybe<PostFrameOfMindFilter>;
   heroImg?: InputMaybe<ImageFilter>;
   excerpt?: InputMaybe<RichTextFilter>;
+  handsOnTime?: InputMaybe<StringFilter>;
+  handOffTime?: InputMaybe<StringFilter>;
+  servings?: InputMaybe<NumberFilter>;
+  dietaryNotes?: InputMaybe<StringFilter>;
+  ingredients?: InputMaybe<RichTextFilter>;
+  method?: InputMaybe<RichTextFilter>;
+  storage?: InputMaybe<StringFilter>;
   author?: InputMaybe<PostAuthorFilter>;
   date?: InputMaybe<DatetimeFilter>;
   tags?: InputMaybe<PostTagsFilter>;
@@ -1077,14 +1118,29 @@ export type PageMutation = {
   blocks?: InputMaybe<Array<InputMaybe<PageBlocksMutation>>>;
 };
 
+export type PostFrameOfMindMutation = {
+  emoji?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type PostTagsMutation = {
   tag?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PostMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
+  degreeStage?: InputMaybe<Scalars['String']['input']>;
+  subject?: InputMaybe<Scalars['String']['input']>;
+  frameOfMind?: InputMaybe<PostFrameOfMindMutation>;
   heroImg?: InputMaybe<Scalars['String']['input']>;
   excerpt?: InputMaybe<Scalars['JSON']['input']>;
+  handsOnTime?: InputMaybe<Scalars['String']['input']>;
+  handOffTime?: InputMaybe<Scalars['String']['input']>;
+  servings?: InputMaybe<Scalars['Float']['input']>;
+  dietaryNotes?: InputMaybe<Scalars['String']['input']>;
+  ingredients?: InputMaybe<Scalars['JSON']['input']>;
+  method?: InputMaybe<Scalars['JSON']['input']>;
+  storage?: InputMaybe<Scalars['String']['input']>;
   author?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['String']['input']>;
   tags?: InputMaybe<Array<InputMaybe<PostTagsMutation>>>;
@@ -1167,11 +1223,11 @@ export type BlogPostQueryQueryVariables = Exact<{
 }>;
 
 
-export type BlogPostQueryQuery = { __typename?: 'Query', post: { __typename: 'Post', title: string, heroImg?: string | null, excerpt?: any | null, date?: string | null, _body?: any | null, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null, tags?: Array<{ __typename: 'PostTags', tag?: { __typename: 'Tag', name: string, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null }, global: { __typename: 'Global', header?: { __typename: 'GlobalHeader', name?: string | null, color?: string | null, icon?: { __typename: 'GlobalHeaderIcon', name?: string | null, color?: string | null, style?: string | null } | null, nav?: Array<{ __typename: 'GlobalHeaderNav', href?: string | null, label?: string | null } | null> | null } | null, footer?: { __typename: 'GlobalFooter', social?: Array<{ __typename: 'GlobalFooterSocial', url?: string | null, icon?: { __typename: 'GlobalFooterSocialIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | null, theme?: { __typename: 'GlobalTheme', color?: string | null, font?: string | null, darkMode?: string | null, primaryColor?: string | null, accentColor?: string | null, headingFont?: string | null } | null } };
+export type BlogPostQueryQuery = { __typename?: 'Query', post: { __typename: 'Post', title: string, degreeStage?: string | null, subject: string, heroImg?: string | null, excerpt?: any | null, handsOnTime?: string | null, handOffTime?: string | null, servings?: number | null, dietaryNotes?: string | null, ingredients?: any | null, method?: any | null, storage?: string | null, date?: string | null, _body?: any | null, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null, frameOfMind?: { __typename: 'PostFrameOfMind', emoji?: string | null, description?: string | null } | null, tags?: Array<{ __typename: 'PostTags', tag?: { __typename: 'Tag', name: string, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null }, global: { __typename: 'Global', header?: { __typename: 'GlobalHeader', name?: string | null, color?: string | null, icon?: { __typename: 'GlobalHeaderIcon', name?: string | null, color?: string | null, style?: string | null } | null, nav?: Array<{ __typename: 'GlobalHeaderNav', href?: string | null, label?: string | null } | null> | null } | null, footer?: { __typename: 'GlobalFooter', social?: Array<{ __typename: 'GlobalFooterSocial', url?: string | null, icon?: { __typename: 'GlobalFooterSocialIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | null, theme?: { __typename: 'GlobalTheme', color?: string | null, font?: string | null, darkMode?: string | null, primaryColor?: string | null, accentColor?: string | null, headingFont?: string | null } | null } };
 
 export type PagePartsFragment = { __typename: 'Page', title?: string | null, body?: any | null, blocks?: Array<{ __typename: 'PageBlocksHero', background?: string | null, headline?: string | null, tagline?: string | null, actions?: Array<{ __typename: 'PageBlocksHeroActions', label?: string | null, type?: string | null, link?: string | null, icon?: { __typename: 'PageBlocksHeroActionsIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null, image?: { __typename: 'PageBlocksHeroImage', src?: string | null, alt?: string | null, videoUrl?: string | null } | null } | { __typename: 'PageBlocksCallout', background?: string | null, text?: string | null, url?: string | null } | { __typename: 'PageBlocksFeatures', background?: string | null, title?: string | null, description?: string | null, items?: Array<{ __typename: 'PageBlocksFeaturesItems', title?: string | null, text?: any | null, icon?: { __typename: 'PageBlocksFeaturesItemsIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | { __typename: 'PageBlocksStats', background?: string | null, title?: string | null, description?: string | null, stats?: Array<{ __typename: 'PageBlocksStatsStats', stat?: string | null, type?: string | null } | null> | null } | { __typename: 'PageBlocksCta', title?: string | null, description?: string | null, actions?: Array<{ __typename: 'PageBlocksCtaActions', label?: string | null, type?: string | null, link?: string | null, icon?: { __typename: 'PageBlocksCtaActionsIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | { __typename: 'PageBlocksContent', background?: string | null, body?: any | null } | { __typename: 'PageBlocksTestimonial', background?: string | null, title?: string | null, description?: string | null, testimonials?: Array<{ __typename: 'PageBlocksTestimonialTestimonials', quote?: string | null, author?: string | null, role?: string | null, avatar?: string | null } | null> | null } | { __typename: 'PageBlocksVideo', background?: string | null, color?: string | null, url?: string | null, autoPlay?: boolean | null, loop?: boolean | null } | null> | null };
 
-export type PostPartsFragment = { __typename: 'Post', title: string, heroImg?: string | null, excerpt?: any | null, date?: string | null, _body?: any | null, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null, tags?: Array<{ __typename: 'PostTags', tag?: { __typename: 'Tag', name: string, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null };
+export type PostPartsFragment = { __typename: 'Post', title: string, degreeStage?: string | null, subject: string, heroImg?: string | null, excerpt?: any | null, handsOnTime?: string | null, handOffTime?: string | null, servings?: number | null, dietaryNotes?: string | null, ingredients?: any | null, method?: any | null, storage?: string | null, date?: string | null, _body?: any | null, frameOfMind?: { __typename: 'PostFrameOfMind', emoji?: string | null, description?: string | null } | null, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null, tags?: Array<{ __typename: 'PostTags', tag?: { __typename: 'Tag', name: string, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null };
 
 export type AuthorPartsFragment = { __typename: 'Author', name: string, avatar?: string | null };
 
@@ -1203,7 +1259,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, heroImg?: string | null, excerpt?: any | null, date?: string | null, _body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null, tags?: Array<{ __typename: 'PostTags', tag?: { __typename: 'Tag', name: string, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type PostQuery = { __typename?: 'Query', post: { __typename: 'Post', id: string, title: string, degreeStage?: string | null, subject: string, heroImg?: string | null, excerpt?: any | null, handsOnTime?: string | null, handOffTime?: string | null, servings?: number | null, dietaryNotes?: string | null, ingredients?: any | null, method?: any | null, storage?: string | null, date?: string | null, _body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, frameOfMind?: { __typename: 'PostFrameOfMind', emoji?: string | null, description?: string | null } | null, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null, tags?: Array<{ __typename: 'PostTags', tag?: { __typename: 'Tag', name: string, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export type PostConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -1215,7 +1271,7 @@ export type PostConnectionQueryVariables = Exact<{
 }>;
 
 
-export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, heroImg?: string | null, excerpt?: any | null, date?: string | null, _body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null, tags?: Array<{ __typename: 'PostTags', tag?: { __typename: 'Tag', name: string, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } | null } | null> | null } };
+export type PostConnectionQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PostConnectionEdges', cursor: string, node?: { __typename: 'Post', id: string, title: string, degreeStage?: string | null, subject: string, heroImg?: string | null, excerpt?: any | null, handsOnTime?: string | null, handOffTime?: string | null, servings?: number | null, dietaryNotes?: string | null, ingredients?: any | null, method?: any | null, storage?: string | null, date?: string | null, _body?: any | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, frameOfMind?: { __typename: 'PostFrameOfMind', emoji?: string | null, description?: string | null } | null, author?: { __typename: 'Author', name: string, avatar?: string | null, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null, tags?: Array<{ __typename: 'PostTags', tag?: { __typename: 'Tag', name: string, id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } | null } | null> | null } };
 
 export type AuthorQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -1431,8 +1487,22 @@ export const PostPartsFragmentDoc = gql`
     fragment PostParts on Post {
   __typename
   title
+  degreeStage
+  subject
+  frameOfMind {
+    __typename
+    emoji
+    description
+  }
   heroImg
   excerpt
+  handsOnTime
+  handOffTime
+  servings
+  dietaryNotes
+  ingredients
+  method
+  storage
   author {
     ... on Author {
       __typename
@@ -1912,7 +1982,7 @@ export const ExperimentalGetTinaClient = () =>
   getSdk(
     generateRequester(
       createClient({
-        url: "https://content.tinajs.io/2.1/content/d8a5d090-7fd1-4abf-9975-bc0e2a44d94b/github/main",
+        url: "http://localhost:4001/graphql",
         queries,
       })
     )

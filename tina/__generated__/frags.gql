@@ -103,8 +103,22 @@ fragment PageParts on Page {
 fragment PostParts on Post {
   __typename
   title
+  degreeStage
+  subject
+  frameOfMind {
+    __typename
+    emoji
+    description
+  }
   heroImg
   excerpt
+  handsOnTime
+  handOffTime
+  servings
+  dietaryNotes
+  ingredients
+  method
+  storage
   author {
     ... on Author {
       __typename

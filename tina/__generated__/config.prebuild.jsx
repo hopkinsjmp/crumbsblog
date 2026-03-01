@@ -195,10 +195,38 @@ var Post = {
       required: true
     },
     {
+      type: "string",
+      label: "Degree Stage",
+      name: "degreeStage",
+      required: false
+    },
+    {
+      type: "string",
+      label: "Subject",
+      name: "subject",
+      required: true
+    },
+    {
+      type: "object",
+      label: "Frame of Mind",
+      name: "frameOfMind",
+      fields: [
+        {
+          type: "string",
+          label: "Emoji",
+          name: "emoji"
+        },
+        {
+          type: "string",
+          label: "Description",
+          name: "description"
+        }
+      ]
+    },
+    {
       type: "image",
       name: "heroImg",
       label: "Hero Image",
-      // @ts-ignore
       uploadDir: () => "posts"
     },
     {
@@ -208,6 +236,41 @@ var Post = {
       overrides: {
         toolbar: ["bold", "italic", "link"]
       }
+    },
+    {
+      type: "string",
+      label: "Hands On Time",
+      name: "handsOnTime"
+    },
+    {
+      type: "string",
+      label: "Hand Off Time",
+      name: "handOffTime"
+    },
+    {
+      type: "number",
+      label: "Servings",
+      name: "servings"
+    },
+    {
+      type: "string",
+      label: "Dietary Notes",
+      name: "dietaryNotes"
+    },
+    {
+      type: "rich-text",
+      label: "Ingredients",
+      name: "ingredients"
+    },
+    {
+      type: "rich-text",
+      label: "Method",
+      name: "method"
+    },
+    {
+      type: "string",
+      label: "Storage",
+      name: "storage"
     },
     {
       type: "reference",

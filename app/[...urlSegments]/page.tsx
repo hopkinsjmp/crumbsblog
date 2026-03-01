@@ -61,7 +61,12 @@ export async function generateStaticParams() {
       urlSegments: edge?.node?._sys.breadcrumbs || [],
     }))
     .filter((x) => x.urlSegments.length >= 1)
-    .filter((x) => !x.urlSegments.every((x) => x === 'home')); // exclude the home page
+    .filter((x) => !x.urlSegments.every((x) => x === 'home'))
+    .filter((x) => {
+      // Exclude dedicated top-level routes so static export does not generate duplicate output paths.
+      const firstSegment = x.urlSegments[0];
+      return firstSegment !== 'about' && firstSegment !== 'contribute';
+    });
 
   return params;
 }

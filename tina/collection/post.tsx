@@ -25,7 +25,6 @@ const Post: Collection = {
       type: 'string',
       label: 'Degree Stage',
       name: 'degreeStage',
-      required: true,
     },
     {
       type: 'string',

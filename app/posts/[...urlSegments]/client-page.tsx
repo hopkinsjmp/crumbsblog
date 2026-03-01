@@ -47,7 +47,7 @@ export default function PostClientPage(props: ClientPostProps) {
           >
             <Image
               priority
-              src={post.heroImg}
+              src={withBasePath(post.heroImg)}
               alt={post.title}
               fill
               className="object-cover"

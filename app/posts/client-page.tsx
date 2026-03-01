@@ -52,7 +52,7 @@ export default function PostsClientPage(props: ClientPostProps) {
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#e8e4db]">
                 {post.heroImg ? (
                   <Image
-                    src={post.heroImg}
+                    src={withBasePath(post.heroImg)}
                     alt={post.title}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"

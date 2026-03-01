@@ -1,0 +1,203 @@
+fragment PageParts on Page {
+  __typename
+  title
+  body
+  blocks {
+    __typename
+    ... on PageBlocksHero {
+      background
+      headline
+      tagline
+      actions {
+        __typename
+        label
+        type
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        link
+      }
+      image {
+        __typename
+        src
+        alt
+        videoUrl
+      }
+    }
+    ... on PageBlocksCallout {
+      background
+      text
+      url
+    }
+    ... on PageBlocksFeatures {
+      background
+      title
+      description
+      items {
+        __typename
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        title
+        text
+      }
+    }
+    ... on PageBlocksStats {
+      background
+      title
+      description
+      stats {
+        __typename
+        stat
+        type
+      }
+    }
+    ... on PageBlocksCta {
+      title
+      description
+      actions {
+        __typename
+        label
+        type
+        icon {
+          __typename
+          name
+          color
+          style
+        }
+        link
+      }
+    }
+    ... on PageBlocksContent {
+      background
+      body
+    }
+    ... on PageBlocksTestimonial {
+      background
+      title
+      description
+      testimonials {
+        __typename
+        quote
+        author
+        role
+        avatar
+      }
+    }
+    ... on PageBlocksVideo {
+      background
+      color
+      url
+      autoPlay
+      loop
+    }
+  }
+}
+
+fragment PostParts on Post {
+  __typename
+  title
+  heroImg
+  excerpt
+  author {
+    ... on Author {
+      __typename
+      name
+      avatar
+    }
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+  date
+  tags {
+    __typename
+    tag {
+      ... on Tag {
+        __typename
+        name
+      }
+      ... on Document {
+        _sys {
+          filename
+          basename
+          hasReferences
+          breadcrumbs
+          path
+          relativePath
+          extension
+        }
+        id
+      }
+    }
+  }
+  _body
+}
+
+fragment AuthorParts on Author {
+  __typename
+  name
+  avatar
+}
+
+fragment TagParts on Tag {
+  __typename
+  name
+}
+
+fragment GlobalParts on Global {
+  __typename
+  header {
+    __typename
+    icon {
+      __typename
+      name
+      color
+      style
+    }
+    name
+    color
+    nav {
+      __typename
+      href
+      label
+    }
+  }
+  footer {
+    __typename
+    social {
+      __typename
+      icon {
+        __typename
+        name
+        color
+        style
+      }
+      url
+    }
+  }
+  theme {
+    __typename
+    color
+    font
+    darkMode
+    primaryColor
+    accentColor
+    headingFont
+  }
+}

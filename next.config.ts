@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   ...(isStaticExport && {
     output: 'export',
     trailingSlash: true, // GH Pages serves index.html from /path/
+    images: { unoptimized: true },
     basePath: '/crumbsblog', // GitHub Pages serves from /<repo-name>/
     assetPrefix: '/crumbsblog/', // Ensures CSS/JS/images load with the correct path
   }),

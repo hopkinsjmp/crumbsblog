@@ -21,9 +21,9 @@
     font-family: 'EB Garamond', serif;
     font-size: 24px;
     color: #2c1d14;
-    text-transform: uppercase;
     margin: 0 0 16px 0;
     line-height: 1.2;
+    letter-spacing: 0.05em;
 }
 
 .post-meta {
@@ -86,9 +86,8 @@
     border-bottom: 1px solid #eee;
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
-    text-transform: uppercase;
     color: #555;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
 }
 
 .recipe-meta strong {

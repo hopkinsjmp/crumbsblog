@@ -162,9 +162,8 @@ body.sidebar-visible .hamburger-menu span:nth-child(3) {
     font-family: 'EB Garamond', serif;
     font-size: 36px;
     color: #2c1d14;
-    text-transform: uppercase;
     margin: 0;
-    letter-spacing: 2px;
+    letter-spacing: 0.05em;
     font-weight: 400;
     line-height: 1;
     text-align: left;
@@ -242,8 +241,7 @@ body.sidebar-visible .hamburger-menu span:nth-child(3) {
     font-family: 'Montserrat', sans-serif;
     font-size: 12px; /* Reduced from 14px */
     font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.5px; /* Reduced from 1px */
+    letter-spacing: 0.05em;
     white-space: nowrap;
 }
 

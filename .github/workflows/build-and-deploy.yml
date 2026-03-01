@@ -74,10 +74,8 @@ jobs:
           TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
 
       # ── 7. Build TinaCMS admin SPA ────────────────────────────────────────
-      # Note: --skip-cloud-checks is required when local schema is ahead of remote.
-      # TinaCloud indexes from the deployed site, so we must deploy first, then it will catch up.
       - name: Build TinaCMS admin (cloud)
-        run: pnpm exec tinacms build --skip-cloud-checks
+        run: pnpm exec tinacms build
         env:
           NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
           NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}

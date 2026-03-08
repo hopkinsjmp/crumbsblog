@@ -103,6 +103,7 @@ fragment PageParts on Page {
 fragment PostParts on Post {
   __typename
   title
+  draft
   degreeStage
   subject
   frameOfMind {

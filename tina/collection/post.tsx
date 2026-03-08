@@ -12,6 +12,9 @@ const Post: Collection = {
     router: ({ document }) => {
       return `/posts/${document._sys.breadcrumbs.join('/')}`;
     },
+    itemProps: (item) => {
+        return { label: item.title + (item.draft ? " (Draft)" : "") };
+      },
   },
   fields: [
     {
@@ -20,6 +23,15 @@ const Post: Collection = {
       name: 'title',
       isTitle: true,
       required: true,
+    },
+    {
+      type: 'boolean',
+      label: 'Draft',
+      name: 'draft',
+      required: false,
+      ui: {
+        description: 'If checked, this post will not be published to the live site.',
+      },
     },
     {
       type: 'string',

@@ -409,6 +409,7 @@ type PostTags {
 
 type Post implements Node & Document {
   title: String!
+  draft: Boolean
   degreeStage: String
   subject: String
   frameOfMind: PostFrameOfMind
@@ -498,6 +499,7 @@ input Post_bodyFilter {
 
 input PostFilter {
   title: StringFilter
+  draft: BooleanFilter
   degreeStage: StringFilter
   subject: StringFilter
   frameOfMind: PostFrameOfMindFilter
@@ -856,6 +858,7 @@ input PostTagsMutation {
 
 input PostMutation {
   title: String
+  draft: Boolean
   degreeStage: String
   subject: String
   frameOfMind: PostFrameOfMindMutation

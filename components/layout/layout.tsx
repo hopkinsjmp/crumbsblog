@@ -29,8 +29,8 @@ export default async function Layout({ children, rawPageData }: LayoutProps) {
         {/* Fixed sidebar — always visible on xl (≥1280 px), slide-in on mobile */}
         <Sidebar />
 
-        {/* Main content area — shift right on desktop to clear the sidebar */}
-        <div className="xl:ml-[284px]">
+        {/* Main content — always full width; sidebar overlays from the left */}
+        <div className="w-full">
           <Header />
           <main className="overflow-x-hidden">
             {children}

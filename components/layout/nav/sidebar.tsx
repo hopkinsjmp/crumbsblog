@@ -22,10 +22,10 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Dark overlay — mobile only */}
+      {/* Dark overlay — all screen sizes */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-[999] bg-black/54 lg:hidden"
+          className="fixed inset-0 z-[999] bg-black/54"
           aria-hidden="true"
           onClick={close}
         />
@@ -93,8 +93,8 @@ export function Sidebar() {
             </a>
           </div>
 
-          {/* Mobile nav — repeats header links for convenience on small screens */}
-          <nav className="mb-10 border-b border-black pb-10 xl:hidden">
+          {/* Nav links — always shown since sidebar is always an overlay */}
+          <nav className="mb-10 border-b border-black pb-10">
             <ul className="space-y-3">
               {NAV.map((item) => (
                 <li key={item.href}>

@@ -204,12 +204,13 @@ var Post = {
       type: "string",
       label: "Subject",
       name: "subject",
-      required: true
+      required: false
     },
     {
       type: "object",
       label: "Frame of Mind",
       name: "frameOfMind",
+      required: false,
       fields: [
         {
           type: "string",
@@ -227,12 +228,14 @@ var Post = {
       type: "image",
       name: "heroImg",
       label: "Hero Image",
-      uploadDir: () => "posts"
+      uploadDir: () => "posts",
+      required: false
     },
     {
       type: "rich-text",
       label: "Excerpt",
       name: "excerpt",
+      required: false,
       overrides: {
         toolbar: ["bold", "italic", "link"]
       }
@@ -240,43 +243,51 @@ var Post = {
     {
       type: "string",
       label: "Hands On Time",
-      name: "handsOnTime"
+      name: "handsOnTime",
+      required: false
     },
     {
       type: "string",
       label: "Hand Off Time",
-      name: "handOffTime"
+      name: "handOffTime",
+      required: false
     },
     {
       type: "number",
       label: "Servings",
-      name: "servings"
+      name: "servings",
+      required: false
     },
     {
       type: "string",
       label: "Dietary Notes",
-      name: "dietaryNotes"
+      name: "dietaryNotes",
+      required: false
     },
     {
       type: "rich-text",
       label: "Ingredients",
-      name: "ingredients"
+      name: "ingredients",
+      required: false
     },
     {
       type: "rich-text",
       label: "Method",
-      name: "method"
+      name: "method",
+      required: false
     },
     {
       type: "string",
       label: "Storage",
-      name: "storage"
+      name: "storage",
+      required: false
     },
     {
       type: "reference",
       label: "Author",
       name: "author",
       collections: ["author"],
+      required: false,
       ui: {
         //@ts-ignore
         optionComponent: (props, _internalSys) => {
@@ -290,6 +301,7 @@ var Post = {
       type: "datetime",
       label: "Posted Date",
       name: "date",
+      required: false,
       ui: {
         dateFormat: "MMMM DD YYYY",
         timeFormat: "hh:mm A"
@@ -300,6 +312,7 @@ var Post = {
       label: "Tags",
       name: "tags",
       list: true,
+      required: false,
       fields: [
         {
           type: "reference",

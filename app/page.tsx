@@ -25,9 +25,16 @@ export default async function Home() {
     }
   }
 
+  const filteredEdges = allPosts.data.postConnection.edges?.filter(
+    (edge) => !edge.node?.draft 
+  ) || [];
+
   return (
-    <Layout rawPageData={allPosts.data}>
-      <PostsClientPage {...allPosts} />
+    <Layout rawPageData={{
+        ...allPosts.data,
+        postConnection: { ...allPosts.data.postConnection, edges: filteredEdges }
+    }}>
+      <PostsClientPage {...allPosts} data={{ ...allPosts.data, postConnection: { ...allPosts.data.postConnection, edges: filteredEdges } }} />
     </Layout>
   );
 }

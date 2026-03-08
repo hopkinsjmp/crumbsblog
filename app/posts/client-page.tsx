@@ -67,8 +67,10 @@ export default function PostsClientPage(props: ClientPostProps) {
             unoptimized
           />
         ) : (
-          <div className="flex h-full items-center justify-center">
-            <span className="font-heading text-5xl text-[#2c1d14]/20">🍞</span>
+          <div className="flex h-full items-center justify-center px-6">
+            <span className="font-heading text-3xl font-normal leading-snug text-[#2c1d14]/40 text-center line-clamp-4">
+              {post.title}
+            </span>
           </div>
         )}
       </div>

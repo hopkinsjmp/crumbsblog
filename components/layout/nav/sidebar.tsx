@@ -58,7 +58,7 @@ export function Sidebar() {
                 unoptimized
               />
             </div>
-            <p className="font-sans text-sm leading-relaxed text-[#2c1d14]">
+            <p className="font-sans text-sm leading-snug text-[#2c1d14]">
               Welcome to <em>Crumbs of Sanity</em>, where I share recipes and
               food musings that kept me sane during my PhD journey and beyond.
               Expect a dash of humour, a sprinkle of anecdotes, and a dollop of

@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
+import { useSearchParams } from 'next/navigation';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { PostConnectionQuery, PostConnectionQueryVariables } from '@/tina/__generated__/types';
 import ErrorBoundary from '@/components/error-boundary';
@@ -15,7 +16,10 @@ interface ClientPostProps {
 }
 
 export default function PostsClientPage(props: ClientPostProps) {
-  const posts = props.data?.postConnection.edges!.map((postData) => {
+  const searchParams = useSearchParams();
+  const query = (searchParams.get("q") ?? "").trim().toLowerCase();
+
+  const allPosts = props.data?.postConnection.edges!.map((postData) => {
     const post = postData!.node!;
     const date = new Date(post.date!);
     let formattedDate = '';
@@ -38,6 +42,15 @@ export default function PostsClientPage(props: ClientPostProps) {
     };
   });
 
+  // Filter by search query (title + tags)
+  const posts = query
+    ? allPosts.filter(
+        (p) =>
+          p.title.toLowerCase().includes(query) ||
+          p.tags.some((t) => t?.toLowerCase().includes(query))
+      )
+    : allPosts;
+
   // ---- card renderers -------------------------------------------------------
 
   /** Shared card chrome — wraps any size variant */
@@ -47,7 +60,7 @@ export default function PostsClientPage(props: ClientPostProps) {
     titleSize = 'text-xl',
     showExcerpt = false,
   }: {
-    post: (typeof posts)[number];
+    post: (typeof allPosts)[number];
     imgAspect?: string;
     titleSize?: string;
     showExcerpt?: boolean;
@@ -126,7 +139,35 @@ export default function PostsClientPage(props: ClientPostProps) {
 
   return (
     <ErrorBoundary>
-      <div className="mx-auto max-w-[922px] px-6 py-10 space-y-6">
+      <div className="mx-auto max-w-[960px] px-6 py-6 space-y-6">
+
+        {/* ── Search results header ── */}
+        {query && (
+          <div className="flex items-baseline justify-between border-b border-[#2c1d14]/20 pb-4">
+            <p className="font-sans text-sm text-[#2c1d14]/70">
+              {posts.length === 0
+                ? `No results for "${query}"`
+                : `${posts.length} result${posts.length === 1 ? "" : "s"} for "${query}"`}
+            </p>
+            <Link
+              href="/posts"
+              className="font-sans text-sm text-[#a93e33] hover:underline"
+            >
+              Clear search
+            </Link>
+          </div>
+        )}
+
+        {/* ── No results state ── */}
+        {query && posts.length === 0 && (
+          <p className="py-16 text-center font-serif text-lg text-[#2c1d14]/50">
+            Nothing found — try a different word or{" "}
+            <Link href="/posts" className="text-[#a93e33] hover:underline">
+              browse all posts
+            </Link>
+            .
+          </p>
+        )}
 
         {/* ── Row 0: full-width featured post ── */}
         {featured && (

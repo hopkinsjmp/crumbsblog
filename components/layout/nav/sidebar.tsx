@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSidebar } from "../sidebar-context";
+import { SearchBox } from "@/components/search-box";
 
 const NAV = [
   { label: "Home",      href: "/" },
@@ -11,10 +12,10 @@ const NAV = [
 ];
 
 const LEGAL = [
-  { label: "Terms",     href: "/about" },
-  { label: "Privacy",   href: "/about" },
-  { label: "Cookies",   href: "/about" },
-  { label: "Copyright", href: "/about" },
+  { label: "Terms",     href: "/terms" },
+  { label: "Privacy",   href: "/privacy" },
+  { label: "Cookies",   href: "/cookies" },
+  { label: "Copyright", href: "/copyright" },
 ];
 
 export function Sidebar() {
@@ -91,6 +92,13 @@ export function Sidebar() {
             >
               📬 Subscribe to Crumbs
             </a>
+          </div>
+
+          {/* Search widget */}
+          <div className="mb-10 border-b border-black pb-10">
+            <Suspense fallback={<div className="h-9 rounded border border-[#2c1d14]/30 bg-white/50" />}>
+              <SearchBox />
+            </Suspense>
           </div>
 
           {/* Nav links — always shown since sidebar is always an overlay */}

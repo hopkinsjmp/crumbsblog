@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Layout from '@/components/layout/layout';
 import client from '@/tina/__generated__/client';
 import PostsClientPage from './client-page';
@@ -30,7 +31,9 @@ export default async function PostsPage() {
 
   return (
     <Layout rawPageData={allPosts.data}>
-      <PostsClientPage {...allPosts} />
+      <Suspense fallback={<div className="mx-auto max-w-[922px] px-6 py-10 font-sans text-sm text-[#2c1d14]/50">Loading posts…</div>}>
+        <PostsClientPage {...allPosts} />
+      </Suspense>
     </Layout>
   );
 }

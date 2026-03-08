@@ -1,11 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSidebar } from "../sidebar-context";
-
-
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const TABS = [
   { label: "The Blog", href: "/" },
@@ -20,27 +18,72 @@ const HERO_SRC =
 export const Header = () => {
   const { toggle, isOpen } = useSidebar();
   const pathname = usePathname();
+  const router = useRouter();
+  const [search, setSearch] = useState("");
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    const q = search.trim();
+    if (q) {
+      router.push(`/posts?q=${encodeURIComponent(q)}`);
+    } else {
+      router.push("/posts");
+    }
+    setSearch("");
+  }
 
   return (
     <header className="w-full bg-[#e0e6cf]">
       <div className="mx-auto max-w-[922px] px-8">
         <div className="relative py-6">
           <div className="grid grid-cols-1 relative">
-            {/* Main column: logo row, then tagline/tabs */}
-            <div className="flex flex-col justify-start relative">
-              {/* Sidebar toggle */}
+            {/* Search form — absolutely positioned top-right, aligned with title top */}
+            <form onSubmit={handleSearch} className="absolute right-0 top-0 z-10 flex items-center gap-1.5">
+              <label htmlFor="header-search" className="sr-only">Search posts</label>
+              <input
+                id="header-search"
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search…"
+                className="w-32 rounded border border-[#2c1d14]/30 bg-white/70 px-2.5 py-1 font-sans text-xs text-[#2c1d14] placeholder:text-[#2c1d14]/40 focus:border-[#a93e33] focus:outline-none sm:w-40"
+              />
               <button
-                onClick={toggle}
-                aria-label={isOpen ? "Close menu" : "Open menu"}
-                className="flex h-6 w-6 flex-col justify-between py-1 absolute -left-10 top-2"
-                style={{ zIndex: 10 }}
+                type="submit"
+                aria-label="Submit search"
+                className="flex items-center justify-center rounded bg-[#a93e33] px-2 py-1 text-white hover:bg-[#7a2d24] transition-colors"
               >
-                <span className="block h-0.5 w-full bg-[#2c1d14]" />
-                <span className="block h-0.5 w-full bg-[#2c1d14]" />
-                <span className="block h-0.5 w-full bg-[#2c1d14]" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  className="h-3.5 w-3.5"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </button>
-              {/* Logo row: logo horizontally aligned */}
-              <div className="flex items-center">
+            </form>
+
+            {/* Main column: logo row, then tagline/tabs */}
+            <div className="flex flex-col justify-start">
+              {/* Logo row: logo + hamburger vertically centred together */}
+              <div className="relative flex items-center">
+                {/* Sidebar toggle — absolutely positioned to the left, centred on logo height */}
+                <button
+                  onClick={toggle}
+                  aria-label={isOpen ? "Close menu" : "Open menu"}
+                  className="flex h-6 w-6 flex-col justify-between py-1 absolute -left-10 top-1/2 -translate-y-1/2"
+                  style={{ zIndex: 10 }}
+                >
+                  <span className="block h-0.5 w-full bg-[#2c1d14]" />
+                  <span className="block h-0.5 w-full bg-[#2c1d14]" />
+                  <span className="block h-0.5 w-full bg-[#2c1d14]" />
+                </button>
                 <h1 className="font-serif text-4xl font-normal uppercase tracking-[0.05em] text-[#2c1d14] m-0 p-0 leading-none">
                   <Link
                     href="/"

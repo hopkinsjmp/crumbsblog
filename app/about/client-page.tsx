@@ -17,22 +17,20 @@ export default function InfoClientPage(props: ClientInfoPageProps) {
   const page = data.page as any;
 
   return (
-    <div className="mx-auto max-w-[922px] px-8 py-12">
+    <div className="mx-auto max-w-[960px] px-8 py-6">
       <h1
         data-tina-field={tinaField(page, 'title')}
-        className="font-serif text-4xl md:text-5xl font-bold tracking-[0.15em] mb-8 text-left"
+        className="font-serif text-4xl md:text-5xl font-bold mb-4 text-left"
       >
         {page.title}
       </h1>
 
-      {/* Image + body layout */}
-      <div className="md:flex md:gap-10 md:items-start">
-
-        {/* Portrait photo */}
+      {/* Image floats top-left, text wraps around it */}
+      <div>
         {page.headerImage && (
           <div
             data-tina-field={tinaField(page, 'headerImage')}
-            className="mb-8 md:mb-0 md:shrink-0 md:w-64"
+            className="float-left mr-8 mb-4 w-48 md:w-64"
           >
             <Image
               src={withBasePath(page.headerImage)}
@@ -45,14 +43,14 @@ export default function InfoClientPage(props: ClientInfoPageProps) {
           </div>
         )}
 
-        {/* Body text */}
+        {/* Body text wraps around the floated image */}
         <div
           data-tina-field={tinaField(page, 'body')}
-          className="prose prose-lg font-sans text-neutral-800 leading-relaxed"
+          className="prose prose-lg font-sans text-neutral-800 leading-normal"
         >
           <TinaMarkdown content={page.body} components={components} />
         </div>
-
+        <div className="clear-both" />
       </div>
     </div>
   );

@@ -184,9 +184,6 @@ var Post = {
   ui: {
     router: ({ document }) => {
       return `/posts/${document._sys.breadcrumbs.join("/")}`;
-    },
-    itemProps: (item) => {
-      return { label: item.title + (item.draft ? " (Draft)" : "") };
     }
   },
   fields: [

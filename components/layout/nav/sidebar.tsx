@@ -5,12 +5,6 @@ import Image from "next/image";
 import { useSidebar } from "../sidebar-context";
 import { SearchBox } from "@/components/search-box";
 
-const NAV = [
-  { label: "Home",      href: "/" },
-  { label: "About",     href: "/about" },
-  { label: "All Posts", href: "/posts" },
-];
-
 const LEGAL = [
   { label: "Terms",     href: "/terms" },
   { label: "Privacy",   href: "/privacy" },
@@ -101,27 +95,10 @@ export function Sidebar() {
             </Suspense>
           </div>
 
-          {/* Nav links — always shown since sidebar is always an overlay */}
-          <nav className="mb-10 border-b border-black pb-10">
-            <ul className="space-y-3">
-              {NAV.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={close}
-                    className="font-sans text-sm uppercase tracking-widest text-[#2c1d14] hover:underline"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
           {/* Legal */}
           <div>
-            <p className="mb-4 font-sans text-base text-black/54">Legal</p>
-            <ul className="space-y-4">
+            <p className="mb-2 font-sans text-base text-black/54">Legal</p>
+            <ul className="space-y-1">
               {LEGAL.map((item) => (
                 <li key={item.label}>
                   <Link

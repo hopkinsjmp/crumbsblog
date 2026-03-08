@@ -17,7 +17,7 @@ export default function InfoClientPage(props: ClientInfoPageProps) {
   const page = data.page as any;
 
   return (
-    <div className="mx-auto max-w-[960px] px-8 py-6">
+    <div className="mx-auto max-w-[922px] px-8 py-6">
       <h1
         data-tina-field={tinaField(page, 'title')}
         className="font-serif text-4xl md:text-5xl font-bold mb-4 text-left"

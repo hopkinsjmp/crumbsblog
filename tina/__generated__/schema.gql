@@ -213,6 +213,7 @@ union PageBlocks = PageBlocksHero | PageBlocksCallout | PageBlocksFeatures | Pag
 
 type Page implements Node & Document {
   title: String
+  headerImage: String
   body: JSON
   blocks: [PageBlocks]
   id: ID!
@@ -221,6 +222,13 @@ type Page implements Node & Document {
 }
 
 input StringFilter {
+  startsWith: String
+  eq: String
+  exists: Boolean
+  in: [String]
+}
+
+input ImageFilter {
   startsWith: String
   eq: String
   exists: Boolean
@@ -244,13 +252,6 @@ input PageBlocksHeroActionsFilter {
   type: StringFilter
   icon: PageBlocksHeroActionsIconFilter
   link: StringFilter
-}
-
-input ImageFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
-  in: [String]
 }
 
 input PageBlocksHeroImageFilter {
@@ -379,6 +380,7 @@ input PageBlocksFilter {
 
 input PageFilter {
   title: StringFilter
+  headerImage: ImageFilter
   body: RichTextFilter
   blocks: PageBlocksFilter
 }
@@ -843,6 +845,7 @@ input PageBlocksMutation {
 
 input PageMutation {
   title: String
+  headerImage: String
   body: JSON
   blocks: [PageBlocksMutation]
 }

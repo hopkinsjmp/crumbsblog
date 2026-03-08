@@ -1,6 +1,7 @@
 fragment PageParts on Page {
   __typename
   title
+  headerImage
   body
   blocks {
     __typename

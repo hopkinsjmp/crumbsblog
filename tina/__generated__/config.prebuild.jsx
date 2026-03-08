@@ -1486,6 +1486,11 @@ var Page = {
       name: "title"
     },
     {
+      type: "image",
+      label: "Header Image",
+      name: "headerImage"
+    },
+    {
       type: "rich-text",
       label: "Body",
       name: "body",

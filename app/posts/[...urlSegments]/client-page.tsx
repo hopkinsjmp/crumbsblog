@@ -7,7 +7,7 @@ import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { PostQuery } from '@/tina/__generated__/types';
 import { components } from '@/components/mdx-components';
 import ErrorBoundary from '@/components/error-boundary';
-import { withBasePath } from '@/lib/utils';
+import { withBasePath, hasRichTextContent } from '@/lib/utils';
 
 const titleColorClasses = {
   blue: 'from-blue-400 to-blue-600 dark:from-blue-300 dark:to-blue-500',
@@ -181,7 +181,7 @@ export default function PostClientPage(props: ClientPostProps) {
         </div>
 
         {/* ── Ingredients ────────────────────────────────────────────────── */}
-        {post.ingredients && (
+        {hasRichTextContent(post.ingredients) && (
           <div className="mb-8">
             <h2
               data-tina-field={tinaField(post, 'ingredients')}
@@ -201,7 +201,7 @@ export default function PostClientPage(props: ClientPostProps) {
         )}
 
         {/* ── Method/Instructions ────────────────────────────────────────── */}
-        {post.method && (
+        {hasRichTextContent(post.method) && (
           <div className="mb-8">
             <h2
               data-tina-field={tinaField(post, 'method')}

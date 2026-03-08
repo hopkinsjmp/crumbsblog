@@ -6,6 +6,20 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Returns true if a TinaCMS rich-text field has any actual content.
+ * An empty rich-text field comes back as a root node with a single empty
+ * paragraph rather than null, so a plain truthiness check isn't enough.
+ */
+export function hasRichTextContent(field: unknown): boolean {
+  if (!field) return false;
+  const root = field as { children?: { children?: { text?: string }[] }[] };
+  if (!root.children?.length) return false;
+  return root.children.some((block) =>
+    block.children?.some((inline) => (inline.text ?? '').trim() !== '')
+  );
+}
+
+/**
  * Prepends the Next.js basePath to local asset URLs for GitHub Pages deployment.
  * Only affects URLs that start with '/' and are not external URLs.
  * 

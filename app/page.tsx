@@ -26,7 +26,7 @@ export default async function Home() {
   }
 
   const filteredEdges = allPosts.data.postConnection.edges?.filter(
-    (edge) => !edge.node?.draft 
+    (edge) => edge && !edge.node?.draft 
   ) || [];
 
   return (

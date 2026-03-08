@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import client from "@/tina/__generated__/client";
 import Layout from "@/components/layout/layout";
 import PostsClientPage from "./posts/client-page";
@@ -34,7 +34,9 @@ export default async function Home() {
         ...allPosts.data,
         postConnection: { ...allPosts.data.postConnection, edges: filteredEdges }
     }}>
-      <PostsClientPage {...allPosts} data={{ ...allPosts.data, postConnection: { ...allPosts.data.postConnection, edges: filteredEdges } }} />
+      <Suspense fallback={<div className="mx-auto max-w-[960px] px-6 py-6 font-sans text-sm text-[#2c1d14]/50">Loading posts…</div>}>
+        <PostsClientPage {...allPosts} data={{ ...allPosts.data, postConnection: { ...allPosts.data.postConnection, edges: filteredEdges } }} />
+      </Suspense>
     </Layout>
   );
 }

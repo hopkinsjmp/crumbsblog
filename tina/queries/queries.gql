@@ -6,7 +6,18 @@ query pageQuery {
         id
         date
         title
+        draft
         excerpt
+        degreeStage
+        subject
+        heroImg
+        tags {
+          tag {
+            ... on Tag {
+              name
+            }
+          }
+        }
         author {
           ... on Author {
             ...AuthorParts
@@ -14,6 +25,7 @@ query pageQuery {
         }
         _sys {
           filename
+          breadcrumbs
         }
       }
     }

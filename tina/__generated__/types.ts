@@ -1215,7 +1215,7 @@ export type LayoutQueryFragmentFragment = { __typename?: 'Query', global: { __ty
 export type PageQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PageQueryQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', edges?: Array<{ __typename?: 'PostConnectionEdges', node?: { __typename?: 'Post', id: string, date?: string | null, title: string, excerpt?: any | null, author?: { __typename: 'Author', name: string, avatar?: string | null } | null, _sys: { __typename?: 'SystemInfo', filename: string } } | null } | null> | null }, global: { __typename: 'Global', header?: { __typename: 'GlobalHeader', name?: string | null, color?: string | null, icon?: { __typename: 'GlobalHeaderIcon', name?: string | null, color?: string | null, style?: string | null } | null, nav?: Array<{ __typename: 'GlobalHeaderNav', href?: string | null, label?: string | null } | null> | null } | null, footer?: { __typename: 'GlobalFooter', social?: Array<{ __typename: 'GlobalFooterSocial', url?: string | null, icon?: { __typename: 'GlobalFooterSocialIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | null, theme?: { __typename: 'GlobalTheme', color?: string | null, font?: string | null, darkMode?: string | null, primaryColor?: string | null, accentColor?: string | null, headingFont?: string | null } | null } };
+export type PageQueryQuery = { __typename?: 'Query', postConnection: { __typename?: 'PostConnection', edges?: Array<{ __typename?: 'PostConnectionEdges', node?: { __typename?: 'Post', id: string, date?: string | null, title: string, draft?: boolean | null, excerpt?: any | null, degreeStage?: string | null, subject?: string | null, heroImg?: string | null, tags?: Array<{ __typename?: 'PostTags', tag?: { __typename?: 'Tag', name: string } | null } | null> | null, author?: { __typename: 'Author', name: string, avatar?: string | null } | null, _sys: { __typename?: 'SystemInfo', filename: string, breadcrumbs: Array<string> } } | null } | null> | null }, global: { __typename: 'Global', header?: { __typename: 'GlobalHeader', name?: string | null, color?: string | null, icon?: { __typename: 'GlobalHeaderIcon', name?: string | null, color?: string | null, style?: string | null } | null, nav?: Array<{ __typename: 'GlobalHeaderNav', href?: string | null, label?: string | null } | null> | null } | null, footer?: { __typename: 'GlobalFooter', social?: Array<{ __typename: 'GlobalFooterSocial', url?: string | null, icon?: { __typename: 'GlobalFooterSocialIcon', name?: string | null, color?: string | null, style?: string | null } | null } | null> | null } | null, theme?: { __typename: 'GlobalTheme', color?: string | null, font?: string | null, darkMode?: string | null, primaryColor?: string | null, accentColor?: string | null, headingFont?: string | null } | null } };
 
 export type ContentQueryQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -1577,7 +1577,18 @@ export const PageQueryDocument = gql`
         id
         date
         title
+        draft
         excerpt
+        degreeStage
+        subject
+        heroImg
+        tags {
+          tag {
+            ... on Tag {
+              name
+            }
+          }
+        }
         author {
           ... on Author {
             ...AuthorParts
@@ -1585,6 +1596,7 @@ export const PageQueryDocument = gql`
         }
         _sys {
           filename
+          breadcrumbs
         }
       }
     }

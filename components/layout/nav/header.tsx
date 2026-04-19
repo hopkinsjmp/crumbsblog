@@ -37,6 +37,7 @@ export const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [blogOpen, setBlogOpen] = useState(false);
+  const [socialsOpen, setSocialsOpen] = useState(false);
   const [search, setSearch] = useState("");
 
   function handleSearch(e: React.FormEvent) {
@@ -56,15 +57,6 @@ export const Header = () => {
       document.getElementById("posts")?.scrollIntoView({ behavior: "smooth" });
     }
   }
-
-  /** Shared dropdown panel chrome */
-  const DropdownPanel = ({ children, wide = false }: { children: React.ReactNode; wide?: boolean }) => (
-    <div className="absolute left-0 top-full z-50 hidden group-hover:block pt-1">
-      <div className={`${wide ? 'min-w-max' : 'min-w-[200px]'} rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1`}>
-        {children}
-      </div>
-    </div>
-  );
 
   return (
     <header className="w-full">
@@ -130,10 +122,10 @@ export const Header = () => {
 
               {/* Tagline + nav tabs */}
               <div>
-                <p className="mt-1 mb-0 font-sans italic text-sm text-gray-600 text-left m-0 p-0">
+                <p className="mt-2 mb-0 font-sans italic text-sm text-gray-600 text-left m-0 p-0">
                   Recipes and tales to bring comfort through academia and beyond
                 </p>
-                <nav aria-label="Main tabs" className="mt-4">
+                <nav aria-label="Main tabs" className="mt-2">
                   <ul className="flex items-center m-0 p-0">
 
                     {/* ── The Blog (with recent posts dropdown) ── */}
@@ -142,20 +134,28 @@ export const Header = () => {
                       onMouseEnter={() => setBlogOpen(true)}
                       onMouseLeave={() => setBlogOpen(false)}
                     >
-                      <Link
-                        href="/"
-                        onClick={(e) => {
-                          setBlogOpen(false);
-                          handleBlogClick(e);
-                        }}
-                        className={`inline-flex items-center gap-0.5 font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
-                          ${pathname === "/" ? "text-[#2c1d14] underline underline-offset-4 decoration-[#2c1d14]" : "text-[#2c1d14]/80 hover:text-[#2c1d14]"}
-                          focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40`}
-                        aria-current={pathname === "/" ? "page" : undefined}
-                      >
-                        The Blog
-                        <BiChevronDown className="text-base opacity-60" />
-                      </Link>
+                      <span className="inline-flex items-center gap-0 m-0 p-0">
+                        <Link
+                          href="/"
+                          onClick={(e) => {
+                            setBlogOpen(false);
+                            handleBlogClick(e);
+                          }}
+                          className={`inline-flex items-center font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
+                            ${pathname === "/" ? "text-[#2c1d14] underline underline-offset-4 decoration-[#2c1d14]" : "text-[#2c1d14]/80 hover:text-[#2c1d14]"}
+                            focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40`}
+                          aria-current={pathname === "/" ? "page" : undefined}
+                        >
+                          The Blog
+                        </Link>
+                        <button
+                          onClick={() => setBlogOpen((o) => !o)}
+                          aria-label="Toggle blog menu"
+                          className="ml-0.5 text-[#2c1d14]/60 hover:text-[#2c1d14] focus:outline-none"
+                        >
+                          <BiChevronDown className={`text-base transition-transform duration-150 ${blogOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                      </span>
                       {blogOpen && recentPosts.length > 0 && (
                         <div className="absolute left-0 top-full z-50 pt-1">
                           <div className="min-w-max rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1">
@@ -238,27 +238,37 @@ export const Header = () => {
                     <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
 
                     {/* ── Socials (with dropdown) ── */}
-                    <li className="relative group m-0 p-0">
+                    <li
+                      className="relative m-0 p-0"
+                      onMouseEnter={() => setSocialsOpen(true)}
+                      onMouseLeave={() => setSocialsOpen(false)}
+                    >
                       <button
+                        onClick={() => setSocialsOpen((o) => !o)}
                         className="inline-flex items-center gap-0.5 font-sans text-sm font-normal uppercase tracking-wider text-[#2c1d14]/80 hover:text-[#2c1d14] transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40"
                       >
                         Socials
-                        <BiChevronDown className="text-base opacity-60" />
+                        <BiChevronDown className={`text-base opacity-60 transition-transform duration-150 ${socialsOpen ? 'rotate-180' : ''}`} />
                       </button>
-                      <DropdownPanel>
-                        {SOCIALS.map((s) => (
-                          <a
-                            key={s.href}
-                            href={s.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2.5 px-4 py-2 font-sans text-xs text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] no-underline"
-                          >
-                            {s.icon}
-                            {s.label}
-                          </a>
-                        ))}
-                      </DropdownPanel>
+                      {socialsOpen && (
+                        <div className="absolute left-0 top-full z-50 pt-1">
+                          <div className="min-w-[200px] rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1">
+                            {SOCIALS.map((s) => (
+                              <a
+                                key={s.href}
+                                href={s.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => setSocialsOpen(false)}
+                                className="flex items-center gap-2.5 px-4 py-2 font-sans text-xs text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] no-underline"
+                              >
+                                {s.icon}
+                                {s.label}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </li>
 
                   </ul>

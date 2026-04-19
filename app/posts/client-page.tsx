@@ -33,6 +33,8 @@ export default function PostsClientPage(props: ClientPostProps) {
       published: formattedDate,
       title: post.title,
       tags: post.tags?.map((tag) => tag?.tag?.name) || [],
+      subject: post.subject ?? null,
+      degreeStage: post.degreeStage ?? null,
       url: `/posts/${post._sys.breadcrumbs.join('/')}`,
       excerpt: post.excerpt,
       heroImg: post.heroImg,
@@ -43,13 +45,20 @@ export default function PostsClientPage(props: ClientPostProps) {
     };
   });
 
-  // Filter by search query (title + tags)
+  // Filter by search query — title, tags, subject, degree stage, excerpt
   const posts = query
-    ? allPosts.filter(
-        (p) =>
-          p.title.toLowerCase().includes(query) ||
-          p.tags.some((t) => t?.toLowerCase().includes(query))
-      )
+    ? allPosts.filter((p) => {
+        const haystack = [
+          p.title,
+          ...p.tags,
+          p.subject ?? '',
+          p.degreeStage ?? '',
+          p.excerpt ? JSON.stringify(p.excerpt) : '',
+        ]
+          .join(' ')
+          .toLowerCase();
+        return haystack.includes(query);
+      })
     : allPosts;
 
   // ---- card renderers -------------------------------------------------------
@@ -159,6 +168,35 @@ export default function PostsClientPage(props: ClientPostProps) {
           </div>
         )}
 
+        {/* ── Search results ── compact thumbnail + title list */}
+        {query && posts.length > 0 && (
+          <div className="divide-y divide-[#2c1d14]/10 rounded-lg border border-[#2c1d14]/10 bg-[#f7f4ef] overflow-hidden">
+            {posts.map((post) => (
+              <Link
+                key={post.id}
+                href={post.url}
+                className="flex items-center gap-3 px-3 py-2.5 font-sans text-sm text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] no-underline transition-colors"
+              >
+                <div className="shrink-0 w-10 h-10 rounded overflow-hidden bg-[#e8e4db]">
+                  {post.heroImg ? (
+                    <Image
+                      src={withBasePath(post.heroImg)}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className="w-full h-full object-cover"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-[#2c1d14]/20 text-xs">✦</div>
+                  )}
+                </div>
+                <span className="line-clamp-1">{post.title}</span>
+              </Link>
+            ))}
+          </div>
+        )}
+
         {/* ── No results state ── */}
         {query && posts.length === 0 && (
           <p className="py-16 text-center font-serif text-lg text-[#2c1d14]/50">
@@ -171,7 +209,7 @@ export default function PostsClientPage(props: ClientPostProps) {
         )}
 
         {/* ── Row 0: full-width featured post ── */}
-        {featured && (
+        {!query && featured && (
           <PostCard post={featured} imgAspect="aspect-[16/7]" titleSize="text-3xl" showExcerpt />
         )}
 
@@ -179,7 +217,7 @@ export default function PostsClientPage(props: ClientPostProps) {
         {!query && <YouTubeBanner />}
 
         {/* ── Remaining posts ── */}
-        {rest.length > 0 && (() => {
+        {!query && rest.length > 0 && (() => {
           const rows: React.ReactNode[] = [];
           let i = 0;
           let rowIndex = 0;

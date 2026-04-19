@@ -7,6 +7,7 @@ import VideoDialog from "@/components/ui/VideoDialog";
 import client from "@/tina/__generated__/client";
 import { CookieBanner } from "@/components/cookie-banner";
 import { ConditionalAnalytics } from "@/components/conditional-analytics";
+import { StickyBar } from "@/components/sticky-bar";
 
 import "@/styles.css";
 import { TailwindIndicator } from "@/components/ui/breakpoint-indicator";
@@ -120,6 +121,7 @@ export default async function RootLayout({
           {children}
           <VideoDialog />
         </VideoDialogProvider>
+        <StickyBar />
         <CookieBanner />
         <TailwindIndicator />
       </body>

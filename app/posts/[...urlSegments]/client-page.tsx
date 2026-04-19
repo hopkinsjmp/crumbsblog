@@ -39,6 +39,102 @@ export default function PostClientPage(props: ClientPostProps) {
     <ErrorBoundary>
       <article className="mx-auto max-w-[720px] px-6 py-10">
 
+        {/* ── Title ──────────────────────────────────────────────────────── */}
+        <h1
+          data-tina-field={tinaField(post, 'title')}
+          className="mb-4 font-heading text-4xl font-normal leading-tight text-[#2c1d14] md:text-5xl"
+        >
+          {post.title}
+        </h1>
+
+        {/* ── Author + date byline ────────────────────────────────────────── */}
+        <div
+          data-tina-field={tinaField(post, 'author')}
+          className="mb-4 flex items-center gap-3"
+        >
+          {post.author?.avatar && (
+            <Image
+              data-tina-field={tinaField(post.author, 'avatar')}
+              src={withBasePath(post.author.avatar)}
+              alt={post.author.name ?? ''}
+              width={40}
+              height={40}
+              className="rounded-full object-cover"
+              unoptimized
+            />
+          )}
+          <div className="font-sans text-sm text-[#2c1d14]/70">
+            {post.author?.name && (
+              <span
+                data-tina-field={tinaField(post.author, 'name')}
+                className="font-semibold text-[#2c1d14]"
+              >
+                By {post.author.name}
+              </span>
+            )}
+            {post.author?.name && formattedDate && (
+              <span className="mx-2 text-[#2c1d14]/30">·</span>
+            )}
+            {formattedDate && (
+              <span data-tina-field={tinaField(post, 'date')}>{formattedDate}</span>
+            )}
+          </div>
+        </div>
+
+        {/* ── Metadata row: degreeStage, subject, frameOfMind ──────────────── */}
+        {(post.degreeStage || post.subject || post.frameOfMind) && (
+          <div className="mb-6 flex flex-wrap items-center gap-3 text-sm text-[#2c1d14]/70">
+            {post.degreeStage && (
+              <span className="relative group">
+                <span
+                  data-tina-field={tinaField(post, 'degreeStage')}
+                  className="rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default"
+                >
+                  🎓 {post.degreeStage}
+                </span>
+                <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded bg-[#2c1d14] px-2 py-1 font-sans text-xs text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+                  Degree stage
+                </span>
+              </span>
+            )}
+            {post.subject && (
+              <span className="relative group">
+                <span
+                  data-tina-field={tinaField(post, 'subject')}
+                  className="rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default"
+                >
+                  📘 {post.subject}
+                </span>
+                <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded bg-[#2c1d14] px-2 py-1 font-sans text-xs text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+                  Subject
+                </span>
+              </span>
+            )}
+            {post.frameOfMind && (
+              <span className="relative group">
+                <span
+                  data-tina-field={tinaField(post, 'frameOfMind')}
+                  className="flex items-center gap-2 rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default"
+                >
+                  {post.frameOfMind.emoji && (
+                    <span data-tina-field={tinaField(post.frameOfMind, 'emoji')}>
+                      {post.frameOfMind.emoji}
+                    </span>
+                  )}
+                  {post.frameOfMind.description && (
+                    <span data-tina-field={tinaField(post.frameOfMind, 'description')}>
+                      {post.frameOfMind.description}
+                    </span>
+                  )}
+                </span>
+                <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded bg-[#2c1d14] px-2 py-1 font-sans text-xs text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+                  Frame of mind
+                </span>
+              </span>
+            )}
+          </div>
+        )}
+
         {/* ── Hero image ─────────────────────────────────────────────────── */}
         {post.heroImg && (
           <div
@@ -53,53 +149,6 @@ export default function PostClientPage(props: ClientPostProps) {
               className="object-cover"
               unoptimized
             />
-          </div>
-        )}
-
-        {/* ── Title ──────────────────────────────────────────────────────── */}
-        <h1
-          data-tina-field={tinaField(post, 'title')}
-          className="mb-4 font-heading text-4xl font-normal leading-tight text-[#2c1d14] md:text-5xl"
-        >
-          {post.title}
-        </h1>
-
-        {/* ── Metadata row: degreeStage, subject, frameOfMind ──────────────── */}
-        {(post.degreeStage || post.subject || post.frameOfMind) && (
-          <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-[#2c1d14]/70">
-            {post.degreeStage && (
-              <span
-                data-tina-field={tinaField(post, 'degreeStage')}
-                className="rounded-full bg-[#2c1d14]/5 px-3 py-1"
-              >
-                {post.degreeStage}
-              </span>
-            )}
-            {post.subject && (
-              <span
-                data-tina-field={tinaField(post, 'subject')}
-                className="rounded-full bg-[#2c1d14]/5 px-3 py-1"
-              >
-                {post.subject}
-              </span>
-            )}
-            {post.frameOfMind && (
-              <span
-                data-tina-field={tinaField(post, 'frameOfMind')}
-                className="flex items-center gap-2 rounded-full bg-[#2c1d14]/5 px-3 py-1"
-              >
-                {post.frameOfMind.emoji && (
-                  <span data-tina-field={tinaField(post.frameOfMind, 'emoji')}>
-                    {post.frameOfMind.emoji}
-                  </span>
-                )}
-                {post.frameOfMind.description && (
-                  <span data-tina-field={tinaField(post.frameOfMind, 'description')}>
-                    {post.frameOfMind.description}
-                  </span>
-                )}
-              </span>
-            )}
           </div>
         )}
 
@@ -145,40 +194,6 @@ export default function PostClientPage(props: ClientPostProps) {
             )}
           </div>
         )}
-
-        {/* ── Author + date byline ────────────────────────────────────────── */}
-        <div
-          data-tina-field={tinaField(post, 'author')}
-          className="mb-8 flex items-center gap-3 border-b border-[#2c1d14]/15 pb-6"
-        >
-          {post.author?.avatar && (
-            <Image
-              data-tina-field={tinaField(post.author, 'avatar')}
-              src={withBasePath(post.author.avatar)}
-              alt={post.author.name ?? ''}
-              width={40}
-              height={40}
-              className="rounded-full object-cover"
-              unoptimized
-            />
-          )}
-          <div className="font-sans text-sm text-[#2c1d14]/70">
-            {post.author?.name && (
-              <span
-                data-tina-field={tinaField(post.author, 'name')}
-                className="font-semibold text-[#2c1d14]"
-              >
-                By {post.author.name}
-              </span>
-            )}
-            {post.author?.name && formattedDate && (
-              <span className="mx-2 text-[#2c1d14]/30">·</span>
-            )}
-            {formattedDate && (
-              <span data-tina-field={tinaField(post, 'date')}>{formattedDate}</span>
-            )}
-          </div>
-        </div>
 
         {/* ── Ingredients ────────────────────────────────────────────────── */}
         {hasRichTextContent(post.ingredients) && (

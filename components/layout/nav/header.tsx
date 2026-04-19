@@ -36,6 +36,7 @@ export const Header = () => {
   const { recentPosts } = useLayout();
   const pathname = usePathname();
   const router = useRouter();
+  const [blogOpen, setBlogOpen] = useState(false);
   const [search, setSearch] = useState("");
 
   function handleSearch(e: React.FormEvent) {
@@ -136,10 +137,17 @@ export const Header = () => {
                   <ul className="flex items-center m-0 p-0">
 
                     {/* ── The Blog (with recent posts dropdown) ── */}
-                    <li className="relative group m-0 p-0">
+                    <li
+                      className="relative m-0 p-0"
+                      onMouseEnter={() => setBlogOpen(true)}
+                      onMouseLeave={() => setBlogOpen(false)}
+                    >
                       <Link
                         href="/"
-                        onClick={handleBlogClick}
+                        onClick={(e) => {
+                          setBlogOpen(false);
+                          handleBlogClick(e);
+                        }}
                         className={`inline-flex items-center gap-0.5 font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
                           ${pathname === "/" ? "text-[#2c1d14] underline underline-offset-4 decoration-[#2c1d14]" : "text-[#2c1d14]/80 hover:text-[#2c1d14]"}
                           focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40`}
@@ -148,33 +156,52 @@ export const Header = () => {
                         The Blog
                         <BiChevronDown className="text-base opacity-60" />
                       </Link>
-                      {recentPosts.length > 0 && (
-                        <DropdownPanel wide>
-                          {recentPosts.map((post) => (
-                            <Link
-                              key={post.url}
-                              href={post.url}
-                              className="flex items-center gap-3 px-3 py-1.5 font-sans text-xs text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] no-underline whitespace-nowrap"
-                            >
-                              {/* Thumbnail */}
-                              <div className="shrink-0 w-8 h-8 rounded overflow-hidden bg-[#e8e4db]">
-                                {post.heroImg ? (
-                                  <Image
-                                    src={withBasePath(post.heroImg)}
-                                    alt=""
-                                    width={32}
-                                    height={32}
-                                    className="w-full h-full object-cover"
-                                    unoptimized
-                                  />
-                                ) : (
-                                  <div className="w-full h-full flex items-center justify-center text-[#2c1d14]/20 text-xs">✦</div>
-                                )}
-                              </div>
-                              {post.title}
-                            </Link>
-                          ))}
-                        </DropdownPanel>
+                      {blogOpen && recentPosts.length > 0 && (
+                        <div className="absolute left-0 top-full z-50 pt-1">
+                          <div className="min-w-max rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1">
+                            {recentPosts.map((post) => (
+                              <Link
+                                key={post.url}
+                                href={post.url}
+                                onClick={() => setBlogOpen(false)}
+                                className="flex items-center gap-3 px-3 py-1.5 font-sans text-xs text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] no-underline whitespace-nowrap"
+                              >
+                                <div className="shrink-0 w-8 h-8 rounded overflow-hidden bg-[#e8e4db]">
+                                  {post.heroImg ? (
+                                    <Image
+                                      src={withBasePath(post.heroImg)}
+                                      alt=""
+                                      width={32}
+                                      height={32}
+                                      className="w-full h-full object-cover"
+                                      unoptimized
+                                    />
+                                  ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-[#2c1d14]/20 text-xs">✦</div>
+                                  )}
+                                </div>
+                                {post.title}
+                              </Link>
+                            ))}
+                            {/* Explore more */}
+                            <div className="border-t border-[#2c1d14]/10 mt-1 pt-1">
+                              <button
+                                onClick={() => {
+                                  setBlogOpen(false);
+                                  if (pathname === "/") {
+                                    document.getElementById("posts")?.scrollIntoView({ behavior: "smooth" });
+                                  } else {
+                                    window.location.href = "/";
+                                  }
+                                }}
+                                className="flex w-full items-center justify-between px-3 py-1.5 font-sans text-xs font-medium text-[#a93e33] hover:bg-[#e8e4db] whitespace-nowrap"
+                              >
+                                Explore more
+                                <span className="ml-4">→</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       )}
                     </li>
 

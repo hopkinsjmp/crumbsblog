@@ -51,7 +51,7 @@ export function Sidebar() {
           <div className="mb-10 border-b border-black pb-10">
             <div className="mb-4 w-full overflow-hidden rounded">
               <Image
-                src="https://blogger.googleusercontent.com/img/a/AVvXsEjB5efNHTOBYahLdXdEjgCcRwEL8S_smsjOLbL98E8A7l22PgVqv1cB-8jPAsATvRsbb7ZKDER3PXDf4zULwEruaIISGLy40fm6GCzzkADaI3DXkEYNhX2WLe0I-CuUXYlebQtkjYQmAtgWZr4tytfQtg5bb6L6o-4frGXt4rULkXPrZ9jpnh7FBminHeo=s435"
+                src="/uploads/authors/carmel-bio.png"
                 alt="Carmel — author of Crumbs of Sanity"
                 width={326}
                 height={435}

@@ -8,6 +8,7 @@ import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { PostConnectionQuery, PostConnectionQueryVariables } from '@/tina/__generated__/types';
 import ErrorBoundary from '@/components/error-boundary';
 import { withBasePath } from '@/lib/utils';
+import { YouTubeBanner } from '@/components/youtube-banner';
 
 interface ClientPostProps {
   data: PostConnectionQuery;
@@ -173,6 +174,9 @@ export default function PostsClientPage(props: ClientPostProps) {
         {featured && (
           <PostCard post={featured} imgAspect="aspect-[16/7]" titleSize="text-3xl" showExcerpt />
         )}
+
+        {/* ── YouTube channel callout ── */}
+        {!query && <YouTubeBanner />}
 
         {/* ── Remaining posts ── */}
         {rest.length > 0 && (() => {

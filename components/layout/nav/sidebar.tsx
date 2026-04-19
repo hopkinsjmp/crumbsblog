@@ -2,6 +2,7 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { FaYoutube } from "react-icons/fa6";
 import { useSidebar } from "../sidebar-context";
 import { SearchBox } from "@/components/search-box";
 
@@ -78,6 +79,15 @@ export function Sidebar() {
               className="mb-3 block font-sans text-sm uppercase tracking-widest text-[#a93e33] hover:underline"
             >
               Follow on Instagram
+            </a>
+            <a
+              href="https://www.youtube.com/@Crumbs_of_Sanity"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mb-3 flex items-center justify-center gap-2 font-sans text-sm uppercase tracking-widest text-[#ff0000] hover:underline"
+            >
+              <FaYoutube className="text-base" />
+              Watch on YouTube
             </a>
             <a
               href="https://crumbsofsanity.substack.com/subscribe"

@@ -35,6 +35,12 @@
           "name": "AiFillInstagram"
         },
         "url": ""
+      },
+      {
+        "icon": {
+          "name": "FaYoutube"
+        },
+        "url": "https://www.youtube.com/@Crumbs_of_Sanity"
       }
     ]
   },

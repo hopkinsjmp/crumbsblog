@@ -1,6 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
 import { EB_Garamond, Lato, Lora, Montserrat, Nunito, Playfair_Display } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { cn } from "@/lib/utils";
 import { VideoDialogProvider } from "@/components/ui/VideoDialogContext";
 import VideoDialog from "@/components/ui/VideoDialog";
@@ -120,6 +121,7 @@ export default async function RootLayout({
         </VideoDialogProvider>
         <TailwindIndicator />
       </body>
+      <GoogleAnalytics gaId="G-YX30LQ278K" />
     </html>
   );
 }

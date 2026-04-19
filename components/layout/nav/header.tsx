@@ -191,7 +191,7 @@ export const Header = () => {
                                   if (pathname === "/") {
                                     document.getElementById("posts")?.scrollIntoView({ behavior: "smooth" });
                                   } else {
-                                    window.location.href = "/";
+                                    window.location.href = "/#posts";
                                   }
                                 }}
                                 className="flex w-full items-center justify-between px-3 py-1.5 font-sans text-xs font-medium text-[#a93e33] hover:bg-[#e8e4db] whitespace-nowrap"

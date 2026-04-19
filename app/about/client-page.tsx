@@ -18,12 +18,6 @@ export default function InfoClientPage(props: ClientInfoPageProps) {
 
   return (
     <div className="mx-auto max-w-[922px] px-8 py-6">
-      <h1
-        data-tina-field={tinaField(page, 'title')}
-        className="font-serif text-4xl md:text-5xl font-bold mb-4 text-left"
-      >
-        {page.title}
-      </h1>
 
       {/* Image floats top-left, text wraps around it */}
       <div>

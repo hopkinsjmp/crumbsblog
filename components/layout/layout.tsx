@@ -24,7 +24,7 @@ export default async function Layout({ children, rawPageData }: LayoutProps) {
   );
 
   // Fetch the 10 most recent non-draft posts for the "The Blog" nav dropdown
-  let recentPosts: { title: string; url: string }[] = [];
+  let recentPosts: { title: string; url: string; heroImg?: string | null }[] = [];
   try {
     const { data: postsData } = await client.queries.postConnection({
       sort: 'date',
@@ -35,6 +35,7 @@ export default async function Layout({ children, rawPageData }: LayoutProps) {
       .map((e) => ({
         title: e!.node!.title,
         url: `/posts/${e!.node!._sys.breadcrumbs.join('/')}`,
+        heroImg: e!.node!.heroImg ?? null,
       }))
       .reverse();
   } catch {

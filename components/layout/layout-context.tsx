@@ -5,6 +5,7 @@ import { GlobalQuery } from "../../tina/__generated__/types";
 export interface RecentPost {
   title: string;
   url: string;
+  heroImg?: string | null;
 }
 
 interface LayoutState {

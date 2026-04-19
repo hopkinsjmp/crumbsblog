@@ -4,9 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaYoutube } from "react-icons/fa6";
 import { AiFillInstagram } from "react-icons/ai";
+import { BiChevronDown } from "react-icons/bi";
 import { useSidebar } from "../sidebar-context";
 import { useLayout } from "../layout-context";
 import { usePathname, useRouter } from "next/navigation";
+import { withBasePath } from "@/lib/utils";
 
 const SOCIALS = [
   {
@@ -55,9 +57,9 @@ export const Header = () => {
   }
 
   /** Shared dropdown panel chrome */
-  const DropdownPanel = ({ children }: { children: React.ReactNode }) => (
+  const DropdownPanel = ({ children, wide = false }: { children: React.ReactNode; wide?: boolean }) => (
     <div className="absolute left-0 top-full z-50 hidden group-hover:block pt-1">
-      <div className="min-w-[200px] rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1">
+      <div className={`${wide ? 'min-w-max' : 'min-w-[200px]'} rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1`}>
         {children}
       </div>
     </div>
@@ -138,21 +140,37 @@ export const Header = () => {
                       <Link
                         href="/"
                         onClick={handleBlogClick}
-                        className={`font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
+                        className={`inline-flex items-center gap-0.5 font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
                           ${pathname === "/" ? "text-[#2c1d14] underline underline-offset-4 decoration-[#2c1d14]" : "text-[#2c1d14]/80 hover:text-[#2c1d14]"}
                           focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40`}
                         aria-current={pathname === "/" ? "page" : undefined}
                       >
                         The Blog
+                        <BiChevronDown className="text-base opacity-60" />
                       </Link>
                       {recentPosts.length > 0 && (
-                        <DropdownPanel>
+                        <DropdownPanel wide>
                           {recentPosts.map((post) => (
                             <Link
                               key={post.url}
                               href={post.url}
-                              className="block px-4 py-2 font-sans text-xs text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] line-clamp-1 no-underline"
+                              className="flex items-center gap-3 px-3 py-1.5 font-sans text-xs text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] no-underline whitespace-nowrap"
                             >
+                              {/* Thumbnail */}
+                              <div className="shrink-0 w-8 h-8 rounded overflow-hidden bg-[#e8e4db]">
+                                {post.heroImg ? (
+                                  <Image
+                                    src={withBasePath(post.heroImg)}
+                                    alt=""
+                                    width={32}
+                                    height={32}
+                                    className="w-full h-full object-cover"
+                                    unoptimized
+                                  />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-[#2c1d14]/20 text-xs">✦</div>
+                                )}
+                              </div>
                               {post.title}
                             </Link>
                           ))}
@@ -195,9 +213,10 @@ export const Header = () => {
                     {/* ── Socials (with dropdown) ── */}
                     <li className="relative group m-0 p-0">
                       <button
-                        className="font-sans text-sm font-normal uppercase tracking-wider text-[#2c1d14]/80 hover:text-[#2c1d14] transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40"
+                        className="inline-flex items-center gap-0.5 font-sans text-sm font-normal uppercase tracking-wider text-[#2c1d14]/80 hover:text-[#2c1d14] transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40"
                       >
                         Socials
+                        <BiChevronDown className="text-base opacity-60" />
                       </button>
                       <DropdownPanel>
                         {SOCIALS.map((s) => (

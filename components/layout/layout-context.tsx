@@ -2,6 +2,11 @@
 import React, { useState, useContext } from "react";
 import { GlobalQuery } from "../../tina/__generated__/types";
 
+export interface RecentPost {
+  title: string;
+  url: string;
+}
+
 interface LayoutState {
   globalSettings: GlobalQuery["global"];
   setGlobalSettings: React.Dispatch<
@@ -10,6 +15,7 @@ interface LayoutState {
   pageData: {};
   setPageData: React.Dispatch<React.SetStateAction<{}>>;
   theme: GlobalQuery["global"]["theme"];
+  recentPosts: RecentPost[];
 }
 
 const LayoutContext = React.createContext<LayoutState | undefined>(undefined);
@@ -24,6 +30,7 @@ export const useLayout = () => {
       },
       globalSettings: undefined,
       pageData: undefined,
+      recentPosts: [],
     }
   );
 };
@@ -32,12 +39,14 @@ interface LayoutProviderProps {
   children: React.ReactNode;
   globalSettings: GlobalQuery["global"];
   pageData: {};
+  recentPosts: RecentPost[];
 }
 
 export const LayoutProvider: React.FC<LayoutProviderProps> = ({
   children,
   globalSettings: initialGlobalSettings,
   pageData: initialPageData,
+  recentPosts,
 }) => {
   const [globalSettings, setGlobalSettings] = useState<GlobalQuery["global"]>(
     initialGlobalSettings
@@ -54,6 +63,7 @@ export const LayoutProvider: React.FC<LayoutProviderProps> = ({
         pageData,
         setPageData,
         theme,
+        recentPosts,
       }}
     >
       {children}

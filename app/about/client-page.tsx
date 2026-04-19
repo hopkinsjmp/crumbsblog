@@ -46,7 +46,7 @@ export default function InfoClientPage(props: ClientInfoPageProps) {
         {/* Body text wraps around the floated image */}
         <div
           data-tina-field={tinaField(page, 'body')}
-          className="prose prose-base font-sans text-neutral-800 leading-snug
+          className="prose prose-base max-w-none font-sans text-neutral-800 leading-snug text-justify
             prose-h2:mt-8 prose-h2:mb-3
             prose-p:mt-0 prose-p:mb-4
             prose-li:my-1"

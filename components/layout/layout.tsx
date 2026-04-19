@@ -23,8 +23,26 @@ export default async function Layout({ children, rawPageData }: LayoutProps) {
     }
   );
 
+  // Fetch the 10 most recent non-draft posts for the "The Blog" nav dropdown
+  let recentPosts: { title: string; url: string }[] = [];
+  try {
+    const { data: postsData } = await client.queries.postConnection({
+      sort: 'date',
+      last: 10,
+    });
+    recentPosts = (postsData.postConnection.edges ?? [])
+      .filter((e) => e?.node && !e.node.draft)
+      .map((e) => ({
+        title: e!.node!.title,
+        url: `/posts/${e!.node!._sys.breadcrumbs.join('/')}`,
+      }))
+      .reverse();
+  } catch {
+    // silently fall back to empty list
+  }
+
   return (
-    <LayoutProvider globalSettings={globalData.global} pageData={rawPageData}>
+    <LayoutProvider globalSettings={globalData.global} pageData={rawPageData} recentPosts={recentPosts}>
       <SidebarProvider>
         {/* Fixed sidebar — always visible on xl (≥1280 px), slide-in on mobile */}
         <Sidebar />

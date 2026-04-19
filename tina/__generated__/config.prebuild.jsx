@@ -472,7 +472,8 @@ var useLayout = () => {
       darkMode: "default"
     },
     globalSettings: void 0,
-    pageData: void 0
+    pageData: void 0,
+    recentPosts: []
   };
 };
 

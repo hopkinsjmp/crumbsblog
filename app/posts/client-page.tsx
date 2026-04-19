@@ -140,7 +140,7 @@ export default function PostsClientPage(props: ClientPostProps) {
 
   return (
     <ErrorBoundary>
-      <div className="mx-auto max-w-[960px] px-6 py-6 space-y-6">
+      <div id="posts" className="mx-auto max-w-[960px] px-6 py-6 space-y-6">
 
         {/* ── Search results header ── */}
         {query && (

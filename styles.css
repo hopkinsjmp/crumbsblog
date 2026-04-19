@@ -3,6 +3,10 @@
 /* Brand fonts — loaded via next/font in app/layout.tsx */
 /* --font-playfair and --font-inter are injected as CSS vars by Next.js */
 
+html {
+  scroll-behavior: smooth;
+}
+
 @custom-variant dark (&:is(.dark *));
 @plugin "@tailwindcss/typography";
 

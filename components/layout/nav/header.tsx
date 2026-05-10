@@ -79,10 +79,10 @@ export const Header = () => {
               </button>
 
               {/* Logo */}
-              <h1 className="font-serif text-2xl sm:text-4xl font-normal uppercase tracking-[0.05em] text-[#2c1d14] m-0 p-0 leading-none min-w-0">
+              <h1 className="font-serif text-xl sm:text-4xl font-normal uppercase tracking-[0.05em] text-[#2c1d14] m-0 p-0 leading-none min-w-0 whitespace-nowrap">
                 <Link
                   href="/"
-                  className="text-[#2c1d14] no-underline hover:no-underline"
+                  className="text-[#2c1d14] no-underline hover:no-underline whitespace-nowrap"
                   style={{ color: "#2c1d14" }}
                 >
                   Crumbs of Sanity
@@ -114,8 +114,9 @@ export const Header = () => {
 
             {/* Tagline + nav tabs */}
             <div>
-                <p className="mt-1 sm:mt-2 mb-0 font-sans italic text-xs sm:text-sm text-gray-600 text-left m-0 p-0">
-                  Recipes and tales to bring comfort through academia and beyond
+                <p className="mt-1 sm:mt-2 mb-0 font-sans italic text-xs sm:text-sm text-gray-600 text-left m-0 p-0 whitespace-nowrap overflow-hidden">
+                  <span className="sm:hidden">Recipes and tales through academia and beyond</span>
+                  <span className="hidden sm:inline">Recipes and tales to bring comfort through academia and beyond</span>
                 </p>
                 <nav aria-label="Main tabs" className="mt-1 sm:mt-2 overflow-x-auto">
                   <ul className="flex items-center m-0 p-0 whitespace-nowrap">

@@ -9,6 +9,7 @@ import { PostConnectionQuery, PostConnectionQueryVariables } from '@/tina/__gene
 import ErrorBoundary from '@/components/error-boundary';
 import { withBasePath } from '@/lib/utils';
 import { YouTubeBanner } from '@/components/youtube-banner';
+import PageContainer from '@/components/layout/page-container';
 
 interface ClientPostProps {
   data: PostConnectionQuery;
@@ -149,7 +150,7 @@ export default function PostsClientPage(props: ClientPostProps) {
 
   return (
     <ErrorBoundary>
-      <div id="posts" className="mx-auto max-w-[960px] px-6 py-6 space-y-6">
+      <PageContainer id="posts" className="space-y-6">
 
         {/* ── Search results header ── */}
         {query && (
@@ -275,7 +276,7 @@ export default function PostsClientPage(props: ClientPostProps) {
 
           return rows;
         })()}
-      </div>
+    </PageContainer>
     </ErrorBoundary>
   );
 }

@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { tinaField, useTina } from 'tinacms/dist/react';
@@ -8,6 +8,7 @@ import { PostQuery } from '@/tina/__generated__/types';
 import { components } from '@/components/mdx-components';
 import ErrorBoundary from '@/components/error-boundary';
 import { withBasePath, hasRichTextContent } from '@/lib/utils';
+import PageContainer from '@/components/layout/page-container';
 
 const titleColorClasses = {
   blue: 'from-blue-400 to-blue-600 dark:from-blue-300 dark:to-blue-500',
@@ -20,11 +21,11 @@ const titleColorClasses = {
   yellow: 'from-yellow-400 to-yellow-500 dark:from-yellow-300 dark:to-yellow-500',
 };
 
+type Tab = 'story' | 'recipe' | 'photos';
+
 interface ClientPostProps {
   data: PostQuery;
-  variables: {
-    relativePath: string;
-  };
+  variables: { relativePath: string };
   query: string;
 }
 
@@ -35,11 +36,32 @@ export default function PostClientPage(props: ClientPostProps) {
   const date = new Date(post.date!);
   const formattedDate = !isNaN(date.getTime()) ? format(date, 'MMMM d, yyyy') : '';
 
+  const hasRecipe =
+    hasRichTextContent(post.ingredients) ||
+    hasRichTextContent(post.method) ||
+    !!post.storage ||
+    !!post.servings ||
+    !!post.dietaryNotes ||
+    !!post.handsOnTime ||
+    !!post.handOffTime;
+
+  const hasPhotos = !!post.heroImg;
+  const hasTabs = hasRecipe || hasPhotos;
+
+  const [activeTab, setActiveTab] = useState<Tab>('story');
+
+  const tabClass = (tab: Tab) =>
+    `px-5 py-2 font-sans text-sm font-medium transition-colors border-b-2 -mb-px ${
+      activeTab === tab
+        ? 'border-[#a93e33] text-[#a93e33]'
+        : 'border-transparent text-[#2c1d14]/50 hover:text-[#2c1d14]'
+    }`;
+
   return (
     <ErrorBoundary>
-      <article className="mx-auto max-w-[720px] px-6 py-10">
+      <PageContainer>
 
-        {/* ── Title ──────────────────────────────────────────────────────── */}
+        {/* Title */}
         <h1
           data-tina-field={tinaField(post, 'title')}
           className="mb-4 font-heading text-4xl font-normal leading-tight text-[#2c1d14] md:text-5xl"
@@ -47,11 +69,8 @@ export default function PostClientPage(props: ClientPostProps) {
           {post.title}
         </h1>
 
-        {/* ── Author + date byline ────────────────────────────────────────── */}
-        <div
-          data-tina-field={tinaField(post, 'author')}
-          className="mb-4 flex items-center gap-3"
-        >
+        {/* Author + date byline */}
+        <div data-tina-field={tinaField(post, 'author')} className="mb-4 flex items-center gap-3">
           {post.author?.avatar && (
             <Image
               data-tina-field={tinaField(post.author, 'avatar')}
@@ -65,31 +84,21 @@ export default function PostClientPage(props: ClientPostProps) {
           )}
           <div className="font-sans text-sm text-[#2c1d14]/70">
             {post.author?.name && (
-              <span
-                data-tina-field={tinaField(post.author, 'name')}
-                className="font-semibold text-[#2c1d14]"
-              >
+              <span data-tina-field={tinaField(post.author, 'name')} className="font-semibold text-[#2c1d14]">
                 By {post.author.name}
               </span>
             )}
-            {post.author?.name && formattedDate && (
-              <span className="mx-2 text-[#2c1d14]/30">·</span>
-            )}
-            {formattedDate && (
-              <span data-tina-field={tinaField(post, 'date')}>{formattedDate}</span>
-            )}
+            {post.author?.name && formattedDate && <span className="mx-2 text-[#2c1d14]/30">·</span>}
+            {formattedDate && <span data-tina-field={tinaField(post, 'date')}>{formattedDate}</span>}
           </div>
         </div>
 
-        {/* ── Metadata row: degreeStage, subject, frameOfMind ──────────────── */}
+        {/* Metadata badges */}
         {(post.degreeStage || post.subject || post.frameOfMind) && (
           <div className="mb-6 flex flex-wrap items-center gap-3 text-sm text-[#2c1d14]/70">
             {post.degreeStage && (
               <span className="relative group">
-                <span
-                  data-tina-field={tinaField(post, 'degreeStage')}
-                  className="rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default"
-                >
+                <span data-tina-field={tinaField(post, 'degreeStage')} className="rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default">
                   🎓 {post.degreeStage}
                 </span>
                 <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded bg-[#2c1d14] px-2 py-1 font-sans text-xs text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
@@ -99,10 +108,7 @@ export default function PostClientPage(props: ClientPostProps) {
             )}
             {post.subject && (
               <span className="relative group">
-                <span
-                  data-tina-field={tinaField(post, 'subject')}
-                  className="rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default"
-                >
+                <span data-tina-field={tinaField(post, 'subject')} className="rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default">
                   📘 {post.subject}
                 </span>
                 <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded bg-[#2c1d14] px-2 py-1 font-sans text-xs text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
@@ -112,20 +118,9 @@ export default function PostClientPage(props: ClientPostProps) {
             )}
             {post.frameOfMind && (
               <span className="relative group">
-                <span
-                  data-tina-field={tinaField(post, 'frameOfMind')}
-                  className="flex items-center gap-2 rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default"
-                >
-                  {post.frameOfMind.emoji && (
-                    <span data-tina-field={tinaField(post.frameOfMind, 'emoji')}>
-                      {post.frameOfMind.emoji}
-                    </span>
-                  )}
-                  {post.frameOfMind.description && (
-                    <span data-tina-field={tinaField(post.frameOfMind, 'description')}>
-                      {post.frameOfMind.description}
-                    </span>
-                  )}
+                <span data-tina-field={tinaField(post, 'frameOfMind')} className="flex items-center gap-2 rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default">
+                  {post.frameOfMind.emoji && <span data-tina-field={tinaField(post.frameOfMind, 'emoji')}>{post.frameOfMind.emoji}</span>}
+                  {post.frameOfMind.description && <span data-tina-field={tinaField(post.frameOfMind, 'description')}>{post.frameOfMind.description}</span>}
                 </span>
                 <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded bg-[#2c1d14] px-2 py-1 font-sans text-xs text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
                   Frame of mind
@@ -135,138 +130,126 @@ export default function PostClientPage(props: ClientPostProps) {
           </div>
         )}
 
-        {/* ── Hero image ─────────────────────────────────────────────────── */}
-        {post.heroImg && (
-          <div
-            data-tina-field={tinaField(post, 'heroImg')}
-            className="relative mb-8 aspect-[16/9] w-full overflow-hidden rounded-lg shadow-md"
-          >
-            <Image
-              priority
-              src={withBasePath(post.heroImg)}
-              alt={post.title}
-              fill
-              className="object-cover"
-              unoptimized
-            />
-          </div>
-        )}
-
-        {/* ── Excerpt ────────────────────────────────────────────────────── */}
-        {post.excerpt && (
-          <div
-            data-tina-field={tinaField(post, 'excerpt')}
-            className="mb-4 font-serif text-lg italic leading-relaxed text-[#2c1d14]/80"
-          >
-            <TinaMarkdown content={post.excerpt} />
-          </div>
-        )}
-
-        {/* ── Servings & Dietary Notes ───────────────────────────────────── */}
-        {(post.servings || post.dietaryNotes) && (
-          <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-[#2c1d14]/70">
-            {post.servings && (
-              <span data-tina-field={tinaField(post, 'servings')}>
-                <strong className="text-[#2c1d14]">Servings:</strong> {post.servings}
-              </span>
+        {/* Tabs */}
+        {hasTabs && (
+          <div className="mb-6 flex gap-0 border-b border-[#2c1d14]/15">
+            <button onClick={() => setActiveTab('story')} className={tabClass('story')}>
+              The Story
+            </button>
+            {hasRecipe && (
+              <button onClick={() => setActiveTab('recipe')} className={tabClass('recipe')}>
+                The Recipe
+              </button>
             )}
-            {post.dietaryNotes && (
-              <span data-tina-field={tinaField(post, 'dietaryNotes')}>
-                <strong className="text-[#2c1d14]">Dietary Notes:</strong> {post.dietaryNotes}
-              </span>
+            {hasPhotos && (
+              <button onClick={() => setActiveTab('photos')} className={tabClass('photos')}>
+                Photos
+              </button>
             )}
           </div>
         )}
 
-        {/* ── Time ───────────────────────────────────────────────────────── */}
-        {(post.handsOnTime || post.handOffTime) && (
-          <div className="mb-6 text-sm text-[#2c1d14]/70">
-            <strong className="text-[#2c1d14]">Time:</strong>
-            {post.handsOnTime && (
-              <div data-tina-field={tinaField(post, 'handsOnTime')} className="ml-4">
-                Hands-on: {post.handsOnTime}
+        {/* Story tab */}
+        {(!hasTabs || activeTab === 'story') && (
+          <div>
+            {post.excerpt && (
+              <div data-tina-field={tinaField(post, 'excerpt')} className="mb-4 font-serif text-lg italic leading-relaxed text-[#2c1d14]/80">
+                <TinaMarkdown content={post.excerpt} />
               </div>
             )}
-            {post.handOffTime && (
-              <div data-tina-field={tinaField(post, 'handOffTime')} className="ml-4">
-                Hands-off: {post.handOffTime}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ── Ingredients ────────────────────────────────────────────────── */}
-        {hasRichTextContent(post.ingredients) && (
-          <div className="mb-8">
-            <h2
-              data-tina-field={tinaField(post, 'ingredients')}
-              className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]"
-            >
-              Ingredients
-            </h2>
             <div
-              data-tina-field={tinaField(post, 'ingredients')}
+              data-tina-field={tinaField(post, '_body')}
               className="prose prose-stone max-w-none
+                prose-headings:font-heading prose-headings:font-normal prose-headings:text-[#2c1d14]
                 prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed
-                prose-ul:font-serif prose-li:text-[#2c1d14]"
+                prose-a:text-[#a93e33] prose-a:no-underline hover:prose-a:underline
+                prose-strong:text-[#2c1d14]
+                prose-blockquote:border-l-[#a93e33] prose-blockquote:text-[#2c1d14]/70"
             >
-              <TinaMarkdown content={post.ingredients} components={components} />
+              <TinaMarkdown content={post._body} components={components} />
             </div>
           </div>
         )}
 
-        {/* ── Method/Instructions ────────────────────────────────────────── */}
-        {hasRichTextContent(post.method) && (
-          <div className="mb-8">
-            <h2
-              data-tina-field={tinaField(post, 'method')}
-              className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]"
-            >
-              Instructions
-            </h2>
-            <div
-              data-tina-field={tinaField(post, 'method')}
-              className="prose prose-stone max-w-none
-                prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed
-                prose-ol:font-serif prose-li:text-[#2c1d14]"
-            >
-              <TinaMarkdown content={post.method} components={components} />
-            </div>
+        {/* Recipe tab */}
+        {hasTabs && activeTab === 'recipe' && (
+          <div>
+            {(post.servings || post.dietaryNotes) && (
+              <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-[#2c1d14]/70">
+                {post.servings && (
+                  <span data-tina-field={tinaField(post, 'servings')}>
+                    <strong className="text-[#2c1d14]">Servings:</strong> {post.servings}
+                  </span>
+                )}
+                {post.dietaryNotes && (
+                  <span data-tina-field={tinaField(post, 'dietaryNotes')}>
+                    <strong className="text-[#2c1d14]">Dietary Notes:</strong> {post.dietaryNotes}
+                  </span>
+                )}
+              </div>
+            )}
+            {(post.handsOnTime || post.handOffTime) && (
+              <div className="mb-6 text-sm text-[#2c1d14]/70">
+                <strong className="text-[#2c1d14]">Time:</strong>
+                {post.handsOnTime && (
+                  <div data-tina-field={tinaField(post, 'handsOnTime')} className="ml-4">Hands-on: {post.handsOnTime}</div>
+                )}
+                {post.handOffTime && (
+                  <div data-tina-field={tinaField(post, 'handOffTime')} className="ml-4">Hands-off: {post.handOffTime}</div>
+                )}
+              </div>
+            )}
+            {hasRichTextContent(post.ingredients) && (
+              <div className="mb-8">
+                <h2 data-tina-field={tinaField(post, 'ingredients')} className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
+                  Ingredients
+                </h2>
+                <div
+                  data-tina-field={tinaField(post, 'ingredients')}
+                  className="prose prose-stone max-w-none prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-ul:font-serif prose-li:text-[#2c1d14]"
+                >
+                  <TinaMarkdown content={post.ingredients} components={components} />
+                </div>
+              </div>
+            )}
+            {hasRichTextContent(post.method) && (
+              <div className="mb-8">
+                <h2 data-tina-field={tinaField(post, 'method')} className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
+                  Instructions
+                </h2>
+                <div
+                  data-tina-field={tinaField(post, 'method')}
+                  className="prose prose-stone max-w-none prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-ol:font-serif prose-li:text-[#2c1d14]"
+                >
+                  <TinaMarkdown content={post.method} components={components} />
+                </div>
+              </div>
+            )}
+            {post.storage && (
+              <div className="mb-8">
+                <h2 data-tina-field={tinaField(post, 'storage')} className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
+                  Storage
+                </h2>
+                <p data-tina-field={tinaField(post, 'storage')} className="font-serif text-[#2c1d14] leading-relaxed">
+                  {post.storage}
+                </p>
+              </div>
+            )}
           </div>
         )}
 
-        {/* ── Storage ────────────────────────────────────────────────────── */}
-        {post.storage && (
-          <div className="mb-8">
-            <h2
-              data-tina-field={tinaField(post, 'storage')}
-              className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]"
-            >
-              Storage
-            </h2>
-            <p
-              data-tina-field={tinaField(post, 'storage')}
-              className="font-serif text-[#2c1d14] leading-relaxed"
-            >
-              {post.storage}
-            </p>
+        {/* Photos tab */}
+        {hasTabs && activeTab === 'photos' && (
+          <div>
+            {post.heroImg && (
+              <div data-tina-field={tinaField(post, 'heroImg')} className="relative aspect-[16/9] w-full overflow-hidden rounded-lg shadow-md">
+                <Image priority src={withBasePath(post.heroImg)} alt={post.title} fill className="object-cover" unoptimized />
+              </div>
+            )}
           </div>
         )}
 
-        {/* ── Body ───────────────────────────────────────────────────────── */}
-        <div
-          data-tina-field={tinaField(post, '_body')}
-          className="prose prose-stone max-w-none
-            prose-headings:font-heading prose-headings:font-normal prose-headings:text-[#2c1d14]
-            prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed
-            prose-a:text-[#a93e33] prose-a:no-underline hover:prose-a:underline
-            prose-strong:text-[#2c1d14]
-            prose-blockquote:border-l-[#a93e33] prose-blockquote:text-[#2c1d14]/70"
-        >
-          <TinaMarkdown content={post._body} components={components} />
-        </div>
-
-      </article>
+      </PageContainer>
     </ErrorBoundary>
   );
 }

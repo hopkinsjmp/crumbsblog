@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { tinaField, useTina } from 'tinacms/dist/react';
+import PageContainer from '@/components/layout/page-container';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { components } from '@/components/mdx-components';
 import { PageQuery, PageQueryVariables } from '@/tina/__generated__/types';
@@ -17,7 +18,7 @@ export default function InfoClientPage(props: ClientInfoPageProps) {
   const page = data.page as any;
 
   return (
-    <div className="mx-auto max-w-[922px] px-8 py-6">
+    <PageContainer>
 
       {/* Image floats top-left, text wraps around it */}
       <div>
@@ -49,6 +50,6 @@ export default function InfoClientPage(props: ClientInfoPageProps) {
         </div>
         <div className="clear-both" />
       </div>
-    </div>
+    </PageContainer>
   );
 }

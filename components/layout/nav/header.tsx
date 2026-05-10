@@ -28,8 +28,7 @@ const SOCIALS = [
   },
 ];
 
-const HERO_SRC =
-  "https://blogger.googleusercontent.com/img/a/AVvXsEg8QAx2my2VCVbPy5G1Re0h4xjGDtRggMc5ZDyie0k9f-4MQz5L1IVXsc7YwwBNqTgCJmuhFMQdOTvFXty6-LPmPnz0clMQ6UNh924F376y4kCdMjFHZ15W_Ia2GXJBLUpjdpqxe6EJnBaQftyJW6xgvxhLC4Ufa2VaTEjTibo9ui1IVIA52Kvd__UoRFE=s1600";
+const HERO_SRC = "/uploads/photos/header-hero.jpg";
 
 export const Header = () => {
   const { toggle, isOpen } = useSidebar();

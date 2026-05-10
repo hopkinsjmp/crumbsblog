@@ -3,6 +3,7 @@ import { tinaField, useTina } from 'tinacms/dist/react';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { components } from '@/components/mdx-components';
 import { PageQuery, PageQueryVariables } from '@/tina/__generated__/types';
+import PageContainer from '@/components/layout/page-container';
 
 interface ClientInfoPageProps {
   data: PageQuery;
@@ -15,7 +16,7 @@ export default function InfoClientPage(props: ClientInfoPageProps) {
   const page = data.page as any;
 
   return (
-    <div className="mx-auto max-w-[922px] px-8 py-6">
+    <PageContainer>
       <div
         data-tina-field={tinaField(page, 'body')}
         className="prose prose-base max-w-none font-sans text-neutral-800 leading-snug text-justify
@@ -25,6 +26,6 @@ export default function InfoClientPage(props: ClientInfoPageProps) {
       >
         <TinaMarkdown content={page.body} components={components} />
       </div>
-    </div>
+    </PageContainer>
   );
 }

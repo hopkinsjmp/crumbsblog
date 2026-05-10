@@ -3,9 +3,28 @@ import React, { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaYoutube } from "react-icons/fa6";
+import { AiFillInstagram } from "react-icons/ai";
 import { useSidebar } from "../sidebar-context";
 import { SearchBox } from "@/components/search-box";
 import { withBasePath } from "@/lib/utils";
+
+const SOCIALS = [
+  {
+    label: "Instagram",
+    href: "https://instagram.com/crumbsofsanityblog",
+    icon: <AiFillInstagram className="text-lg text-[#E1306C]" />,
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@Crumbs_of_Sanity",
+    icon: <FaYoutube className="text-lg text-[#FF0000]" />,
+  },
+  {
+    label: "Email Subscribe",
+    href: "https://crumbsofsanity.substack.com/subscribe",
+    icon: <span className="text-lg leading-none">📬</span>,
+  },
+];
 
 const LEGAL = [
   { label: "Terms",     href: "/terms" },
@@ -19,7 +38,7 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Dark overlay — all screen sizes */}
+      {/* Dark overlay - all screen sizes */}
       {isOpen && (
         <div
           className="fixed inset-0 z-[999] bg-black/54"
@@ -53,7 +72,7 @@ export function Sidebar() {
             <div className="mb-4 w-full overflow-hidden rounded">
               <Image
                 src={withBasePath("/uploads/authors/carmel-bio.png")}
-                alt="Carmel — author of Crumbs of Sanity"
+                alt="Carmel - author of Crumbs of Sanity"
                 width={326}
                 height={435}
                 className="w-full h-auto rounded"
@@ -67,37 +86,24 @@ export function Sidebar() {
               delicious distractions.
             </p>
             <p className="mt-2 font-sans text-sm text-[#2c1d14]">
-              — Carmel, PhD survivor
+              - Carmel, PhD survivor
             </p>
           </div>
 
           {/* Social widget */}
-          <div className="mb-10 border-b border-black pb-10 text-center">
-            <a
-              href="https://instagram.com/crumbsofsanityblog"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mb-3 block font-sans text-sm uppercase tracking-widest text-[#a93e33] hover:underline"
-            >
-              Follow on Instagram
-            </a>
-            <a
-              href="https://www.youtube.com/@Crumbs_of_Sanity"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mb-3 flex items-center justify-center gap-2 font-sans text-sm uppercase tracking-widest text-[#ff0000] hover:underline"
-            >
-              <FaYoutube className="text-base" />
-              Watch on YouTube
-            </a>
-            <a
-              href="https://crumbsofsanity.substack.com/subscribe"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded bg-[#a93e33] px-5 py-2 font-sans text-sm text-white hover:bg-[#7a2d24]"
-            >
-              📬 Subscribe to Crumbs
-            </a>
+          <div className="mb-10 border-b border-black pb-10">
+            {SOCIALS.map((s) => (
+              <a
+                key={s.href}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mb-2 flex items-center gap-2.5 rounded px-2 py-2 font-sans text-sm text-[#2c1d14] hover:bg-[#dfe3d7] no-underline transition-colors"
+              >
+                {s.icon}
+                {s.label}
+              </a>
+            ))}
           </div>
 
           {/* Search widget */}

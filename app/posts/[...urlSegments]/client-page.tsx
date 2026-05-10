@@ -9,6 +9,7 @@ import { components } from '@/components/mdx-components';
 import ErrorBoundary from '@/components/error-boundary';
 import { withBasePath } from '@/lib/utils';
 import PageContainer from '@/components/layout/page-container';
+import { PostActions } from '@/components/post-actions';
 
 /**
  * Renders a plain-text recipe field (ingredients or method) stored as a
@@ -88,6 +89,9 @@ export default function PostClientPage(props: ClientPostProps) {
   const hasTabs = hasRecipe;
 
   const [activeTab, setActiveTab] = useState<Tab>('story');
+
+  // Derive the canonical URL path from the relativePath variable (e.g. "my-post.mdx" → "/posts/my-post")
+  const postPath = `/posts/${props.variables.relativePath.replace(/\.mdx?$/, '')}`;
 
   const tabClass = (tab: Tab) =>
     `flex-1 sm:flex-none px-5 py-2.5 font-sans text-sm font-medium transition-colors border-b-2 -mb-px ${
@@ -175,9 +179,9 @@ export default function PostClientPage(props: ClientPostProps) {
           )}
         </div>
 
-        {/* Tabs */}
+        {/* Tabs + actions row */}
         {hasTabs && (
-          <div className="mb-6 flex gap-0 border-b border-[#2c1d14]/15">
+          <div className="mb-6 flex items-end gap-0 border-b border-[#2c1d14]/15">
             <button onClick={() => setActiveTab('story')} className={tabClass('story')}>
               The Story
             </button>
@@ -186,6 +190,24 @@ export default function PostClientPage(props: ClientPostProps) {
                 The Recipe
               </button>
             )}
+            <div className="ml-auto flex items-end">
+              <PostActions
+                bookmark={{ url: postPath, title: post.title, heroImg: post.heroImg, date: post.date }}
+                shareTitle={post.title}
+                shareUrl={postPath}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Actions row (no tabs - still show bookmark/share) */}
+        {!hasTabs && (
+          <div className="mb-6 flex justify-end border-b border-[#2c1d14]/15">
+            <PostActions
+              bookmark={{ url: postPath, title: post.title, heroImg: post.heroImg, date: post.date }}
+              shareTitle={post.title}
+              shareUrl={postPath}
+            />
           </div>
         )}
 

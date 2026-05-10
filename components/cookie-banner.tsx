@@ -19,7 +19,7 @@ export function getCookieConsent(): CookieConsent {
     const record: ConsentRecord = JSON.parse(raw);
     return record.choice ?? null;
   } catch {
-    // Legacy plain-string value — treat as-is
+    // Legacy plain-string value - treat as-is
     return (localStorage.getItem(CONSENT_KEY) as CookieConsent) ?? null;
   }
 }

@@ -23,12 +23,13 @@ export default async function Layout({ children, rawPageData }: LayoutProps) {
     }
   );
 
-  // Fetch the 10 most recent non-draft posts for the "The Blog" nav dropdown
+  // Fetch the 30 most recent non-draft posts for the "The Blog" nav dropdown
+  // (the header will randomly sample 6 from this pool on each render)
   let recentPosts: { title: string; url: string; heroImg?: string | null }[] = [];
   try {
     const { data: postsData } = await client.queries.postConnection({
       sort: 'date',
-      last: 10,
+      last: 30,
     });
     recentPosts = (postsData.postConnection.edges ?? [])
       .filter((e) => e?.node && !e.node.draft)
@@ -45,13 +46,13 @@ export default async function Layout({ children, rawPageData }: LayoutProps) {
   return (
     <LayoutProvider globalSettings={globalData.global} pageData={rawPageData} recentPosts={recentPosts}>
       <SidebarProvider>
-        {/* Fixed sidebar — always visible on xl (≥1280 px), slide-in on mobile */}
+        {/* Fixed sidebar - always visible on xl (>=1280 px), slide-in on mobile */}
         <Sidebar />
 
-        {/* Main content — always full width; sidebar overlays from the left */}
+        {/* Main content - always full width; sidebar overlays from the left */}
         <div className="w-full">
           <Header />
-          <main className="overflow-x-hidden">
+          <main>
             {children}
           </main>
           <Footer />

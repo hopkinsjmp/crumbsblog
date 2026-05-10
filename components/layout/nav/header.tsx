@@ -9,20 +9,21 @@ import { useSidebar } from "../sidebar-context";
 import { useLayout } from "../layout-context";
 import { usePathname, useRouter } from "next/navigation";
 import { withBasePath } from "@/lib/utils";
+import { BookmarksNavLink } from "@/components/bookmarks-nav-link";
 
 const SOCIALS = [
   {
     label: "Instagram",
     href: "https://instagram.com/crumbsofsanityblog",
-    icon: <AiFillInstagram className="text-base" />,
+    icon: <AiFillInstagram className="text-base text-[#E1306C]" />,
   },
   {
     label: "YouTube",
     href: "https://www.youtube.com/@Crumbs_of_Sanity",
-    icon: <FaYoutube className="text-base" />,
+    icon: <FaYoutube className="text-base text-[#FF0000]" />,
   },
   {
-    label: "Substack Newsletter",
+    label: "Email Subscribe",
     href: "https://crumbsofsanity.substack.com/subscribe",
     icon: <span className="text-base">📬</span>,
   },
@@ -38,6 +39,13 @@ export const Header = () => {
   const [blogOpen, setBlogOpen] = useState(false);
   const [socialsOpen, setSocialsOpen] = useState(false);
   const [search, setSearch] = useState("");
+
+  // Pick 6 random posts from the pool, stable for the lifetime of this component
+  const displayedPosts = React.useMemo(() => {
+    if (recentPosts.length <= 6) return recentPosts;
+    const shuffled = [...recentPosts].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 6);
+  }, [recentPosts]);
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -89,7 +97,7 @@ export const Header = () => {
                 </Link>
               </h1>
 
-              {/* Search — pushed to right */}
+              {/* Search - pushed to right */}
               <form onSubmit={handleSearch} className="ml-auto flex shrink-0 items-center gap-1">
                 <label htmlFor="header-search" className="sr-only">Search posts</label>
                 <input
@@ -150,15 +158,15 @@ export const Header = () => {
                           <BiChevronDown className={`text-base transition-transform duration-150 ${blogOpen ? 'rotate-180' : ''}`} />
                         </button>
                       </span>
-                      {blogOpen && recentPosts.length > 0 && (
-                        <div className="absolute left-0 top-full z-50 pt-1">
-                          <div className="min-w-max rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1">
-                            {recentPosts.map((post) => (
+                      {blogOpen && displayedPosts.length > 0 && (
+                        <div className="absolute left-0 top-full z-50 pt-1 max-w-[calc(100vw-2rem)]">
+                          <div className="min-w-max rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1 overflow-hidden">
+                            {displayedPosts.map((post) => (
                               <Link
                                 key={post.url}
                                 href={post.url}
                                 onClick={() => setBlogOpen(false)}
-                                className="flex items-center gap-3 px-3 py-1.5 font-sans text-xs text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] no-underline whitespace-nowrap"
+                                className="flex items-center gap-3 px-3 py-1.5 font-sans text-xs text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] no-underline max-w-full"
                               >
                                 <div className="shrink-0 w-8 h-8 rounded overflow-hidden bg-[#e8e4db]">
                                   {post.heroImg ? (
@@ -174,25 +182,19 @@ export const Header = () => {
                                     <div className="w-full h-full flex items-center justify-center text-[#2c1d14]/20 text-xs">✦</div>
                                   )}
                                 </div>
-                                {post.title}
+                                <span className="truncate">{post.title}</span>
                               </Link>
                             ))}
                             {/* Explore more */}
                             <div className="border-t border-[#2c1d14]/10 mt-1 pt-1">
-                              <button
-                                onClick={() => {
-                                  setBlogOpen(false);
-                                  if (pathname === "/") {
-                                    document.getElementById("posts")?.scrollIntoView({ behavior: "smooth" });
-                                  } else {
-                                    window.location.href = "/#posts";
-                                  }
-                                }}
-                                className="flex w-full items-center justify-between px-3 py-1.5 font-sans text-xs font-medium text-[#a93e33] hover:bg-[#e8e4db] whitespace-nowrap"
+                              <Link
+                                href="/posts?view=list"
+                                onClick={() => setBlogOpen(false)}
+                                className="flex w-full items-center justify-between px-3 py-1.5 font-sans text-xs font-medium text-[#a93e33] hover:bg-[#e8e4db] whitespace-nowrap no-underline"
                               >
                                 Explore more
                                 <span className="ml-4">→</span>
-                              </button>
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -232,6 +234,13 @@ export const Header = () => {
 
                     <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
 
+                    {/* ── Bookmarks ── */}
+                    <li className="m-0 p-0">
+                      <BookmarksNavLink />
+                    </li>
+
+                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
+
                     {/* ── Socials (with dropdown) ── */}
                     <li
                       className="relative m-0 p-0"
@@ -246,8 +255,8 @@ export const Header = () => {
                         <BiChevronDown className={`text-base opacity-60 transition-transform duration-150 ${socialsOpen ? 'rotate-180' : ''}`} />
                       </button>
                       {socialsOpen && (
-                        <div className="absolute left-0 top-full z-50 pt-1">
-                          <div className="min-w-[200px] rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1">
+                        <div className="absolute right-0 top-full z-50 pt-1">
+                          <div className="min-w-[180px] rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1">
                             {SOCIALS.map((s) => (
                               <a
                                 key={s.href}
@@ -278,7 +287,7 @@ export const Header = () => {
         <div className="relative mb-8 h-[min(400px,62.5vw)] min-h-[200px] w-full overflow-hidden">
           <Image
             src={withBasePath(HERO_SRC)}
-            alt="Crumbs of Sanity — hero image"
+            alt="Crumbs of Sanity - hero image"
             fill
             priority
             className="object-cover object-center"

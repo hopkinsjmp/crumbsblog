@@ -20,6 +20,7 @@ interface ClientPostProps {
 export default function PostsClientPage(props: ClientPostProps) {
   const searchParams = useSearchParams();
   const query = (searchParams.get("q") ?? "").trim().toLowerCase();
+  const listView = searchParams.get("view") === "list";
 
   const allPosts = props.data?.postConnection.edges!.map((postData) => {
     const post = postData!.node!;
@@ -46,7 +47,7 @@ export default function PostsClientPage(props: ClientPostProps) {
     };
   });
 
-  // Filter by search query — title, tags, subject, degree stage, excerpt
+  // Filter by search query - title, tags, subject, degree stage, excerpt
   const posts = query
     ? allPosts.filter((p) => {
         const haystack = [
@@ -64,7 +65,7 @@ export default function PostsClientPage(props: ClientPostProps) {
 
   // ---- card renderers -------------------------------------------------------
 
-  /** Shared card chrome — wraps any size variant */
+  /** Shared card chrome - wraps any size variant */
   const PostCard = ({
     post,
     imgAspect = 'aspect-[4/3]',
@@ -117,7 +118,7 @@ export default function PostsClientPage(props: ClientPostProps) {
           {post.title}
         </h2>
 
-        {/* Excerpt — only shown on featured / wide cards */}
+        {/* Excerpt - only shown on featured / wide cards */}
         {showExcerpt && post.excerpt && (
           <div className="mb-4 line-clamp-3 font-serif text-sm leading-relaxed text-[#2c1d14]/70">
             <TinaMarkdown content={post.excerpt} />
@@ -169,8 +170,23 @@ export default function PostsClientPage(props: ClientPostProps) {
           </div>
         )}
 
-        {/* ── Search results ── compact thumbnail + title list */}
-        {query && posts.length > 0 && (
+        {/* ── List-view header (no query, but view=list) ── */}
+        {!query && listView && (
+          <div className="flex items-baseline justify-between border-b border-[#2c1d14]/20 pb-4">
+            <p className="font-sans text-sm text-[#2c1d14]/70">
+              All posts - {posts.length}
+            </p>
+            <Link
+              href="/posts"
+              className="font-sans text-sm text-[#a93e33] hover:underline"
+            >
+              Back to home view
+            </Link>
+          </div>
+        )}
+
+        {/* ── Search / list-view results ── compact thumbnail + title list */}
+        {(query || listView) && posts.length > 0 && (
           <div className="divide-y divide-[#2c1d14]/10 rounded-lg border border-[#2c1d14]/10 bg-[#f7f4ef] overflow-hidden">
             {posts.map((post) => (
               <Link
@@ -201,7 +217,7 @@ export default function PostsClientPage(props: ClientPostProps) {
         {/* ── No results state ── */}
         {query && posts.length === 0 && (
           <p className="py-16 text-center font-serif text-lg text-[#2c1d14]/50">
-            Nothing found — try a different word or{" "}
+            Nothing found - try a different word or{" "}
             <Link href="/posts" className="text-[#a93e33] hover:underline">
               browse all posts
             </Link>
@@ -210,15 +226,15 @@ export default function PostsClientPage(props: ClientPostProps) {
         )}
 
         {/* ── Row 0: full-width featured post ── */}
-        {!query && featured && (
+        {!query && !listView && featured && (
           <PostCard post={featured} imgAspect="aspect-[16/7]" titleSize="text-3xl" showExcerpt />
         )}
 
         {/* ── YouTube channel callout ── */}
-        {!query && <YouTubeBanner />}
+        {!query && !listView && <YouTubeBanner />}
 
         {/* ── Remaining posts ── */}
-        {!query && rest.length > 0 && (() => {
+        {!query && !listView && rest.length > 0 && (() => {
           const rows: React.ReactNode[] = [];
           let i = 0;
           let rowIndex = 0;
@@ -227,7 +243,7 @@ export default function PostsClientPage(props: ClientPostProps) {
             const remaining = rest.length - i;
 
             if (remaining === 1) {
-              // Single leftover — full width
+              // Single leftover - full width
               rows.push(
                 <div key={`row-${rowIndex}`}>
                   <PostCard post={rest[i]} imgAspect="aspect-[16/7]" titleSize="text-2xl" showExcerpt />

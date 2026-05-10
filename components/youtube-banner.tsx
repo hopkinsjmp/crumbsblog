@@ -19,7 +19,7 @@ export function YouTubeBanner() {
           We're now on YouTube!
         </p>
         <p className="mt-0.5 font-sans text-sm text-[#2c1d14]/60">
-          Video essays, discussions, and more — subscribe to{' '}
+          Video essays, discussions, and more - subscribe to{' '}
           <span className="font-medium text-[#2c1d14]/80">Crumbs of Sanity</span> on YouTube.
         </p>
       </div>

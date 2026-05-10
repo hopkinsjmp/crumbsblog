@@ -5,7 +5,7 @@ import type { NextConfig } from 'next'
 const isStaticExport = process.env.NEXT_EXPORT === 'true';
 
 const nextConfig: NextConfig = {
-  // Static HTML export — only enabled for GitHub Pages build
+  // Static HTML export - only enabled for GitHub Pages build
   ...(isStaticExport && {
     output: 'export',
     trailingSlash: true, // GH Pages serves index.html from /path/

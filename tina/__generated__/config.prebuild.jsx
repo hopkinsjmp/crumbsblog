@@ -846,7 +846,7 @@ var Global = {
           label: "Heading Font",
           description: "Serif font used for post titles and headings.",
           options: [
-            { label: "EB Garamond (classic \u2014 original site font)", value: "garamond" },
+            { label: "EB Garamond (classic - original site font)", value: "garamond" },
             { label: "Playfair Display (elegant serif)", value: "playfair" },
             { label: "Georgia (classic serif)", value: "georgia" },
             { label: "System Serif", value: "serif" },

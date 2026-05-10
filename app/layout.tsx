@@ -12,21 +12,21 @@ import { StickyBar } from "@/components/sticky-bar";
 import "@/styles.css";
 import { TailwindIndicator } from "@/components/ui/breakpoint-indicator";
 
-// EB Garamond — heading font matching the original crumbsofsanity.com
+// EB Garamond - heading font matching the original crumbsofsanity.com
 const ebGaramond = EB_Garamond({
   subsets: ["latin"],
   variable: "--font-eb-garamond",
   display: "swap",
 });
 
-// Lora — body serif matching the original crumbsofsanity.com
+// Lora - body serif matching the original crumbsofsanity.com
 const lora = Lora({
   subsets: ["latin"],
   variable: "--font-lora",
   display: "swap",
 });
 
-// Montserrat — UI / navigation labels
+// Montserrat - UI / navigation labels
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 
 /** Map a hex color (e.g. "#2a5db0") to a CSS custom-property override string */
 function hexToCustomProp(hex: string, prop: string): string {
-  // Pass the hex value directly — browsers support hex in custom properties
+  // Pass the hex value directly - browsers support hex in custom properties
   return `${prop}: ${hex};`;
 }
 
@@ -97,7 +97,7 @@ export default async function RootLayout({
   const accentColor  = theme.accentColor  ?? "#e0e6cf";
   const headingFont  = headingFontStack(theme.headingFont);
 
-  // Build inline CSS variable overrides — these take precedence over styles.css defaults
+  // Build inline CSS variable overrides - these take precedence over styles.css defaults
   // when an editor changes a value in the TinaCMS admin panel.
   const themeVars = [
     hexToCustomProp(primaryColor, "--brand-primary"),
@@ -113,7 +113,7 @@ export default async function RootLayout({
       style={{ ["--brand-primary" as string]: primaryColor } as React.CSSProperties}
     >
       <head>
-        {/* Inline theme override — keeps CSS vars in sync with TinaCMS admin values */}
+        {/* Inline theme override - keeps CSS vars in sync with TinaCMS admin values */}
         <style>{`:root { ${themeVars} }`}</style>
       </head>
       <body className="min-h-screen bg-background font-sans antialiased">

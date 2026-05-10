@@ -138,7 +138,8 @@ export const Header = () => {
                             focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40`}
                           aria-current={pathname === "/" ? "page" : undefined}
                         >
-                          The Blog
+                          <span className="sm:hidden">Blog</span>
+                          <span className="hidden sm:inline">The Blog</span>
                         </Link>
                         <button
                           onClick={() => setBlogOpen((o) => !o)}
@@ -223,7 +224,8 @@ export const Header = () => {
                           focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40`}
                         aria-current={pathname?.startsWith("/contribute") ? "page" : undefined}
                       >
-                        How to contribute
+                        <span className="sm:hidden">Contribute</span>
+                        <span className="hidden sm:inline">How to contribute</span>
                       </Link>
                     </li>
 

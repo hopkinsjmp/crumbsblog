@@ -222,7 +222,14 @@ export default function PostClientPage(props: ClientPostProps) {
                   />
                 </div>
               )}
-              <TinaMarkdown content={post._body} components={components} />
+              <TinaMarkdown
+                content={post._body}
+                components={{
+                  ...components,
+                  // Suppress inline images when a hero image is already shown as the floating div
+                  ...(hasPhotos ? { img: () => null as unknown as JSX.Element } : {}),
+                }}
+              />
             </div>
           </div>
         )}

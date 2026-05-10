@@ -61,71 +61,64 @@ export const Header = () => {
     <header className="w-full">
       {/* ── Sticky nav bar ── */}
       <div className="sticky top-0 z-50 w-full bg-[#e0e6cf]">
-        <div className="mx-auto max-w-[922px] px-8">
-          <div className="relative py-6">
-          <div className="grid grid-cols-1 relative">
-            {/* Search form — absolutely positioned top-right */}
-            <form onSubmit={handleSearch} className="absolute right-0 top-0 z-10 flex items-center gap-1.5">
-              <label htmlFor="header-search" className="sr-only">Search posts</label>
-              <input
-                id="header-search"
-                type="search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search…"
-                className="w-32 rounded border border-[#2c1d14]/30 bg-white/70 px-2.5 py-1 font-sans text-xs text-[#2c1d14] placeholder:text-[#2c1d14]/40 focus:border-[#a93e33] focus:outline-none sm:w-40"
-              />
+        <div className="mx-auto max-w-[922px] px-4 sm:px-8">
+          <div className="py-3 sm:py-6">
+
+            {/* Logo row: hamburger | logo | search */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* Hamburger */}
               <button
-                type="submit"
-                aria-label="Submit search"
-                className="flex items-center justify-center rounded bg-[#a93e33] px-2 py-1 text-white hover:bg-[#7a2d24] transition-colors"
+                onClick={toggle}
+                aria-label={isOpen ? "Close menu" : "Open menu"}
+                className="shrink-0 flex h-6 w-6 flex-col justify-between py-1"
+                style={{ zIndex: 10 }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5" aria-hidden="true">
-                  <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clipRule="evenodd" />
-                </svg>
+                <span className="block h-0.5 w-full bg-[#2c1d14]" />
+                <span className="block h-0.5 w-full bg-[#2c1d14]" />
+                <span className="block h-0.5 w-full bg-[#2c1d14]" />
               </button>
-            </form>
 
-            {/* Main column */}
-            <div className="flex flex-col justify-start">
-              {/* Logo row */}
-              <div className="relative flex items-center">
-                <button
-                  onClick={toggle}
-                  aria-label={isOpen ? "Close menu" : "Open menu"}
-                  className="flex h-6 w-6 flex-col justify-between py-1 absolute -left-10 top-1/2 -translate-y-1/2"
-                  style={{ zIndex: 10 }}
+              {/* Logo */}
+              <h1 className="font-serif text-2xl sm:text-4xl font-normal uppercase tracking-[0.05em] text-[#2c1d14] m-0 p-0 leading-none min-w-0">
+                <Link
+                  href="/"
+                  className="text-[#2c1d14] no-underline hover:no-underline"
+                  style={{ color: "#2c1d14" }}
                 >
-                  <span className="block h-0.5 w-full bg-[#2c1d14]" />
-                  <span className="block h-0.5 w-full bg-[#2c1d14]" />
-                  <span className="block h-0.5 w-full bg-[#2c1d14]" />
-                </button>
-                <h1 className="font-serif text-4xl font-normal uppercase tracking-[0.05em] text-[#2c1d14] m-0 p-0 leading-none">
-                  <Link
-                    href="/"
-                    className="text-[#2c1d14] no-underline hover:no-underline"
-                    style={{
-                      WebkitTextSizeAdjust: "100%",
-                      wordBreak: "break-word",
-                      wordWrap: "break-word",
-                      margin: 0,
-                      textTransform: "uppercase",
-                      color: "#2c1d14",
-                      font: "normal 400 36px EB Garamond, serif",
-                    }}
-                  >
-                    Crumbs of Sanity
-                  </Link>
-                </h1>
-              </div>
+                  Crumbs of Sanity
+                </Link>
+              </h1>
 
-              {/* Tagline + nav tabs */}
-              <div>
-                <p className="mt-2 mb-0 font-sans italic text-sm text-gray-600 text-left m-0 p-0">
+              {/* Search — pushed to right */}
+              <form onSubmit={handleSearch} className="ml-auto flex shrink-0 items-center gap-1">
+                <label htmlFor="header-search" className="sr-only">Search posts</label>
+                <input
+                  id="header-search"
+                  type="search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search…"
+                  className="w-16 rounded border border-[#2c1d14]/30 bg-white/70 px-2 py-1 font-sans text-xs text-[#2c1d14] placeholder:text-[#2c1d14]/40 focus:border-[#a93e33] focus:outline-none sm:w-40 sm:px-2.5"
+                />
+                <button
+                  type="submit"
+                  aria-label="Submit search"
+                  className="flex items-center justify-center rounded bg-[#a93e33] px-2 py-1 text-white hover:bg-[#7a2d24] transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5" aria-hidden="true">
+                    <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+
+            {/* Tagline + nav tabs */}
+            <div>
+                <p className="mt-1 sm:mt-2 mb-0 font-sans italic text-xs sm:text-sm text-gray-600 text-left m-0 p-0">
                   Recipes and tales to bring comfort through academia and beyond
                 </p>
-                <nav aria-label="Main tabs" className="mt-2">
-                  <ul className="flex items-center m-0 p-0">
+                <nav aria-label="Main tabs" className="mt-1 sm:mt-2 overflow-x-auto">
+                  <ul className="flex items-center m-0 p-0 whitespace-nowrap">
 
                     {/* ── The Blog (with recent posts dropdown) ── */}
                     <li
@@ -272,11 +265,10 @@ export const Header = () => {
 
                   </ul>
                 </nav>
-              </div>
             </div>
+
           </div>
         </div>
-      </div>
       </div>{/* end sticky wrapper */}
 
       {pathname === "/" && (

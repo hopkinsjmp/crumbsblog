@@ -118,8 +118,8 @@ export const Header = () => {
                   <span className="sm:hidden">Recipes and tales through academia and beyond</span>
                   <span className="hidden sm:inline">Recipes and tales to bring comfort through academia and beyond</span>
                 </p>
-                <nav aria-label="Main tabs" className="mt-1 sm:mt-2 overflow-x-auto">
-                  <ul className="flex items-center m-0 p-0 whitespace-nowrap">
+                <nav aria-label="Main tabs" className="mt-1 sm:mt-2">
+                  <ul className="flex items-center m-0 p-0 gap-x-0 flex-wrap">
 
                     {/* ── The Blog (with recent posts dropdown) ── */}
                     <li
@@ -277,7 +277,7 @@ export const Header = () => {
       {pathname === "/" && (
         <div className="relative mb-8 h-[min(400px,62.5vw)] min-h-[200px] w-full overflow-hidden">
           <Image
-            src={HERO_SRC}
+            src={withBasePath(HERO_SRC)}
             alt="Crumbs of Sanity — hero image"
             fill
             priority

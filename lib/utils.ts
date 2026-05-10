@@ -21,20 +21,23 @@ export function hasRichTextContent(field: unknown): boolean {
 
 /**
  * Prepends the Next.js basePath to local asset URLs for GitHub Pages deployment.
- * Only affects URLs that start with '/' and are not external URLs.
- * 
+ * next/image with unoptimized:true does NOT automatically prepend basePath, so we
+ * must do it manually here. NEXT_PUBLIC_BASE_PATH is set to '/crumbsblog' during
+ * the static export build and '' locally.
+ *
  * @param url - The URL to process (e.g., '/uploads/image.jpg')
  * @returns The URL with basePath prepended if applicable (e.g., '/crumbsblog/uploads/image.jpg')
  */
 export function withBasePath(url: string | undefined | null): string {
   if (!url) return '';
-  
+
   // Don't modify external URLs or data URLs
   if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
     return url;
   }
-  
-  // next/image automatically prepends basePath when it's set in next.config.ts,
-  // so we must NOT double-prefix. Return the raw path as-is.
-  return url;
+
+  const base = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  // Avoid double-prefixing if somehow already prefixed
+  if (base && url.startsWith(base + '/')) return url;
+  return base + url;
 }

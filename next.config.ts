@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
     basePath: '/crumbsblog', // GitHub Pages serves from /<repo-name>/
     assetPrefix: '/crumbsblog/', // Ensures CSS/JS/images load with the correct path
   }),
+  // Expose basePath to client bundles so withBasePath() can use it at runtime.
+  // next/image with unoptimized:true does NOT automatically prepend basePath,
+  // so we must do it manually via withBasePath().
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isStaticExport ? '/crumbsblog' : '',
+  },
   images: {
     // next/image requires unoptimized:true for static export
     unoptimized: isStaticExport,

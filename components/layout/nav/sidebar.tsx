@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FaYoutube } from "react-icons/fa6";
 import { useSidebar } from "../sidebar-context";
 import { SearchBox } from "@/components/search-box";
+import { withBasePath } from "@/lib/utils";
 
 const LEGAL = [
   { label: "Terms",     href: "/terms" },
@@ -51,7 +52,7 @@ export function Sidebar() {
           <div className="mb-10 border-b border-black pb-10">
             <div className="mb-4 w-full overflow-hidden rounded">
               <Image
-                src="/uploads/authors/carmel-bio.png"
+                src={withBasePath("/uploads/authors/carmel-bio.png")}
                 alt="Carmel — author of Crumbs of Sanity"
                 width={326}
                 height={435}

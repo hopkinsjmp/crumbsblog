@@ -37,7 +37,7 @@ function RecipeText({ text }: { text: string }) {
 
   for (const raw of lines) {
     const line = raw.trimEnd();
-    if (!line.trim()) { flushUl(); flushOl(); continue; }
+    if (!line.trim()) continue;
     const ulMatch = line.match(/^\s*[\*\-]\s+(.+)/);
     const olMatch = line.match(/^\s*\d+\.\s+(.+)/);
     if (ulMatch) { flushOl(); ulItems.push(ulMatch[1]); }
@@ -90,7 +90,7 @@ export default function PostClientPage(props: ClientPostProps) {
   const [activeTab, setActiveTab] = useState<Tab>('story');
 
   const tabClass = (tab: Tab) =>
-    `px-5 py-2 font-sans text-sm font-medium transition-colors border-b-2 -mb-px ${
+    `flex-1 sm:flex-none px-5 py-2.5 font-sans text-sm font-medium transition-colors border-b-2 -mb-px ${
       activeTab === tab
         ? 'border-[#a93e33] text-[#a93e33]'
         : 'border-transparent text-[#2c1d14]/50 hover:text-[#2c1d14]'
@@ -109,7 +109,7 @@ export default function PostClientPage(props: ClientPostProps) {
         </h1>
 
         {/* Author + date byline + metadata badges */}
-        <div className="mb-6 flex flex-wrap items-center gap-3">
+        <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2">
           {/* Avatar + name + date */}
           <div data-tina-field={tinaField(post, 'author')} className="flex items-center gap-3">
             {post.author?.avatar && (
@@ -137,7 +137,7 @@ export default function PostClientPage(props: ClientPostProps) {
           {/* Metadata badges */}
           {(post.degreeStage || post.subject || post.frameOfMind) && (
             <>
-              <span className="text-[#2c1d14]/20">|</span>
+              <span className="hidden text-[#2c1d14]/20 sm:inline">|</span>
               <div className="flex flex-wrap items-center gap-2 text-sm text-[#2c1d14]/70">
                 {post.degreeStage && (
                   <span className="relative group">
@@ -209,7 +209,7 @@ export default function PostClientPage(props: ClientPostProps) {
               {hasPhotos && (
                 <div
                   data-tina-field={tinaField(post, 'heroImg')}
-                  className="float-right ml-8 mb-4 w-[50%] overflow-hidden rounded-lg"
+                  className="mb-6 w-full overflow-hidden rounded-lg md:float-right md:ml-8 md:mb-4 md:w-[50%]"
                 >
                   <Image
                     priority

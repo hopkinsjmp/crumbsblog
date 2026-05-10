@@ -7,7 +7,7 @@ interface PageContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function PageContainer({ children, className, ...rest }: PageContainerProps) {
   return (
     <div
-      className={`ml-[calc(50%-461px)] mr-auto max-w-[851px] px-8 py-6${className ? ` ${className}` : ''}`}
+      className={`w-full px-4 py-6 sm:px-8 md:ml-[calc(50%-461px)] md:mr-auto md:max-w-[851px]${className ? ` ${className}` : ''}`}
       {...rest}
     >
       {children}

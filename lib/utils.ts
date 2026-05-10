@@ -34,12 +34,7 @@ export function withBasePath(url: string | undefined | null): string {
     return url;
   }
   
-  // Only prepend basePath to absolute local paths that don't already include it
-  if (url.startsWith('/') && !url.startsWith('/crumbsblog/')) {
-    // The basePath is set in next.config.ts for GitHub Pages deployment
-    const basePath = process.env.NODE_ENV === 'production' ? '/crumbsblog' : '';
-    return `${basePath}${url}`;
-  }
-  
+  // next/image automatically prepends basePath when it's set in next.config.ts,
+  // so we must NOT double-prefix. Return the raw path as-is.
   return url;
 }

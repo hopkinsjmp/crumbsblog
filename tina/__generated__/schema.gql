@@ -421,8 +421,8 @@ type Post implements Node & Document {
   handOffTime: String
   servings: Float
   dietaryNotes: String
-  ingredients: JSON
-  method: JSON
+  ingredients: String
+  method: String
   storage: String
   author: PostAuthor
   date: String
@@ -511,8 +511,8 @@ input PostFilter {
   handOffTime: StringFilter
   servings: NumberFilter
   dietaryNotes: StringFilter
-  ingredients: RichTextFilter
-  method: RichTextFilter
+  ingredients: StringFilter
+  method: StringFilter
   storage: StringFilter
   author: PostAuthorFilter
   date: DatetimeFilter
@@ -871,8 +871,8 @@ input PostMutation {
   handOffTime: String
   servings: Float
   dietaryNotes: String
-  ingredients: JSON
-  method: JSON
+  ingredients: String
+  method: String
   storage: String
   author: String
   date: String

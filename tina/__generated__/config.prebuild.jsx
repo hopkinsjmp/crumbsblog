@@ -274,16 +274,18 @@ var Post = {
       required: false
     },
     {
-      type: "rich-text",
+      type: "string",
       label: "Ingredients",
       name: "ingredients",
-      required: false
+      required: false,
+      ui: { component: "textarea" }
     },
     {
-      type: "rich-text",
+      type: "string",
       label: "Method",
       name: "method",
-      required: false
+      required: false,
+      ui: { component: "textarea" }
     },
     {
       type: "string",

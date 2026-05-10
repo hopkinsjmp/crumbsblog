@@ -101,16 +101,18 @@ const Post: Collection = {
       required: false,
     },
     {
-      type: 'rich-text',
+      type: 'string',
       label: 'Ingredients',
       name: 'ingredients',
       required: false,
+      ui: { component: 'textarea' },
     },
     {
-      type: 'rich-text',
+      type: 'string',
       label: 'Method',
       name: 'method',
       required: false,
+      ui: { component: 'textarea' },
     },
     {
       type: 'string',

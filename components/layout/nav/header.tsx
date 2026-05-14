@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaYoutube } from "react-icons/fa6";
@@ -39,6 +39,18 @@ export const Header = () => {
   const [blogOpen, setBlogOpen] = useState(false);
   const [socialsOpen, setSocialsOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  function handleSearchOpen() {
+    setSearchOpen(true);
+    setTimeout(() => searchInputRef.current?.focus(), 50);
+  }
+
+  function handleSearchClose() {
+    setSearchOpen(false);
+    setSearch("");
+  }
 
   // Pick 6 random posts from the pool, stable for the lifetime of this component
   const displayedPosts = React.useMemo(() => {
@@ -56,6 +68,7 @@ export const Header = () => {
       router.push("/posts");
     }
     setSearch("");
+    setSearchOpen(false);
   }
 
   function handleBlogClick(e: React.MouseEvent<HTMLAnchorElement>) {
@@ -74,11 +87,11 @@ export const Header = () => {
 
             {/* Logo row: hamburger | logo | search */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Hamburger */}
+              {/* Hamburger — hidden on mobile when search is open */}
               <button
                 onClick={toggle}
                 aria-label={isOpen ? "Close menu" : "Open menu"}
-                className="shrink-0 flex h-6 w-6 flex-col justify-between py-1"
+                className={`shrink-0 flex h-6 w-6 flex-col justify-between py-1 ${searchOpen ? "hidden sm:flex" : ""}`}
                 style={{ zIndex: 10 }}
               >
                 <span className="block h-0.5 w-full bg-[#2c1d14]" />
@@ -86,8 +99,8 @@ export const Header = () => {
                 <span className="block h-0.5 w-full bg-[#2c1d14]" />
               </button>
 
-              {/* Logo */}
-              <h1 className="font-serif text-xl sm:text-4xl font-normal uppercase tracking-[0.05em] text-[#2c1d14] m-0 p-0 leading-none min-w-0 whitespace-nowrap">
+              {/* Logo — hidden on mobile when search is open */}
+              <h1 className={`font-serif text-xl sm:text-4xl font-normal uppercase tracking-[0.05em] text-[#2c1d14] m-0 p-0 leading-none min-w-0 whitespace-nowrap ${searchOpen ? "hidden sm:block" : ""}`}>
                 <Link
                   href="/"
                   className="text-[#2c1d14] no-underline hover:no-underline whitespace-nowrap"
@@ -97,31 +110,57 @@ export const Header = () => {
                 </Link>
               </h1>
 
-              {/* Search - pushed to right */}
-              <form onSubmit={handleSearch} className="ml-auto flex shrink-0 items-center gap-1">
-                <label htmlFor="header-search" className="sr-only">Search posts</label>
-                <input
-                  id="header-search"
-                  type="search"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search…"
-                  className="w-16 rounded border border-[#2c1d14]/30 bg-white/70 px-2 py-1 font-sans text-xs text-[#2c1d14] placeholder:text-[#2c1d14]/40 focus:border-[#a93e33] focus:outline-none sm:w-40 sm:px-2.5"
-                />
-                <button
-                  type="submit"
-                  aria-label="Submit search"
-                  className="flex items-center justify-center rounded bg-[#a93e33] px-2 py-1 text-white hover:bg-[#7a2d24] transition-colors"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5" aria-hidden="true">
-                    <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clipRule="evenodd" />
-                  </svg>
-                </button>
-              </form>
+              {/* Search */}
+              <div className="ml-auto flex shrink-0 items-center gap-1">
+                {searchOpen ? (
+                  <form onSubmit={handleSearch} className="flex w-full items-center gap-2">
+                    <label htmlFor="header-search" className="sr-only">Search posts</label>
+                    <input
+                      ref={searchInputRef}
+                      id="header-search"
+                      type="search"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      placeholder="Search posts…"
+                      className="w-48 sm:w-80 rounded border border-[#2c1d14]/30 bg-white/70 px-2.5 py-1 font-sans text-xs text-[#2c1d14] placeholder:text-[#2c1d14]/40 focus:border-[#a93e33] focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      aria-label="Submit search"
+                      className="flex items-center justify-center rounded bg-[#a93e33] px-2 py-1 text-white hover:bg-[#7a2d24] transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-3.5 w-3.5" aria-hidden="true">
+                        <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSearchClose}
+                      aria-label="Close search"
+                      className="flex items-center justify-center px-1 py-1 text-[#2c1d14]/50 hover:text-[#2c1d14] transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                        <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                      </svg>
+                    </button>
+                  </form>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleSearchOpen}
+                    aria-label="Open search"
+                    className="flex items-center justify-center rounded px-2 py-1 text-[#2c1d14]/60 hover:text-[#2c1d14] transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden="true">
+                      <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                )}
+              </div>
             </div>
 
-            {/* Tagline + nav tabs */}
-            <div>
+            {/* Tagline + nav tabs — hidden on mobile when search is open */}
+            <div className={searchOpen ? "hidden sm:block" : ""}>
                 <p className="mt-1 sm:mt-2 mb-0 font-sans italic text-xs sm:text-sm text-gray-600 text-left m-0 p-0 whitespace-nowrap overflow-hidden">
                   <span className="sm:hidden">Recipes and tales through academia and beyond</span>
                   <span className="hidden sm:inline">Recipes and tales to bring comfort through academia and beyond</span>

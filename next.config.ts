@@ -5,19 +5,19 @@ import type { NextConfig } from 'next'
 const isStaticExport = process.env.NEXT_EXPORT === 'true';
 
 const nextConfig: NextConfig = {
-  // Static HTML export - only enabled for GitHub Pages build
+  // Static HTML export - only enabled for GitHub Pages build.
+  // With a custom domain (crumbsofsanity.com) GH Pages serves from the root,
+  // so basePath and assetPrefix are empty strings.
   ...(isStaticExport && {
     output: 'export',
     trailingSlash: true, // GH Pages serves index.html from /path/
     images: { unoptimized: true },
-    basePath: '/crumbsblog', // GitHub Pages serves from /<repo-name>/
-    assetPrefix: '/crumbsblog/', // Ensures CSS/JS/images load with the correct path
+    basePath: '',
+    assetPrefix: '',
   }),
   // Expose basePath to client bundles so withBasePath() can use it at runtime.
-  // next/image with unoptimized:true does NOT automatically prepend basePath,
-  // so we must do it manually via withBasePath().
   env: {
-    NEXT_PUBLIC_BASE_PATH: isStaticExport ? '/crumbsblog' : '',
+    NEXT_PUBLIC_BASE_PATH: '',
   },
   images: {
     // next/image requires unoptimized:true for static export

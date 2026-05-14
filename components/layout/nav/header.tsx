@@ -203,6 +203,13 @@ export const Header = () => {
 
                     <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
 
+                    {/* ── Bookmarks ── */}
+                    <li className="m-0 p-0">
+                      <BookmarksNavLink />
+                    </li>
+
+                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
+
                     {/* ── About ── */}
                     <li className="m-0 p-0">
                       <Link
@@ -230,13 +237,6 @@ export const Header = () => {
                         <span className="sm:hidden">Contribute</span>
                         <span className="hidden sm:inline">How to contribute</span>
                       </Link>
-                    </li>
-
-                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
-
-                    {/* ── Bookmarks ── */}
-                    <li className="m-0 p-0">
-                      <BookmarksNavLink />
                     </li>
 
                     <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>

@@ -5,10 +5,9 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: "daily"
-    allow:
-      - dependency-name: "tinacms"
-      - dependency-name: "@tinacms*"
+      interval: "weekly"
+    # Only open PRs for security vulnerabilities, not routine version bumps
+    open-pull-requests-limit: 0

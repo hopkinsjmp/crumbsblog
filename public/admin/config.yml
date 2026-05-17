@@ -2,7 +2,7 @@ backend:
   name: github
   repo: hopkinsjmp/crumbsblog
   branch: main
-  base_url: https://sveltia-cms-auth.wandering-sea-62bc.hopkinsjmp.workers.dev
+  base_url: https://wandering-sea-62bc.hopkinsjmp.workers.dev
 
 media_folder: public/uploads
 public_folder: /uploads

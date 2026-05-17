@@ -1,0 +1,86 @@
+backend:
+  name: github
+  repo: hopkinsjmp/crumbsblog
+  branch: main
+
+# Sign in with a GitHub Personal Access Token (no OAuth server needed).
+# Visit /admin/, click "Sign in with token", and paste your PAT.
+# Required PAT scopes: repo (or contents:write + pull-requests:write)
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: Blog Posts
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    extension: mdx
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string, required: true }
+      - { label: Draft, name: draft, widget: boolean, default: false, required: false }
+      - { label: Degree Stage, name: degreeStage, widget: string, required: false }
+      - { label: Subject, name: subject, widget: string, required: false }
+      - label: Frame of Mind
+        name: frameOfMind
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { label: Emoji, name: emoji, widget: string, required: false }
+          - { label: Description, name: description, widget: string, required: false }
+      - label: Hero Image
+        name: heroImg
+        widget: image
+        required: false
+        media_folder: /public/uploads/posts
+        public_folder: /uploads/posts
+      - { label: Excerpt, name: excerpt, widget: text, required: false }
+      - { label: Hands On Time, name: handsOnTime, widget: string, required: false }
+      - { label: Hands Off Time, name: handOffTime, widget: string, required: false }
+      - { label: Servings, name: servings, widget: number, required: false }
+      - { label: Dietary Notes, name: dietaryNotes, widget: string, required: false }
+      - { label: Ingredients, name: ingredients, widget: text, required: false }
+      - { label: Method, name: method, widget: text, required: false }
+      - { label: Storage, name: storage, widget: string, required: false }
+      - label: Author
+        name: author
+        widget: relation
+        collection: authors
+        search_fields: [name]
+        value_field: "{{fields.name}}"
+        display_fields: [name]
+        required: false
+      - { label: Date, name: date, widget: datetime, required: false }
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        allow_add: true
+        field:
+          label: Tag
+          widget: string
+      - { label: Body, name: body, widget: markdown }
+
+  - name: authors
+    label: Authors
+    folder: content/authors
+    create: true
+    slug: "{{fields.name}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Avatar, name: avatar, widget: image, required: false }
+
+  - name: tags
+    label: Tags
+    folder: content/tags
+    create: true
+    slug: "{{fields.name}}"
+    extension: mdx
+    format: frontmatter
+    fields:
+      - { label: Name, name: name, widget: string }

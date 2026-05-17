@@ -4,26 +4,22 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { useSearchParams } from 'next/navigation';
-import { TinaMarkdown } from 'tinacms/dist/rich-text';
-import { PostConnectionQuery, PostConnectionQueryVariables } from '@/tina/__generated__/types';
+import { PostSummary } from '@/lib/posts';
 import ErrorBoundary from '@/components/error-boundary';
 import { withBasePath } from '@/lib/utils';
 import { YouTubeBanner } from '@/components/youtube-banner';
 import PageContainer from '@/components/layout/page-container';
 
 interface ClientPostProps {
-  data: PostConnectionQuery;
-  variables: PostConnectionQueryVariables;
-  query: string;
+  posts: PostSummary[];
 }
 
-export default function PostsClientPage(props: ClientPostProps) {
+export default function PostsClientPage({ posts: allPostsRaw }: ClientPostProps) {
   const searchParams = useSearchParams();
   const query = (searchParams.get("q") ?? "").trim().toLowerCase();
   const listView = searchParams.get("view") === "list";
 
-  const allPosts = props.data?.postConnection.edges!.map((postData) => {
-    const post = postData!.node!;
+  const allPosts = allPostsRaw.map((post) => {
     const date = new Date(post.date!);
     let formattedDate = '';
     if (!isNaN(date.getTime())) {
@@ -31,13 +27,13 @@ export default function PostsClientPage(props: ClientPostProps) {
     }
 
     return {
-      id: post.id,
+      id: post.slug,
       published: formattedDate,
       title: post.title,
-      tags: post.tags?.map((tag) => tag?.tag?.name) || [],
+      tags: post.tags || [],
       subject: post.subject ?? null,
       degreeStage: post.degreeStage ?? null,
-      url: `/posts/${post._sys.breadcrumbs.join('/')}`,
+      url: `/posts/${post.slug}`,
       excerpt: post.excerpt,
       heroImg: post.heroImg,
       author: {
@@ -55,7 +51,7 @@ export default function PostsClientPage(props: ClientPostProps) {
           ...p.tags,
           p.subject ?? '',
           p.degreeStage ?? '',
-          p.excerpt ? JSON.stringify(p.excerpt) : '',
+          p.excerpt ?? '',
         ]
           .join(' ')
           .toLowerCase();
@@ -121,7 +117,7 @@ export default function PostsClientPage(props: ClientPostProps) {
         {/* Excerpt - only shown on featured / wide cards */}
         {showExcerpt && post.excerpt && (
           <div className="mb-4 line-clamp-3 font-serif text-sm leading-relaxed text-[#2c1d14]/70">
-            <TinaMarkdown content={post.excerpt} />
+            {post.excerpt}
           </div>
         )}
 

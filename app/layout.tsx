@@ -4,7 +4,7 @@ import { EB_Garamond, Lato, Lora, Montserrat, Nunito, Playfair_Display } from "n
 import { cn } from "@/lib/utils";
 import { VideoDialogProvider } from "@/components/ui/VideoDialogContext";
 import VideoDialog from "@/components/ui/VideoDialog";
-import client from "@/tina/__generated__/client";
+import { getGlobalSettings } from "@/lib/global";
 import { CookieBanner } from "@/components/cookie-banner";
 import { ConditionalAnalytics } from "@/components/conditional-analytics";
 import { StickyBar } from "@/components/sticky-bar";
@@ -84,13 +84,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Fetch brand theme from TinaCMS content (falls back gracefully if unavailable)
+  // Fetch brand theme from global content
   let theme: Record<string, string | null | undefined> = {};
   try {
-    const { data } = await client.queries.global({ relativePath: "index.json" });
-    theme = (data?.global?.theme as Record<string, string | null | undefined>) ?? {};
+    const data = getGlobalSettings();
+    theme = (data?.theme as Record<string, string | null | undefined>) ?? {};
   } catch {
-    // During static builds or if TinaCMS isn't running, use CSS defaults
+    // Use CSS defaults
   }
 
   const primaryColor = theme.primaryColor ?? "#a93e33";

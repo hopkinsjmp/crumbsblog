@@ -1,11 +1,8 @@
 'use client';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { format } from 'date-fns';
-import { tinaField, useTina } from 'tinacms/dist/react';
-import { TinaMarkdown } from 'tinacms/dist/rich-text';
-import { PostQuery } from '@/tina/__generated__/types';
-import { components } from '@/components/mdx-components';
+import { Post } from '@/lib/posts';
 import ErrorBoundary from '@/components/error-boundary';
 import { withBasePath } from '@/lib/utils';
 import PageContainer from '@/components/layout/page-container';
@@ -64,14 +61,11 @@ const titleColorClasses = {
 type Tab = 'story' | 'recipe';
 
 interface ClientPostProps {
-  data: PostQuery;
-  variables: { relativePath: string };
-  query: string;
+  post: Post;
+  bodyHtml: string;
 }
 
-export default function PostClientPage(props: ClientPostProps) {
-  const { data } = useTina({ ...props });
-  const post = data.post;
+export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
 
   const date = new Date(post.date!);
   const formattedDate = !isNaN(date.getTime()) ? format(date, 'MMMM d, yyyy') : '';
@@ -90,8 +84,8 @@ export default function PostClientPage(props: ClientPostProps) {
 
   const [activeTab, setActiveTab] = useState<Tab>('story');
 
-  // Derive the canonical URL path from the relativePath variable (e.g. "my-post.mdx" → "/posts/my-post")
-  const postPath = `/posts/${props.variables.relativePath.replace(/\.mdx?$/, '')}`;
+  // Derive the canonical URL path from the post slug
+  const postPath = `/posts/${post.slug}`;
 
   const tabClass = (tab: Tab) =>
     `flex-1 sm:flex-none px-5 py-2.5 font-sans text-sm font-medium transition-colors border-b-2 -mb-px ${
@@ -106,7 +100,6 @@ export default function PostClientPage(props: ClientPostProps) {
 
         {/* Title */}
         <h1
-          data-tina-field={tinaField(post, 'title')}
           className="mb-4 font-heading text-4xl font-normal leading-tight text-[#2c1d14] md:text-5xl"
         >
           {post.title}
@@ -115,10 +108,9 @@ export default function PostClientPage(props: ClientPostProps) {
         {/* Author + date byline + metadata badges */}
         <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-2">
           {/* Avatar + name + date */}
-          <div data-tina-field={tinaField(post, 'author')} className="flex items-center gap-3">
+          <div className="flex items-center gap-3">
             {post.author?.avatar && (
               <Image
-                data-tina-field={tinaField(post.author, 'avatar')}
                 src={withBasePath(post.author.avatar)}
                 alt={post.author.name ?? ''}
                 width={40}
@@ -129,12 +121,12 @@ export default function PostClientPage(props: ClientPostProps) {
             )}
             <div className="font-sans text-sm text-[#2c1d14]/70">
               {post.author?.name && (
-                <span data-tina-field={tinaField(post.author, 'name')} className="font-semibold text-[#2c1d14]">
+                <span className="font-semibold text-[#2c1d14]">
                   By {post.author.name}
                 </span>
               )}
               {post.author?.name && formattedDate && <span className="mx-2 text-[#2c1d14]/30">·</span>}
-              {formattedDate && <span data-tina-field={tinaField(post, 'date')}>{formattedDate}</span>}
+              {formattedDate && <span>{formattedDate}</span>}
             </div>
           </div>
 
@@ -145,7 +137,7 @@ export default function PostClientPage(props: ClientPostProps) {
               <div className="flex flex-wrap items-center gap-2 text-sm text-[#2c1d14]/70">
                 {post.degreeStage && (
                   <span className="relative group">
-                    <span data-tina-field={tinaField(post, 'degreeStage')} className="rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default">
+                    <span className="rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default">
                       🎓 {post.degreeStage}
                     </span>
                     <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded bg-[#2c1d14] px-2 py-1 font-sans text-xs text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
@@ -155,7 +147,7 @@ export default function PostClientPage(props: ClientPostProps) {
                 )}
                 {post.subject && (
                   <span className="relative group">
-                    <span data-tina-field={tinaField(post, 'subject')} className="rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default">
+                    <span className="rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default">
                       📘 {post.subject}
                     </span>
                     <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded bg-[#2c1d14] px-2 py-1 font-sans text-xs text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
@@ -165,9 +157,9 @@ export default function PostClientPage(props: ClientPostProps) {
                 )}
                 {post.frameOfMind && (
                   <span className="relative group">
-                    <span data-tina-field={tinaField(post, 'frameOfMind')} className="flex items-center gap-2 rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default">
-                      {post.frameOfMind.emoji && <span data-tina-field={tinaField(post.frameOfMind, 'emoji')}>{post.frameOfMind.emoji}</span>}
-                      {post.frameOfMind.description && <span data-tina-field={tinaField(post.frameOfMind, 'description')}>{post.frameOfMind.description}</span>}
+                    <span className="flex items-center gap-2 rounded-full bg-[#2c1d14]/5 px-3 py-1 cursor-default">
+                      {post.frameOfMind.emoji && <span>{post.frameOfMind.emoji}</span>}
+                      {post.frameOfMind.description && <span>{post.frameOfMind.description}</span>}
                     </span>
                     <span className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 whitespace-nowrap rounded bg-[#2c1d14] px-2 py-1 font-sans text-xs text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
                       Frame of mind
@@ -215,12 +207,11 @@ export default function PostClientPage(props: ClientPostProps) {
         {(!hasTabs || activeTab === 'story') && (
           <div>
             {post.excerpt && (
-              <div data-tina-field={tinaField(post, 'excerpt')} className="mb-4 font-serif text-lg italic leading-relaxed text-[#2c1d14]/80">
-                <TinaMarkdown content={post.excerpt} />
-              </div>
+              <p className="mb-4 font-serif text-lg italic leading-relaxed text-[#2c1d14]/80">
+                {post.excerpt}
+              </p>
             )}
             <div
-              data-tina-field={tinaField(post, '_body')}
               className="prose prose-stone max-w-none
                 prose-headings:font-heading prose-headings:font-normal prose-headings:text-[#2c1d14]
                 prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-p:text-justify
@@ -229,10 +220,7 @@ export default function PostClientPage(props: ClientPostProps) {
                 prose-blockquote:border-l-[#a93e33] prose-blockquote:text-[#2c1d14]/70"
             >
               {hasPhotos && (
-                <div
-                  data-tina-field={tinaField(post, 'heroImg')}
-                  className="mb-6 w-full overflow-hidden rounded-lg md:float-right md:ml-8 md:mb-4 md:w-[50%]"
-                >
+                <div className="mb-6 w-full overflow-hidden rounded-lg md:float-right md:ml-8 md:mb-4 md:w-[50%]">
                   <Image
                     priority
                     src={withBasePath(post.heroImg!)}
@@ -244,14 +232,7 @@ export default function PostClientPage(props: ClientPostProps) {
                   />
                 </div>
               )}
-              <TinaMarkdown
-                content={post._body}
-                components={{
-                  ...components,
-                  // Suppress inline images when a hero image is already shown as the floating div
-                  ...(hasPhotos ? { img: () => null as unknown as JSX.Element } : {}),
-                }}
-              />
+              <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
             </div>
           </div>
         )}
@@ -262,12 +243,12 @@ export default function PostClientPage(props: ClientPostProps) {
             {(post.servings || post.dietaryNotes) && (
               <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-[#2c1d14]/70">
                 {post.servings && (
-                  <span data-tina-field={tinaField(post, 'servings')}>
+                  <span>
                     <strong className="text-[#2c1d14]">Servings:</strong> {post.servings}
                   </span>
                 )}
                 {post.dietaryNotes && (
-                  <span data-tina-field={tinaField(post, 'dietaryNotes')}>
+                  <span>
                     <strong className="text-[#2c1d14]">Dietary Notes:</strong> {post.dietaryNotes}
                   </span>
                 )}
@@ -277,45 +258,39 @@ export default function PostClientPage(props: ClientPostProps) {
               <div className="mb-6 text-sm text-[#2c1d14]/70">
                 <strong className="text-[#2c1d14]">Time:</strong>
                 {post.handsOnTime && (
-                  <div data-tina-field={tinaField(post, 'handsOnTime')} className="ml-4">Hands-on: {post.handsOnTime}</div>
+                  <div className="ml-4">Hands-on: {post.handsOnTime}</div>
                 )}
                 {post.handOffTime && (
-                  <div data-tina-field={tinaField(post, 'handOffTime')} className="ml-4">Hands-off: {post.handOffTime}</div>
+                  <div className="ml-4">Hands-off: {post.handOffTime}</div>
                 )}
               </div>
             )}
             {!!post.ingredients && (
               <div className="mb-8">
-                <h2 data-tina-field={tinaField(post, 'ingredients')} className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
+                <h2 className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
                   Ingredients
                 </h2>
-                <div
-                  data-tina-field={tinaField(post, 'ingredients')}
-                  className="prose prose-stone max-w-none prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-ul:font-serif prose-li:text-[#2c1d14]"
-                >
+                <div className="prose prose-stone max-w-none prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-ul:font-serif prose-li:text-[#2c1d14]">
                   <RecipeText text={post.ingredients} />
                 </div>
               </div>
             )}
             {!!post.method && (
               <div className="mb-8">
-                <h2 data-tina-field={tinaField(post, 'method')} className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
+                <h2 className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
                   Instructions
                 </h2>
-                <div
-                  data-tina-field={tinaField(post, 'method')}
-                  className="prose prose-stone max-w-none prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-ol:font-serif prose-li:text-[#2c1d14]"
-                >
+                <div className="prose prose-stone max-w-none prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-ol:font-serif prose-li:text-[#2c1d14]">
                   <RecipeText text={post.method} />
                 </div>
               </div>
             )}
             {post.storage && (
               <div className="mb-8">
-                <h2 data-tina-field={tinaField(post, 'storage')} className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
+                <h2 className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
                   Storage
                 </h2>
-                <p data-tina-field={tinaField(post, 'storage')} className="font-serif text-[#2c1d14] leading-relaxed">
+                <p className="font-serif text-[#2c1d14] leading-relaxed">
                   {post.storage}
                 </p>
               </div>

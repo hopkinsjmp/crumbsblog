@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useContext } from "react";
-import { GlobalQuery } from "../../tina/__generated__/types";
+import type { GlobalSettings, GlobalTheme } from "@/lib/global";
 
 export interface RecentPost {
   title: string;
@@ -9,13 +9,11 @@ export interface RecentPost {
 }
 
 interface LayoutState {
-  globalSettings: GlobalQuery["global"];
-  setGlobalSettings: React.Dispatch<
-    React.SetStateAction<GlobalQuery["global"]>
-  >;
+  globalSettings: GlobalSettings;
+  setGlobalSettings: React.Dispatch<React.SetStateAction<GlobalSettings>>;
   pageData: {};
   setPageData: React.Dispatch<React.SetStateAction<{}>>;
-  theme: GlobalQuery["global"]["theme"];
+  theme: GlobalTheme;
   recentPosts: RecentPost[];
 }
 
@@ -26,10 +24,10 @@ export const useLayout = () => {
   return (
     context || {
       theme: {
-        color: "blue",
-        darkMode: "default",
-      },
-      globalSettings: undefined,
+        color: "orange",
+        darkMode: "light",
+      } as GlobalTheme,
+      globalSettings: undefined as unknown as GlobalSettings,
       pageData: undefined,
       recentPosts: [],
     }
@@ -38,7 +36,7 @@ export const useLayout = () => {
 
 interface LayoutProviderProps {
   children: React.ReactNode;
-  globalSettings: GlobalQuery["global"];
+  globalSettings: GlobalSettings;
   pageData: {};
   recentPosts: RecentPost[];
 }
@@ -49,12 +47,12 @@ export const LayoutProvider: React.FC<LayoutProviderProps> = ({
   pageData: initialPageData,
   recentPosts,
 }) => {
-  const [globalSettings, setGlobalSettings] = useState<GlobalQuery["global"]>(
+  const [globalSettings, setGlobalSettings] = useState<GlobalSettings>(
     initialGlobalSettings
   );
   const [pageData, setPageData] = useState<{}>(initialPageData);
 
-  const theme = globalSettings.theme;
+  const theme: GlobalTheme = globalSettings.theme ?? { color: 'orange', darkMode: 'light' };
 
   return (
     <LayoutContext.Provider

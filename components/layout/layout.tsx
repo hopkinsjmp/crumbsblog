@@ -1,7 +1,8 @@
 import React, { PropsWithChildren } from "react";
 import { LayoutProvider } from "./layout-context";
 import { SidebarProvider } from "./sidebar-context";
-import client from "../../tina/__generated__/client";
+import { getGlobalSettings } from "@/lib/global";
+import { getAllPosts } from "@/lib/posts";
 import { Header } from "./nav/header";
 import { Footer } from "./nav/footer";
 import { Sidebar } from "./nav/sidebar";
@@ -11,40 +12,19 @@ type LayoutProps = PropsWithChildren & {
 };
 
 export default async function Layout({ children, rawPageData }: LayoutProps) {
-  const { data: globalData } = await client.queries.global({
-    relativePath: "index.json",
-  },
-    {
-      fetchOptions: {
-        next: {
-          revalidate: 60,
-        },
-      }
-    }
-  );
+  const globalData = getGlobalSettings();
 
   // Fetch the 30 most recent non-draft posts for the "The Blog" nav dropdown
-  // (the header will randomly sample 6 from this pool on each render)
-  let recentPosts: { title: string; url: string; heroImg?: string | null }[] = [];
-  try {
-    const { data: postsData } = await client.queries.postConnection({
-      sort: 'date',
-      last: 30,
-    });
-    recentPosts = (postsData.postConnection.edges ?? [])
-      .filter((e) => e?.node && !e.node.draft)
-      .map((e) => ({
-        title: e!.node!.title,
-        url: `/posts/${e!.node!._sys.breadcrumbs.join('/')}`,
-        heroImg: e!.node!.heroImg ?? null,
-      }))
-      .reverse();
-  } catch {
-    // silently fall back to empty list
-  }
+  const recentPosts = getAllPosts()
+    .slice(0, 30)
+    .map((p) => ({
+      title: p.title,
+      url: `/posts/${p.slug}`,
+      heroImg: p.heroImg ?? null,
+    }));
 
   return (
-    <LayoutProvider globalSettings={globalData.global} pageData={rawPageData} recentPosts={recentPosts}>
+    <LayoutProvider globalSettings={globalData} pageData={rawPageData} recentPosts={recentPosts}>
       <SidebarProvider>
         {/* Fixed sidebar - always visible on xl (>=1280 px), slide-in on mobile */}
         <Sidebar />

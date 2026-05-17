@@ -3,21 +3,17 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "tinacms dev --port 4001 -c \"next dev --hostname 0.0.0.0 --port 3000\"",
+    "dev": "next dev --hostname 0.0.0.0 --port 3000",
     "dev:rebuild": "pnpm rebuild esbuild && pnpm run dev",
-    "build": "NEXT_EXPORT=true tinacms build && NEXT_EXPORT=true next build && mkdir -p out/admin && cp public/admin/tina-lock.json out/admin/tina-lock.json",
+    "build": "NEXT_EXPORT=true next build",
     "test": "vitest run",
     "test:watch": "vitest",
-    "build-local": "TINA_PUBLIC_IS_LOCAL=true tinacms build --local --skip-cloud-checks",
-    "start": "tinacms build && next start",
-    "export": "npm run build && next export",
-    "lint": "biome lint",
-    "dev:build": "next build"
+    "start": "next start",
+    "lint": "biome lint"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@svgr/webpack": "^8.1.0",
-    "@tinacms/cli": "^2.1.7",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.18.12",
     "@types/react": "^18.3.26",
@@ -29,7 +25,6 @@
     "postcss": "^8.5.6",
     "postcss-import": "^16.1.1",
     "postcss-nesting": "^13.0.2",
-    "tinacms": "^3.5.1",
     "turndown": "^7.2.2",
     "typescript": "^5.9.3",
     "vitest": "^1.6.0"
@@ -50,6 +45,7 @@
     "mermaid": "^11.12.0",
     "motion": "^12.23.24",
     "next": "15.3.8",
+    "next-mdx-remote": "^6.0.0",
     "next-themes": "^0.4.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

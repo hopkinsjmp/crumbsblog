@@ -50,59 +50,19 @@ jobs:
 
       # ── 6. Build Next.js (static export → out/) ──────────────────────────
       - name: Build Next.js (static export)
-        run: |
-          pnpm exec tinacms dev --port 4001 -c "sleep 600" &
-          TINA_PID=$!
+        run: NEXT_EXPORT=true pnpm exec next build
 
-          echo "Waiting for TinaCMS local server..."
-          timeout 120 bash -c \
-            'until curl -sf -X POST http://localhost:4001/graphql \
-               -H "Content-Type: application/json" \
-               -d "{\"query\":\"{__typename}\"}" > /dev/null 2>&1; \
-             do sleep 3; done'
-          echo "TinaCMS local server ready."
-
-          pnpm exec next build
-          BUILD_EXIT=$?
-
-          kill $TINA_PID 2>/dev/null || true
-          exit $BUILD_EXIT
-        env:
-          NEXT_EXPORT: "true"
-          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
-          NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}
-          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
-
-      # ── 7. Build TinaCMS admin SPA ────────────────────────────────────────
-      - name: Build TinaCMS admin (cloud)
-        run: pnpm exec tinacms build
-        env:
-          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
-          NEXT_PUBLIC_TINA_BRANCH: ${{ github.ref_name }}
-          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
-
-      # ── 8. Copy admin bundle into out/ ────────────────────────────────────
-      - name: Copy TinaCMS admin into out/
-        run: |
-          # Ensure out/admin exists
-          mkdir -p out/admin
-          # Copy everything from public/admin (where Tina builds to) into the deployment folder
-          cp -r public/admin/* out/admin/
-          # Specifically ensure the lockfile is in the right spot for the URL check
-          cp tina/tina-lock.json out/admin/tina-lock.json || true
-          rm -f out/admin/.gitignore
-
-      # ── 9. Add .nojekyll so GH Pages serves files starting with _ ──────────
+      # ── 7. Add .nojekyll so GH Pages serves files starting with _ ──────────
       - name: Add .nojekyll
         run: touch out/.nojekyll
 
-      # ── 10. Upload Pages artifact ─────────────────────────────────────────────
+      # ── 8. Upload Pages artifact ─────────────────────────────────────────────
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
 
-      # ── 11. Deploy to GitHub Pages ───────────────────────────────────────────
+      # ── 9. Deploy to GitHub Pages ───────────────────────────────────────────
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

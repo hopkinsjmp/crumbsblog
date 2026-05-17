@@ -2,10 +2,8 @@ backend:
   name: github
   repo: hopkinsjmp/crumbsblog
   branch: main
-
-# Sign in with a GitHub Personal Access Token (no OAuth server needed).
-# Visit /admin/, click "Sign in with token", and paste your PAT.
-# Required PAT scopes: repo (or contents:write + pull-requests:write)
+  base_url: https://sveltia-cms-auth.YOUR_SUBDOMAIN.workers.dev
+  # ↑ Replace with your actual Cloudflare Worker URL after deploying sveltia-cms-auth
 
 media_folder: public/uploads
 public_folder: /uploads

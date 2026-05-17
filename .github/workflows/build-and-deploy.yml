@@ -5,7 +5,7 @@ on:
     branches: [main]
   workflow_dispatch: # allow manual runs from the Actions tab
   schedule:
-    - cron: '0 0 * * *' # rebuild daily at midnight UTC to publish scheduled posts
+    - cron: '0 */3 * * *' # rebuild every 3 hours to publish scheduled posts
 
 # Only one deployment at a time; don't cancel in-progress runs
 concurrency:

@@ -31,3 +31,7 @@ _trash/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+# Removed legacy files
+crumbsblog/
+migrate-images.js
+README.md

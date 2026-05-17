@@ -143,7 +143,10 @@ export function getAllPosts(includeDrafts = false): PostSummary[] {
     };
   });
 
-  const filtered = includeDrafts ? posts : posts.filter((p) => !p.draft);
+  const now = new Date();
+  const filtered = includeDrafts
+    ? posts
+    : posts.filter((p) => !p.draft && (!p.date || new Date(p.date) <= now));
 
   return filtered.sort((a, b) => {
     if (!a.date) return 1;

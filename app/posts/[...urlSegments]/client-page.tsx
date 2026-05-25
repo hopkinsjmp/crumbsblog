@@ -9,6 +9,7 @@ import PageContainer from '@/components/layout/page-container';
 import { PostActions } from '@/components/post-actions';
 import HeroVideoDialog from '@/components/ui/hero-video-dialog';
 import { YouTubeBanner } from '@/components/youtube-banner';
+import { FaYoutube } from 'react-icons/fa6';
 
 /**
  * Renders a plain-text recipe field (ingredients or method) stored as a
@@ -61,11 +62,20 @@ const titleColorClasses = {
   yellow: 'from-yellow-400 to-yellow-500 dark:from-yellow-300 dark:to-yellow-500',
 };
 
-type Tab = 'story' | 'recipe';
+type Tab = 'story' | 'recipe' | 'video';
 
 function getYouTubeThumbnail(url: string): string | null {
   const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
   return match ? `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg` : null;
+}
+
+function getYouTubeEmbedUrl(url: string): string | null {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  if (!match) return null;
+  const videoId = match[1];
+  const timeMatch = url.match(/[?&]t=(\d+)/);
+  const time = timeMatch ? `?start=${timeMatch[1]}` : '';
+  return `https://www.youtube.com/embed/${videoId}${time}`;
 }
 
 interface ClientPostProps {
@@ -88,7 +98,8 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
     !!post.handOffTime;
 
   const hasPhotos = !!post.heroImg;
-  const hasTabs = hasRecipe;
+  const hasVideo = !!post.videoUrl;
+  const hasTabs = hasRecipe || hasVideo;
 
   const [activeTab, setActiveTab] = useState<Tab>('story');
 
@@ -190,6 +201,14 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
                 The Recipe
               </button>
             )}
+            {hasVideo && (
+              <button onClick={() => setActiveTab('video')} className={tabClass('video')}>
+                <span className="flex items-center gap-1.5">
+                  <FaYoutube className="text-base text-[#ff0000]" />
+                  Watch
+                </span>
+              </button>
+            )}
             <div className="ml-auto flex items-end">
               <PostActions
                 bookmark={{ url: postPath, title: post.title, heroImg: post.heroImg, date: post.date }}
@@ -247,28 +266,27 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
                   )}
                 </div>
               )}
-              {post.videoUrl && (() => {
-                const thumb = getYouTubeThumbnail(post.videoUrl);
-                return thumb ? (
-                  <div className="not-prose mb-6 w-full">
-                    <HeroVideoDialog
-                      videoSrc={post.videoUrl}
-                      thumbnailSrc={thumb}
-                      thumbnailAlt={`Watch: ${post.title}`}
-                    />
-                    <p className="mt-2 font-sans text-xs text-[#2c1d14]/50 italic text-center">▶ Watch the video</p>
-                  </div>
-                ) : null;
-              })()}
               <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
             </div>
-            {post.videoUrl && (
-              <div className="mt-8">
-                <YouTubeBanner videoUrl={post.videoUrl} />
-              </div>
-            )}
           </div>
         )}
+
+        {/* Video tab */}
+        {hasTabs && activeTab === 'video' && hasVideo && (() => {
+          const embed = getYouTubeEmbedUrl(post.videoUrl!);
+          return embed ? (
+            <div>
+              <div className="relative w-full overflow-hidden rounded-lg" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  src={embed}
+                  className="absolute inset-0 h-full w-full rounded-lg"
+                  allowFullScreen
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                />
+              </div>
+            </div>
+          ) : null;
+        })()}
 
         {/* Recipe tab */}
         {hasTabs && activeTab === 'recipe' && (

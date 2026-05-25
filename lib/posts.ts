@@ -26,7 +26,6 @@ export interface PostSummary {
   tags: string[];
   subject?: string | null;
   degreeStage?: string | null;
-  draft?: boolean;
 }
 
 export interface Post extends PostSummary {
@@ -140,14 +139,13 @@ export function getAllPosts(includeDrafts = false): PostSummary[] {
       tags: parseTags(data.tags),
       subject: data.subject || null,
       degreeStage: data.degreeStage || null,
-      draft: !!data.draft,
     };
   });
 
   const now = new Date();
   const filtered = includeDrafts
     ? posts
-    : posts.filter((p) => !p.draft && (!p.date || new Date(p.date) <= now));
+    : posts.filter((p) => p.date && new Date(p.date) <= now);
 
   return filtered.sort((a, b) => {
     if (!a.date) return 1;
@@ -174,7 +172,6 @@ export function getPostBySlug(slug: string): Post | null {
       tags: parseTags(data.tags),
       subject: data.subject || null,
       degreeStage: data.degreeStage || null,
-      draft: !!data.draft,
       heroImgCaption: data.heroImgCaption || null,
       frameOfMind: data.frameOfMind || null,
       handsOnTime: data.handsOnTime || null,

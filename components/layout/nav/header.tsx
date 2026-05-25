@@ -52,11 +52,12 @@ export const Header = () => {
     setSearch("");
   }
 
-  // Pick 6 random posts from the pool, stable for the lifetime of this component
+  // Always show the latest post first, then 5 random others
   const displayedPosts = React.useMemo(() => {
     if (recentPosts.length <= 6) return recentPosts;
-    const shuffled = [...recentPosts].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, 6);
+    const [latest, ...rest] = recentPosts; // recentPosts is already sorted newest-first
+    const shuffled = [...rest].sort(() => Math.random() - 0.5);
+    return [latest, ...shuffled.slice(0, 5)];
   }, [recentPosts]);
 
   function handleSearch(e: React.FormEvent) {
@@ -200,7 +201,7 @@ export const Header = () => {
                       {blogOpen && displayedPosts.length > 0 && (
                         <div className="absolute left-0 top-full z-50 pt-1 max-w-[calc(100vw-2rem)]">
                           <div className="min-w-max rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1 overflow-hidden">
-                            {displayedPosts.map((post) => (
+                            {displayedPosts.map((post, idx) => (
                               <Link
                                 key={post.url}
                                 href={post.url}
@@ -221,7 +222,12 @@ export const Header = () => {
                                     <div className="w-full h-full flex items-center justify-center text-[#2c1d14]/20 text-xs">✦</div>
                                   )}
                                 </div>
-                                <span className="truncate">{post.title}</span>
+                                <span className="truncate flex-1 flex items-center gap-1.5">
+                                  {post.title}
+                                  {idx === 0 && (
+                                    <span className="shrink-0 rounded-full bg-[#a93e33] px-1.5 py-0.5 text-[10px] font-medium text-white leading-none">Latest</span>
+                                  )}
+                                </span>
                               </Link>
                             ))}
                             {/* Explore more */}

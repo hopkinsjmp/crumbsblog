@@ -17,7 +17,7 @@ export default async function ContributePage() {
     <Layout>
       <PageContainer>
         <div
-          className="prose prose-base max-w-none font-sans text-neutral-800 leading-snug text-justify prose-h2:mt-8 prose-h2:mb-3 prose-p:mt-0 prose-p:mb-4 prose-li:my-1"
+          className="prose prose-base max-w-none font-serif text-neutral-800 leading-snug text-justify prose-h2:mt-8 prose-h2:mb-3 prose-p:mt-0 prose-p:mb-4 prose-li:my-1"
           dangerouslySetInnerHTML={{ __html: bodyHtml }}
         />
         <div className="mt-10 border-t border-[#2c1d14]/10 pt-8">

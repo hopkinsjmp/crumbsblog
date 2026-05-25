@@ -132,7 +132,7 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
           </div>
 
           {/* Metadata badges */}
-          {(post.degreeStage || post.subject || post.frameOfMind) && (
+          {(post.degreeStage || post.subject || post.frameOfMind?.emoji || post.frameOfMind?.description) && (
             <>
               <span className="hidden text-[#2c1d14]/20 sm:inline">|</span>
               <div className="flex flex-wrap items-center gap-2 text-sm text-[#2c1d14]/70">

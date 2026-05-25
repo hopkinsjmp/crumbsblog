@@ -19,7 +19,6 @@ collections:
     format: frontmatter
     fields:
       - { label: Title, name: title, widget: string, required: true }
-      - { label: Draft, name: draft, widget: boolean, default: false, required: false }
       - { label: Degree Stage, name: degreeStage, widget: string, required: false }
       - { label: Subject, name: subject, widget: string, required: false }
       - label: Frame of Mind

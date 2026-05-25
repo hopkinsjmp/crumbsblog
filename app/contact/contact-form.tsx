@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 // TODO: Replace with your Web3Forms access key from https://web3forms.com
-const WEB3FORMS_ACCESS_KEY = 'YOUR_ACCESS_KEY_HERE';
+const WEB3FORMS_ACCESS_KEY = '097afef9-3376-43a5-8c59-1277f76e06ab';
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 

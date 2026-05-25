@@ -249,7 +249,7 @@ export const Header = () => {
                     <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
 
                     {/* ── About ── */}
-                    <li className="m-0 p-0 hidden sm:block">
+                    <li className="m-0 p-0">
                       <Link
                         href="/about"
                         className={`font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0

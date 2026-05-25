@@ -50,6 +50,17 @@ export function CookieBanner() {
       timestamp: new Date().toISOString(),
     };
     localStorage.setItem(CONSENT_KEY, JSON.stringify(record));
+    // Immediately update GA consent mode without waiting for reload
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const gtag = (window as any).gtag;
+    if (gtag) {
+      gtag('consent', 'update', {
+        analytics_storage: choice === 'accepted' ? 'granted' : 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+      });
+    }
     setVisible(false);
     window.location.reload();
   };

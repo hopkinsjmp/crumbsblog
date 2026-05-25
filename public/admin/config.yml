@@ -17,6 +17,7 @@ collections:
     slug: "{{slug}}"
     extension: mdx
     format: frontmatter
+    summary: "{{title}} — {{date}}"
     fields:
       - { label: Title, name: title, widget: string, required: true }
       - { label: Degree Stage, name: degreeStage, widget: string, required: false }

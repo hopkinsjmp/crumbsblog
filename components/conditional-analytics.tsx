@@ -5,12 +5,14 @@ import { getCookieConsent, CookieConsent } from './cookie-banner';
 
 export function ConditionalAnalytics({ gaId }: { gaId: string }) {
   const [consent, setConsent] = useState<CookieConsent>(null);
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     setConsent(getCookieConsent());
+    setIsOwner(localStorage.getItem('ga_exclude_owner') === 'true');
   }, []);
 
-  if (consent !== 'accepted') return null;
+  if (consent !== 'accepted' || isOwner) return null;
 
   return <GoogleAnalytics gaId={gaId} />;
 }

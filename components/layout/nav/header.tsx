@@ -243,7 +243,7 @@ export const Header = () => {
                     <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
 
                     {/* ── About ── */}
-                    <li className="m-0 p-0">
+                    <li className="m-0 p-0 hidden sm:block">
                       <Link
                         href="/about"
                         className={`font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
@@ -255,10 +255,10 @@ export const Header = () => {
                       </Link>
                     </li>
 
-                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
+                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14] hidden sm:block">·</li>
 
                     {/* ── How to contribute ── */}
-                    <li className="m-0 p-0">
+                    <li className="m-0 p-0 hidden sm:block">
                       <Link
                         href="/contribute"
                         className={`font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
@@ -278,11 +278,11 @@ export const Header = () => {
                       <BookmarksNavLink />
                     </li>
 
-                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
+                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14] hidden sm:block">·</li>
 
                     {/* ── Socials (with dropdown) ── */}
                     <li
-                      className="relative m-0 p-0"
+                      className="relative m-0 p-0 hidden sm:block"
                       onMouseEnter={() => setSocialsOpen(true)}
                       onMouseLeave={() => setSocialsOpen(false)}
                     >

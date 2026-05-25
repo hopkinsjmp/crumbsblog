@@ -1,0 +1,68 @@
+name: Compress Images
+
+on:
+  push:
+    paths:
+      - 'public/uploads/**/*.jpg'
+      - 'public/uploads/**/*.jpeg'
+      - 'public/uploads/**/*.png'
+      - 'public/uploads/**/*.webp'
+
+jobs:
+  compress:
+    runs-on: ubuntu-latest
+
+    # Skip if this push was already made by the bot (prevents infinite loop)
+    if: github.actor != 'github-actions[bot]'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for oversized images
+        id: check
+        run: |
+          THRESHOLD=307200  # 300KB in bytes
+          FOUND=false
+          while IFS= read -r -d '' file; do
+            size=$(stat -c%s "$file")
+            if [ "$size" -gt "$THRESHOLD" ]; then
+              echo "  Oversized: $file ($((size / 1024))KB)"
+              FOUND=true
+            fi
+          done < <(find public/uploads -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -print0)
+          echo "found=$FOUND" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node.js
+        if: steps.check.outputs.found == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        if: steps.check.outputs.found == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install sharp
+        if: steps.check.outputs.found == 'true'
+        run: pnpm add sharp --save-dev
+
+      - name: Run compression script
+        if: steps.check.outputs.found == 'true'
+        run: node scripts/compress-images.mjs --threshold=300
+
+      - name: Commit compressed images
+        if: steps.check.outputs.found == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/uploads
+          # Only commit if something actually changed
+          if git diff --staged --quiet; then
+            echo "No changes after compression (images were already optimal)."
+          else
+            git commit -m "perf: auto-compress oversized images [skip ci]"
+            git push
+          fi

@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { getAllPosts } from '@/lib/posts';
 
+export const dynamic = 'force-static';
+
 const BASE_URL = 'https://crumbsofsanity.com';
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -30,6 +30,7 @@ export interface PostSummary {
 
 export interface Post extends PostSummary {
   heroImgCaption?: string | null;
+  videoUrl?: string | null;
   frameOfMind?: FrameOfMind | null;
   handsOnTime?: string | null;
   handOffTime?: string | null;
@@ -173,6 +174,7 @@ export function getPostBySlug(slug: string): Post | null {
       subject: data.subject || null,
       degreeStage: data.degreeStage || null,
       heroImgCaption: data.heroImgCaption || null,
+      videoUrl: data.videoUrl || null,
       frameOfMind: data.frameOfMind || null,
       handsOnTime: data.handsOnTime || null,
       handOffTime: data.handOffTime || null,

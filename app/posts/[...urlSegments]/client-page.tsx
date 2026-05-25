@@ -7,6 +7,8 @@ import ErrorBoundary from '@/components/error-boundary';
 import { withBasePath } from '@/lib/utils';
 import PageContainer from '@/components/layout/page-container';
 import { PostActions } from '@/components/post-actions';
+import HeroVideoDialog from '@/components/ui/hero-video-dialog';
+import { YouTubeBanner } from '@/components/youtube-banner';
 
 /**
  * Renders a plain-text recipe field (ingredients or method) stored as a
@@ -60,6 +62,11 @@ const titleColorClasses = {
 };
 
 type Tab = 'story' | 'recipe';
+
+function getYouTubeThumbnail(url: string): string | null {
+  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  return match ? `https://img.youtube.com/vi/${match[1]}/maxresdefault.jpg` : null;
+}
 
 interface ClientPostProps {
   post: Post;
@@ -240,8 +247,26 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
                   )}
                 </div>
               )}
+              {post.videoUrl && (() => {
+                const thumb = getYouTubeThumbnail(post.videoUrl);
+                return thumb ? (
+                  <div className="not-prose mb-6 w-full">
+                    <HeroVideoDialog
+                      videoSrc={post.videoUrl}
+                      thumbnailSrc={thumb}
+                      thumbnailAlt={`Watch: ${post.title}`}
+                    />
+                    <p className="mt-2 font-sans text-xs text-[#2c1d14]/50 italic text-center">▶ Watch the video</p>
+                  </div>
+                ) : null;
+              })()}
               <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
             </div>
+            {post.videoUrl && (
+              <div className="mt-8">
+                <YouTubeBanner videoUrl={post.videoUrl} />
+              </div>
+            )}
           </div>
         )}
 

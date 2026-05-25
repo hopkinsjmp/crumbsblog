@@ -43,6 +43,7 @@ collections:
         required: false
         media_folder: /public/uploads/posts
         public_folder: /uploads/posts
+      - { label: Video URL (YouTube), name: videoUrl, widget: string, required: false }
       - { label: Excerpt, name: excerpt, widget: text, required: false }
       - { label: Hands On Time, name: handsOnTime, widget: string, required: false }
       - { label: Hands Off Time, name: handOffTime, widget: string, required: false }

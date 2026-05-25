@@ -189,3 +189,21 @@ export function getPostBySlug(slug: string): Post | null {
 
   return null;
 }
+
+/**
+ * Returns a plain-text description suitable for <meta description> and OG tags.
+ * Uses the post's excerpt if available; otherwise strips basic markdown from
+ * the first ~160 characters of the body.
+ */
+export function getSeoDescription(post: PostSummary | Post): string {
+  if (post.excerpt?.trim()) return post.excerpt.trim();
+  if (!('body' in post) || !post.body) return '';
+  const plain = post.body
+    .replace(/^#+\s+/gm, '')           // headings
+    .replace(/\*{1,3}([^*]+)\*{1,3}/g, '$1') // bold/italic
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links
+    .replace(/`[^`]+`/g, '')           // inline code
+    .replace(/\n+/g, ' ')
+    .trim();
+  return plain.length > 160 ? plain.slice(0, 157) + '…' : plain;
+}

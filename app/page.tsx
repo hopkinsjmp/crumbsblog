@@ -1,9 +1,20 @@
 import React, { Suspense } from "react";
+import { Metadata } from "next";
 import { getAllPosts } from "@/lib/posts";
 import Layout from "@/components/layout/layout";
 import PostsClientPage from "./posts/client-page";
 
 export const revalidate = 300;
+
+export const metadata: Metadata = {
+  title: "Crumbs of Sanity",
+  description: "A food and life blog by Carmel — recipes, musings, and a little whimsy from a perpetual PhD student.",
+  openGraph: {
+    title: "Crumbs of Sanity",
+    description: "A food and life blog by Carmel — recipes, musings, and a little whimsy from a perpetual PhD student.",
+    type: "website",
+  },
+};
 
 export default async function Home() {
   const posts = getAllPosts();

@@ -2,11 +2,22 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import { Metadata } from 'next';
 import Image from 'next/image';
 import Layout from '@/components/layout/layout';
 import PageContainer from '@/components/layout/page-container';
 import { withBasePath } from '@/lib/utils';
 import { notFound } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'Meet Carmel — the writer, cook, and perpetual PhD student behind Crumbs of Sanity.',
+  openGraph: {
+    title: 'About | Crumbs of Sanity',
+    description: 'Meet Carmel — the writer, cook, and perpetual PhD student behind Crumbs of Sanity.',
+    type: 'profile',
+  },
+};
 
 export default async function AboutPage() {
   const filePath = path.join(process.cwd(), 'content/pages/about.mdx');

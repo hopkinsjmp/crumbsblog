@@ -2,10 +2,21 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import { Metadata } from 'next';
 import Layout from '@/components/layout/layout';
 import PageContainer from '@/components/layout/page-container';
 import { notFound } from 'next/navigation';
 import ContactForm from '@/app/contact/contact-form';
+
+export const metadata: Metadata = {
+  title: 'Contribute',
+  description: 'Get in touch with Crumbs of Sanity — collaborations, questions, and recipe suggestions welcome.',
+  openGraph: {
+    title: 'Contribute | Crumbs of Sanity',
+    description: 'Get in touch with Crumbs of Sanity — collaborations, questions, and recipe suggestions welcome.',
+    type: 'website',
+  },
+};
 
 export default async function ContributePage() {
   const filePath = path.join(process.cwd(), 'content/pages/contribute.mdx');

@@ -1,9 +1,20 @@
 import { Suspense } from 'react';
+import { Metadata } from 'next';
 import Layout from '@/components/layout/layout';
 import { getAllPosts } from '@/lib/posts';
 import PostsClientPage from './client-page';
 
 export const revalidate = 300;
+
+export const metadata: Metadata = {
+  title: 'All Posts',
+  description: 'Browse all recipes and posts on Crumbs of Sanity.',
+  openGraph: {
+    title: 'All Posts | Crumbs of Sanity',
+    description: 'Browse all recipes and posts on Crumbs of Sanity.',
+    type: 'website',
+  },
+};
 
 export default async function PostsPage() {
   const posts = getAllPosts();

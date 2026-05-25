@@ -52,8 +52,20 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
-  title: "Crumbs of Sanity",
-  description: "A blog about life, learning, and everything in between.",
+  metadataBase: new URL('https://crumbsofsanity.com'),
+  title: {
+    default: 'Crumbs of Sanity',
+    template: '%s | Crumbs of Sanity',
+  },
+  description: 'A food and life blog by Carmel — recipes, musings, and a little whimsy.',
+  openGraph: {
+    siteName: 'Crumbs of Sanity',
+    type: 'website',
+    locale: 'en_GB',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
 };
 
 /** Map a hex color (e.g. "#2a5db0") to a CSS custom-property override string */

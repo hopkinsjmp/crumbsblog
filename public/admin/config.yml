@@ -18,6 +18,13 @@ collections:
     extension: mdx
     format: frontmatter
     summary: "{{title}} — {{date}}"
+    view_filters:
+      - label: Drafts
+        field: date
+        pattern: ''
+      - label: Published
+        field: date
+        pattern: '^\d{4}'
     fields:
       - { label: Title, name: title, widget: string, required: true }
       - { label: Degree Stage, name: degreeStage, widget: string, required: false }

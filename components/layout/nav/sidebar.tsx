@@ -71,7 +71,7 @@ export function Sidebar() {
           <div className="mb-10 border-b border-black pb-10">
             <div className="mb-4 w-full overflow-hidden rounded">
               <Image
-                src={withBasePath("/uploads/authors/carmel-bio.png")}
+                src={withBasePath("/uploads/authors/carmel-bio.jpg")}
                 alt="Carmel - author of Crumbs of Sanity"
                 width={326}
                 height={435}

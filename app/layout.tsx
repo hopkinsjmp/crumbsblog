@@ -123,9 +123,9 @@ export default async function RootLayout({
         </VideoDialogProvider>
         <StickyBar />
         <CookieBanner />
+        <ConditionalAnalytics gaId="G-YX30LQ278K" />
         <TailwindIndicator />
       </body>
-      <ConditionalAnalytics gaId="G-YX30LQ278K" />
     </html>
   );
 }

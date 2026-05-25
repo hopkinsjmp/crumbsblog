@@ -16,11 +16,11 @@ export function YouTubeBanner() {
       {/* Text */}
       <div className="flex-1 text-center sm:text-left">
         <p className="font-heading text-lg font-normal text-[#2c1d14] leading-snug">
-          We're now on YouTube!
+          Now on YouTube!
         </p>
         <p className="mt-0.5 font-sans text-sm text-[#2c1d14]/60">
-          Video essays, discussions, and more - subscribe to{' '}
-          <span className="font-medium text-[#2c1d14]/80">Crumbs of Sanity</span> on YouTube.
+          A calm little corner of Youtube. For slow living and everyday moments for academics, at every stage of their journey.
+         
         </p>
       </div>
 

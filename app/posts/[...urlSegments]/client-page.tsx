@@ -22,13 +22,13 @@ function RecipeText({ text }: { text: string }) {
 
   const flushUl = () => {
     if (ulItems.length) {
-      elements.push(<ul key={elements.length} className="list-disc pl-5 font-serif text-[#2c1d14] space-y-1">{ulItems.map((t, i) => <li key={i}>{t}</li>)}</ul>);
+      elements.push(<ul key={elements.length} className="list-disc pl-5 font-sans text-sm text-[#2c1d14] space-y-1">{ulItems.map((t, i) => <li key={i}>{t}</li>)}</ul>);
       ulItems = [];
     }
   };
   const flushOl = () => {
     if (olItems.length) {
-      elements.push(<ol key={elements.length} className="list-decimal pl-5 font-serif text-[#2c1d14] space-y-2">{olItems.map((t, i) => <li key={i}>{t}</li>)}</ol>);
+      elements.push(<ol key={elements.length} className="list-decimal pl-5 font-sans text-sm text-[#2c1d14] space-y-2">{olItems.map((t, i) => <li key={i}>{t}</li>)}</ol>);
       olItems = [];
     }
   };
@@ -40,7 +40,8 @@ function RecipeText({ text }: { text: string }) {
     const olMatch = line.match(/^\s*\d+\.\s+(.+)/);
     if (ulMatch) { flushOl(); ulItems.push(ulMatch[1]); }
     else if (olMatch) { flushUl(); olItems.push(olMatch[1]); }
-    else { flushUl(); flushOl(); elements.push(<p key={elements.length} className="font-serif font-semibold text-[#2c1d14] mt-4 mb-1">{line.trim()}</p>); }
+    else if (line.trim().endsWith(':')) { flushUl(); flushOl(); elements.push(<p key={elements.length} className="font-sans font-semibold text-[#2c1d14] mt-4 mb-1 text-sm">{line.trim()}</p>); }
+    else { flushUl(); flushOl(); elements.push(<p key={elements.length} className="font-sans text-[#2c1d14] text-sm">{line.trim()}</p>); }
   }
   flushUl();
   flushOl();
@@ -213,23 +214,30 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
             )}
             <div
               className="prose prose-stone max-w-none
-                prose-headings:font-heading prose-headings:font-normal prose-headings:text-[#2c1d14]
+                prose-headings:font-heading prose-headings:font-semibold prose-headings:text-[#2c1d14]
                 prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-p:text-justify
                 prose-a:text-[#a93e33] prose-a:no-underline hover:prose-a:underline
                 prose-strong:text-[#2c1d14]
                 prose-blockquote:border-l-[#a93e33] prose-blockquote:text-[#2c1d14]/70"
             >
               {hasPhotos && (
-                <div className="mb-6 w-full overflow-hidden rounded-lg md:float-right md:ml-8 md:mb-4 md:w-[50%]">
-                  <Image
-                    priority
-                    src={withBasePath(post.heroImg!)}
-                    alt={post.title}
-                    width={600}
-                    height={400}
-                    className="w-full object-cover"
-                    unoptimized
-                  />
+                <div className="not-prose mb-6 w-full overflow-hidden md:float-right md:ml-8 md:mb-4 md:w-[50%]">
+                  <div className="overflow-hidden rounded-lg">
+                    <Image
+                      priority
+                      src={withBasePath(post.heroImg!)}
+                      alt={post.title}
+                      width={600}
+                      height={400}
+                      className="w-full object-cover"
+                      unoptimized
+                    />
+                  </div>
+                  {post.heroImgCaption && (
+                    <p className="mt-1.5 font-sans text-xs text-[#2c1d14]/50 italic text-center">
+                      {post.heroImgCaption}
+                    </p>
+                  )}
                 </div>
               )}
               <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
@@ -239,60 +247,46 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
 
         {/* Recipe tab */}
         {hasTabs && activeTab === 'recipe' && (
-          <div>
-            {(post.servings || post.dietaryNotes) && (
-              <div className="mb-4 flex flex-wrap items-center gap-4 text-sm text-[#2c1d14]/70">
+          <div className="font-sans text-sm text-[#2c1d14]">
+            {/* Meta row: servings, dietary, time */}
+            {(post.servings || post.dietaryNotes || post.handsOnTime || post.handOffTime) && (
+              <div className="mb-6 flex flex-wrap gap-x-6 gap-y-1">
                 {post.servings && (
-                  <span>
-                    <strong className="text-[#2c1d14]">Servings:</strong> {post.servings}
-                  </span>
+                  <span><strong>Servings:</strong> {post.servings}</span>
                 )}
                 {post.dietaryNotes && (
-                  <span>
-                    <strong className="text-[#2c1d14]">Dietary Notes:</strong> {post.dietaryNotes}
-                  </span>
+                  <span><strong>Dietary:</strong> {post.dietaryNotes}</span>
                 )}
-              </div>
-            )}
-            {(post.handsOnTime || post.handOffTime) && (
-              <div className="mb-6 text-sm text-[#2c1d14]/70">
-                <strong className="text-[#2c1d14]">Time:</strong>
                 {post.handsOnTime && (
-                  <div className="ml-4">Hands-on: {post.handsOnTime}</div>
+                  <span>👐 <strong>Hands-on:</strong> {post.handsOnTime}</span>
                 )}
                 {post.handOffTime && (
-                  <div className="ml-4">Hands-off: {post.handOffTime}</div>
+                  <span>⏳ <strong>Hands-off:</strong> {post.handOffTime}</span>
                 )}
               </div>
             )}
             {!!post.ingredients && (
               <div className="mb-8">
-                <h2 className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
+                <h2 className="mb-3 font-heading text-2xl font-bold text-[#2c1d14]">
                   Ingredients
                 </h2>
-                <div className="prose prose-stone max-w-none prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-ul:font-serif prose-li:text-[#2c1d14]">
-                  <RecipeText text={post.ingredients} />
-                </div>
+                <RecipeText text={post.ingredients} />
               </div>
             )}
             {!!post.method && (
               <div className="mb-8">
-                <h2 className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
+                <h2 className="mb-3 font-heading text-2xl font-bold text-[#2c1d14]">
                   Instructions
                 </h2>
-                <div className="prose prose-stone max-w-none prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-ol:font-serif prose-li:text-[#2c1d14]">
-                  <RecipeText text={post.method} />
-                </div>
+                <RecipeText text={post.method} />
               </div>
             )}
             {post.storage && (
               <div className="mb-8">
-                <h2 className="mb-3 font-heading text-2xl font-normal text-[#2c1d14]">
+                <h2 className="mb-3 font-heading text-2xl font-bold text-[#2c1d14]">
                   Storage
                 </h2>
-                <p className="font-serif text-[#2c1d14] leading-relaxed">
-                  {post.storage}
-                </p>
+                <p>{post.storage}</p>
               </div>
             )}
           </div>

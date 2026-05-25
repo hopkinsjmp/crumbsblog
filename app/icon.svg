@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <circle cx="256" cy="256" r="256" fill="#e0e6cf"/>
+  <text
+    x="256"
+    y="355"
+    text-anchor="middle"
+    font-family="'EB Garamond', 'Garamond', 'Georgia', serif"
+    font-size="360"
+    font-weight="400"
+    fill="#2c1d14"
+    letter-spacing="-0.02em"
+  >C</text>
+</svg>

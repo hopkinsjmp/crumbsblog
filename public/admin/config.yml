@@ -19,12 +19,19 @@ collections:
     format: frontmatter
     summary: "{{title}} — {{date}}"
     view_filters:
-      - label: Drafts
+      - label: All Posts
         field: date
         pattern: ''
-      - label: Published
+      - label: Published (2026 & Earlier)
         field: date
-        pattern: '^\d{4}'
+        pattern: '^202[0-6]'
+      - label: Future/Draft (2027+)
+        field: date
+        pattern: '^20(2[7-9]|[3-9]\d|99)'
+      - label: Missing Date
+        field: date
+        pattern: '^$'
+    sortable_fields: ['date', 'title']
     fields:
       - { label: Title, name: title, widget: string, required: true }
       - { label: Degree Stage, name: degreeStage, widget: string, required: false }

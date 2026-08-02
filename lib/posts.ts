@@ -35,7 +35,7 @@ export interface Post extends PostSummary {
   frameOfMind?: FrameOfMind | null;
   handsOnTime?: string | null;
   handOffTime?: string | null;
-  servings?: number | null;
+  servings?: string | null;
   dietaryNotes?: string | null;
   recipeCuisine?: string | null;
   recipeCategory?: string | null;
@@ -182,6 +182,7 @@ export function getPostBySlug(slug: string): Post | null {
       title: data.title || slug,
       date: data.date ? String(data.date) : null,
       heroImg: data.heroImg || null,
+      heroImgAlt: data.heroImgAlt || null,
       excerpt: data.excerpt || null,
       author: resolveAuthor(data.author),
       tags: parseTags(data.tags),
@@ -192,8 +193,10 @@ export function getPostBySlug(slug: string): Post | null {
       frameOfMind: data.frameOfMind || null,
       handsOnTime: data.handsOnTime || null,
       handOffTime: data.handOffTime || null,
-      servings: typeof data.servings === 'number' ? data.servings : null,
+      servings: data.servings ? String(data.servings) : null,
       dietaryNotes: data.dietaryNotes || null,
+      recipeCuisine: data.recipeCuisine || null,
+      recipeCategory: data.recipeCategory || null,
       ingredients: data.ingredients || null,
       method: data.method || null,
       storage: data.storage || null,

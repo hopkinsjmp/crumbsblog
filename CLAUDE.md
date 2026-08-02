@@ -56,12 +56,17 @@ A post becomes visible after a GitHub Pages build/deploy runs with a publishable
 
 1. Push to `main` (immediate build path)
 2. Manual run via `workflow_dispatch`
-3. Scheduled build every 15 minutes for auto-publishing future-dated posts
+3. Scheduled build once daily at 10:00 UTC for auto-publishing future-dated posts
+
+Notes:
+
+1. Publishing from Sveltia CMS still follows the push trigger path when it commits to `main`.
+2. The scheduled run is a safety net for time-based publishing without a new commit.
 
 ### Expected latency
 
 1. Push/manual path: CI build plus deployment time
-2. Scheduled path: up to about 15 minutes plus deployment time
+2. Scheduled path: up to about 24 hours plus deployment time
 
 ## Fast Publish Runbook
 

@@ -71,7 +71,7 @@ export function PostActions({ bookmark, shareTitle, shareUrl }: PostActionsProps
             d="M5 3a2 2 0 0 0-2 2v13l7-3 7 3V5a2 2 0 0 0-2-2H5Z"
           />
         </svg>
-        {saved ? "Bookmarked" : "Bookmark"}
+        <span className="hidden sm:inline">{saved ? "Bookmarked" : "Bookmark"}</span>
       </button>
 
       {/* Share */}
@@ -96,7 +96,7 @@ export function PostActions({ bookmark, shareTitle, shareUrl }: PostActionsProps
             d="M13.5 6.5 10 3m0 0L6.5 6.5M10 3v10m-6 4h12"
           />
         </svg>
-        {shareLabel}
+        <span className="hidden sm:inline">{shareLabel}</span>
       </button>
     </>
   );

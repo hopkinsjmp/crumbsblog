@@ -206,7 +206,7 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
                 <button onClick={() => setActiveTab('video')} className={tabClass('video')}>
                   <span className="flex items-center gap-1.5 whitespace-nowrap">
                     <FaYoutube className="text-base text-[#ff0000]" />
-                    Watch
+                    <span className="hidden sm:inline">Watch</span>
                   </span>
                 </button>
               )}

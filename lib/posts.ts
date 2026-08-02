@@ -30,6 +30,7 @@ export interface PostSummary {
 
 export interface Post extends PostSummary {
   heroImgCaption?: string | null;
+  heroImgAlt?: string | null;
   videoUrl?: string | null;
   frameOfMind?: FrameOfMind | null;
   handsOnTime?: string | null;

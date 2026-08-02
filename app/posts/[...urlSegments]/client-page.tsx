@@ -255,7 +255,7 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
                     <Image
                       priority
                       src={withBasePath(post.heroImg!)}
-                      alt={post.title}
+                      alt={post.heroImgAlt || post.title}
                       width={600}
                       height={400}
                       className="w-full object-cover"

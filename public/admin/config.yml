@@ -50,7 +50,7 @@ collections:
       - { label: Excerpt, name: excerpt, widget: text, required: false }
       - { label: Hands On Time, name: handsOnTime, widget: string, required: false }
       - { label: Hands Off Time, name: handOffTime, widget: string, required: false }
-      - { label: Servings, name: servings, widget: number, required: false }
+      - { label: Servings, name: servings, widget: string, required: false }
       - { label: Dietary Notes, name: dietaryNotes, widget: string, required: false }
       - { label: Recipe Cuisine, name: recipeCuisine, widget: string, required: false, hint: "e.g., British, Asian, Mediterranean" }
       - { label: Recipe Category, name: recipeCategory, widget: string, required: false, hint: "e.g., Dessert, Main Course, Appetizer" }

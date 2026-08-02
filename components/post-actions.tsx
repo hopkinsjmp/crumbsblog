@@ -50,7 +50,7 @@ export function PostActions({ bookmark, shareTitle, shareUrl }: PostActionsProps
         onClick={() => toggle(bookmark)}
         aria-label={saved ? "Remove bookmark" : "Bookmark this post"}
         title={saved ? "Remove bookmark" : "Save to bookmarks"}
-        className={`flex items-center gap-1.5 px-4 py-2.5 font-sans text-sm font-medium transition-colors border-b-2 -mb-px focus:outline-none ${
+        className={`flex items-center gap-1.5 px-3 sm:px-4 py-2.5 font-sans text-sm font-medium transition-colors border-b-2 -mb-px focus:outline-none ${
           saved
             ? "border-[#a93e33] text-[#a93e33]"
             : "border-transparent text-[#2c1d14]/50 hover:text-[#2c1d14]"
@@ -79,7 +79,7 @@ export function PostActions({ bookmark, shareTitle, shareUrl }: PostActionsProps
         onClick={handleShare}
         aria-label="Share this post"
         title="Share or copy link"
-        className="flex items-center gap-1.5 px-4 py-2.5 font-sans text-sm font-medium transition-colors border-b-2 border-transparent -mb-px text-[#2c1d14]/50 hover:text-[#2c1d14] focus:outline-none"
+        className="flex items-center gap-1.5 px-3 sm:px-4 py-2.5 font-sans text-sm font-medium transition-colors border-b-2 border-transparent -mb-px text-[#2c1d14]/50 hover:text-[#2c1d14] focus:outline-none"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

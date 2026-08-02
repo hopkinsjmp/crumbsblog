@@ -183,20 +183,19 @@ export const Header = () => {
                             setBlogOpen(false);
                             handleBlogClick(e);
                           }}
-                          className={`inline-flex items-center font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
+                          className={`inline-flex items-center font-sans text-xs sm:text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
                             ${pathname === "/" ? "text-[#2c1d14] underline underline-offset-4 decoration-[#2c1d14]" : "text-[#2c1d14]/80 hover:text-[#2c1d14]"}
                             focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40`}
                           aria-current={pathname === "/" ? "page" : undefined}
                         >
-                          <span className="sm:hidden">Blog</span>
-                          <span className="hidden sm:inline">The Blog</span>
+                          Blog
                         </Link>
                         <button
                           onClick={() => setBlogOpen((o) => !o)}
                           aria-label="Toggle blog menu"
                           className="ml-0.5 text-[#2c1d14]/60 hover:text-[#2c1d14] focus:outline-none"
                         >
-                          <BiChevronDown className={`text-base transition-transform duration-150 ${blogOpen ? 'rotate-180' : ''}`} />
+                          <BiChevronDown className={`text-sm sm:text-base transition-transform duration-150 ${blogOpen ? 'rotate-180' : ''}`} />
                         </button>
                       </span>
                       {blogOpen && displayedPosts.length > 0 && (
@@ -247,13 +246,13 @@ export const Header = () => {
                       )}
                     </li>
 
-                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
+                    <li aria-hidden="true" className="select-none px-1 sm:px-1.5 text-xs sm:text-sm text-[#2c1d14]">·</li>
 
                     {/* ── About ── */}
                     <li className="m-0 p-0">
                       <Link
                         href="/about"
-                        className={`font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
+                        className={`font-sans text-xs sm:text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
                           ${pathname?.startsWith("/about") ? "text-[#2c1d14] underline underline-offset-4 decoration-[#2c1d14]" : "text-[#2c1d14]/80 hover:text-[#2c1d14]"}
                           focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40`}
                         aria-current={pathname?.startsWith("/about") ? "page" : undefined}
@@ -273,19 +272,18 @@ export const Header = () => {
                           focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40`}
                         aria-current={pathname?.startsWith("/contribute") ? "page" : undefined}
                       >
-                        <span className="sm:hidden">Contribute</span>
-                        <span className="hidden sm:inline">How to contribute</span>
+                        How to contribute
                       </Link>
                     </li>
 
-                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14]">·</li>
+                    <li aria-hidden="true" className="select-none px-1 sm:px-1.5 text-xs sm:text-sm text-[#2c1d14]">·</li>
 
                     {/* ── Bookmarks ── */}
                     <li className="m-0 p-0">
                       <BookmarksNavLink />
                     </li>
 
-                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14] sm:hidden">·</li>
+                    <li aria-hidden="true" className="select-none px-1 sm:px-1.5 text-xs sm:text-sm text-[#2c1d14] sm:hidden">·</li>
 
                     {/* ── More (mobile only) ── */}
                     <li
@@ -295,10 +293,10 @@ export const Header = () => {
                     >
                       <button
                         onClick={() => setMoreOpen((o) => !o)}
-                        className="inline-flex items-center gap-0.5 font-sans text-sm font-normal uppercase tracking-wider text-[#2c1d14]/80 hover:text-[#2c1d14] transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40"
+                        className="inline-flex items-center gap-0.5 font-sans text-xs font-normal uppercase tracking-wider text-[#2c1d14]/80 hover:text-[#2c1d14] transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40"
                       >
                         More
-                        <BiChevronDown className={`text-base opacity-60 transition-transform duration-150 ${moreOpen ? 'rotate-180' : ''}`} />
+                        <BiChevronDown className={`text-sm opacity-60 transition-transform duration-150 ${moreOpen ? 'rotate-180' : ''}`} />
                       </button>
                       {moreOpen && (
                         <div className="absolute right-0 top-full z-50 pt-1">

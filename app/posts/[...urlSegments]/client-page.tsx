@@ -107,7 +107,7 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
   const postPath = `/posts/${post.slug}`;
 
   const tabClass = (tab: Tab) =>
-    `flex-1 sm:flex-none px-5 py-2.5 font-sans text-sm font-medium transition-colors border-b-2 -mb-px ${
+    `sm:flex-none px-3 sm:px-5 py-2.5 font-sans text-sm font-medium transition-colors border-b-2 -mb-px whitespace-nowrap ${
       activeTab === tab
         ? 'border-[#a93e33] text-[#a93e33]'
         : 'border-transparent text-[#2c1d14]/50 hover:text-[#2c1d14]'
@@ -193,7 +193,7 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
         {/* Tabs + actions row */}
         {hasTabs && (
           <div className="mb-6 border-b border-[#2c1d14]/15">
-            <div className="flex items-end gap-0 overflow-x-auto">
+            <div className="flex items-end gap-0">
               <button onClick={() => setActiveTab('story')} className={tabClass('story')}>
                 The Story
               </button>
@@ -210,13 +210,13 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
                   </span>
                 </button>
               )}
-            </div>
-            <div className="flex justify-end py-2 sm:py-0 sm:-mt-10">
-              <PostActions
-                bookmark={{ url: postPath, title: post.title, heroImg: post.heroImg, date: post.date }}
-                shareTitle={post.title}
-                shareUrl={postPath}
-              />
+              <div className="flex sm:ml-auto">
+                <PostActions
+                  bookmark={{ url: postPath, title: post.title, heroImg: post.heroImg, date: post.date }}
+                  shareTitle={post.title}
+                  shareUrl={postPath}
+                />
+              </div>
             </div>
           </div>
         )}

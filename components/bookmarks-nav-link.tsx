@@ -13,12 +13,13 @@ export function BookmarksNavLink() {
   return (
     <Link
       href="/bookmarks"
-      className={`font-sans text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
+      className={`font-sans text-xs sm:text-sm font-normal uppercase tracking-wider transition-colors duration-150 m-0 p-0
         ${active ? "text-[#2c1d14] underline underline-offset-4 decoration-[#2c1d14]" : "text-[#2c1d14]/80 hover:text-[#2c1d14]"}
         focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40`}
       aria-current={active ? "page" : undefined}
     >
-      Bookmarks{count > 0 ? ` (${count})` : ""}
+      <span className="sm:hidden">Saves{count > 0 ? ` (${count})` : ""}</span>
+      <span className="hidden sm:inline">Bookmarks{count > 0 ? ` (${count})` : ""}</span>
     </Link>
   );
 }

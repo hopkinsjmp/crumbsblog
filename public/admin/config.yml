@@ -60,7 +60,7 @@ collections:
         value_field: "{{fields.name}}"
         display_fields: [name]
         required: false
-      - { label: Date, name: date, widget: datetime, required: false }
+      - { label: Date, name: date, widget: datetime, required: false, format: "YYYY-MM-DDTHH:mm:ssZ", picker_utc: false }
       - label: Tags
         name: tags
         widget: list

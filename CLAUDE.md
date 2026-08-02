@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+> **Note**: For general development guidelines and architecture patterns, see [`.github/copilot-instructions.md`](.github/copilot-instructions.md). This file focuses specifically on the publishing workflow.
+
 ## Publishing Playbook
 
 This file is the source of truth for how publishing works in this repository.

@@ -1,27 +1,32 @@
 # GitHub Copilot Instructions
 
+> **Note**: This file covers general development guidelines, architecture, and CMS usage. For publishing workflow specifics (draft/published logic, date-based visibility), see [`CLAUDE.md`](../CLAUDE.md).
+
 ## Project Overview
 
-This project uses **TinaCMS** as a headless CMS with **React** for the frontend. It features a server/client split architecture for efficient data fetching and real-time visual editing capabilities.
+This project uses **Sveltia CMS** as a Git-based headless CMS with **Next.js** for the frontend. It features a server/client split architecture for efficient data fetching and interactive UI components.
 
 ### Key Concepts
-- **useTina hook**: Client-side visual editing; wraps queries and provides edit mode
-- **tinaField helper**: Connects DOM elements to CMS fields for click-to-edit
-- **TinaClient**: Queries collections and items; used on server side
-- **Server/Client split**: Fetch data on server, render with editing on client
+- **Sveltia CMS**: Git-based CMS with admin UI for managing markdown content
+- **Git Workflow**: Draft/published workflow using Git branches
+- **Markdown/MDX**: Content stored as `.mdx` files in `/content/posts/`
+- **Server/Client split**: Fetch data on server, render interactive UI on client
+- **No inline editing**: Content managed through `/admin` interface, not inline
 
 ## Technology Stack
 
 - **Language**: TypeScript
-- **CMS**: TinaCMS (headless)
+- **Framework**: Next.js 14 (App Router)
+- **CMS**: Sveltia CMS (Git-based)
 - **UI Framework**: React
-- **File Format**: `.tsx` | `.ts`
+- **Styling**: Tailwind CSS
+- **Content Format**: Markdown/MDX (`.mdx` files)
+- **Package Manager**: pnpm
 
 ### Framework Notes
 - **Next.js (App Router)**: Native server/client component split 
-- **Next.js (Pages Router)**: Native server/client component split
-- **Astro**: Use server components and client islands
-- **Other frameworks**: Adapt the pattern to your framework's conventions
+- Server components for data fetching
+- Client components for interactivity
 
 ## Architecture
 
@@ -31,65 +36,61 @@ All pages follow this structure:
 
 ```
 page/
-├── page.tsx           # Server component; fetches data
-└── client-page.tsx    # Client component; renders with useTina
+├── page.tsx           # Server component; fetches data from markdown files
+└── client-page.tsx    # Client component; renders UI with interactivity
 ```
 
 #### Data Flow
 1. **Server (`page.tsx`)**
-   - Calls `client.queries.xxx()` to fetch content
-   - Returns `{ query, data, variables }` automatically
-   - Passes all three to client component
-   - No visual editing; pure data fetching
+   - Reads markdown files from `/content/posts/`
+   - Parses frontmatter and content using `gray-matter` and `marked`
+   - Passes parsed data to client component
+   - Pure data fetching, no visual editing
 
 2. **Client (`client-page.tsx`)**
-   - Uses `useTina()` hook with server-fetched data
-   - Enables visual editing mode
-   - Renders UI with `data-tina-field` attributes for click-to-edit
+   - Receives parsed post data as props
+   - Renders interactive UI (tabs, bookmarks, share buttons)
+   - Manages client-side state (active tab, etc.)
+   - No CMS integration needed - just standard React
 
-## TinaCMS Client Usage
+## Content Management
 
-### Querying Collections
+### Sveltia CMS
 
-#### Query Multiple Items (Paginated)
+- **Access**: Navigate to `/admin` in your browser
+- **Config**: `public/admin/config.yml`
+- **Storage**: Content saved as `.mdx` files in `/content/posts/`
+- **Workflow**: 
+  - **Drafts**: Stored in separate Git branches
+  - **Published**: Merged to `main` branch
+- **Authentication**: Git-based (GitHub, GitLab, etc.)
+
+### Data Fetching Pattern
+
+#### Reading Post Data
+
 ```typescript
-const { query, data, variables } = await client.queries.postConnection({
-  first: 10, // optional
-  after: "cursor", // optional; pagination
-});
-```
+// lib/posts.ts helper functions
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+import { marked } from 'marked';
 
-#### Query Single Item
-```typescript
-const { query, data, variables } = await client.queries.post({
-  relativePath: "my-post.md",
-});
-```
-
-#### Query with Filters (Schema-Dependent)
-```typescript
-const { query, data, variables } = await client.queries.postConnection({
-  first: 20,
-  sort: "title", // depends on schema
-});
-```
-
-### Return Object Structure
-
-All `client.queries.xxx()` calls return:
-```typescript
-{
-  query: string;      // GraphQL query string (pass to useTina)
-  data: <collectionNameQuery>;          // Query result (pass to useTina). Type from tinacms generated types file
-  variables?: <collectionNameQueryVariables>; // Query variables (pass to useTina).  Type from tinacms generated types file
-
+export async function getPostBySlug(slug: string) {
+  const filePath = path.join(process.cwd(), 'content/posts', `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) return null;
+  
+  const raw = fs.readFileSync(filePath, 'utf-8');
+  const { data, content } = matter(raw);
+  const bodyHtml = await marked(content);
+  
+  return {
+    ...data,
+    bodyHtml,
+    slug,
+  };
 }
 ```
-
-- This types import looks like: `import { PostConnectionQuery, PostConnectionQueryVariables } from '@/tina/__generated__/types';`
-
-
-**Always pass all three to the client component.**
 
 ## Framework-Specific Patterns
 
@@ -98,73 +99,49 @@ All `client.queries.xxx()` calls return:
 #### Server Component (page.tsx)
 
 ```typescript
-// app/blog/[slug]/page.tsx
-import { client } from "@/tina/client";
-import ClientPage from "./client-page";
+// app/posts/[...urlSegments]/page.tsx
+import { getPostBySlug } from '@/lib/posts';
+import ClientPage from './client-page';
+import { notFound } from 'next/navigation';
 
 interface PageProps {
-  params: { slug: string };
+  params: { urlSegments: string[] };
 }
 
 export default async function Page({ params }: PageProps) {
-  try {
-    const { query, data, variables } = await client.queries.post({
-      relativePath: `${params.slug}.md`,
-    });
+  const slug = params.urlSegments?.join('/');
+  const post = await getPostBySlug(slug);
 
-    if (!data.post) {
-      notFound();
-    }
-
-    return <ClientPage query={query} data={data} variables={variables} />;
-  } catch (error) {
-    console.error("Failed to fetch post:", error);
+  if (!post) {
     notFound();
   }
+
+  return <ClientPage post={post} bodyHtml={post.bodyHtml} />;
 }
 ```
 
 #### Client Component (client-page.tsx)
 
 ```typescript
-// app/blog/[slug]/client-page.tsx
+// app/posts/[...urlSegments]/client-page.tsx
 "use client";
 
-import { tinaField, useTina } from 'tinacms/dist/react';
-import { TinaMarkdown } from 'tinacms/dist/rich-text';
-import { PostQuery, PostQueryVariables } from "@/tina/__generated__/types";
-import { components } from '@/components/mdx-components';
+import { useState } from 'react';
+import { Post } from '@/lib/posts';
 
 interface ClientPageProps {
-  query: string;
-  data: PostQuery;
-  variables: PostQueryVariables;
+  post: Post;
+  bodyHtml: string;
 }
 
-export default function ClientPage({
-  query,
-  data,
-  variables,
-}: ClientPageProps) {
-  const { data: tinaData } = useTina({
-    query,
-    data,
-    variables,
-  });
-
-  const post = tinaData.post;
+export default function ClientPage({ post, bodyHtml }: ClientPageProps) {
+  const [activeTab, setActiveTab] = useState<'story' | 'recipe' | 'video'>('story');
 
   return (
     <article>
-      <h1 data-tina-field={tinaField(post, 'title')}>
-        {post.title}
-      </h1>
-      <p data-tina-field={tinaField(post, 'description')}>
-        {post.description}
-      </p>
-      <div data-tina-field={tinaField(post, 'body')}>
-        <TinaMarkdown content={post.body} components={components} />
-      </div>
+      <h1>{post.title}</h1>
+      <p>{post.excerpt}</p>
+      <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </article>
   );
 }
@@ -175,54 +152,39 @@ export default function ClientPage({
 #### Server Component (page.tsx)
 
 ```typescript
-// app/blog/page.tsx
-import { client } from "@/tina/client";
-import ClientPage from "./client-page";
+// app/posts/page.tsx
+import { getAllPosts } from '@/lib/posts';
+import ClientPage from './client-page';
 
-export default async function BlogPage() {
-  const { query, data, variables } = await client.queries.postConnection({
-    first: 20,
-  });
-
-  return <ClientPage query={query} data={data} variables={variables} />;
+export default async function PostsPage() {
+  const posts = await getAllPosts();
+  
+  return <ClientPage posts={posts} />;
 }
 ```
 
 #### Client Component (client-page.tsx)
 
 ```typescript
-// app/blog/client-page.tsx
+// app/posts/client-page.tsx
 "use client";
 
-import { tinaField, useTina } from 'tinacms/dist/react';
 import Link from "next/link";
-import { PostConnectionQuery, PostConnectionQueryVariables } from "@/tina/__generated__/types";
+import { Post } from '@/lib/posts';
 
 interface ClientPageProps {
-  query: string;
-  data: PostConnectionQuery;
-  variables: PostConnectionQueryVariables;
+  posts: Post[];
 }
 
-export default function ClientPage({
-  query,
-  data,
-  variables,
-}: ClientPageProps) {
-  const { data: tinaData } = useTina({ query, data, variables });
-
-  const edges = tinaData.postConnection.edges || [];
-
+export default function ClientPage({ posts }: ClientPageProps) {
   return (
     <div>
       <h1>Blog Posts</h1>
       <ul>
-        {edges.map((edge: any) => (
-          <li key={edge.node.sys.relativePath}>
-            <Link href={`/blog/${edge.node._sys.filename}`}>
-              <h2 data-tina-field={tinaField(edge.node, 'title')}>
-                {edge.node.title}
-              </h2>
+        {posts.map((post) => (
+          <li key={post.slug}>
+            <Link href={`/posts/${post.slug}`}>
+              <h2>{post.title}</h2>
             </Link>
           </li>
         ))}
@@ -232,519 +194,38 @@ export default function ClientPage({
 }
 ```
 
-## data-tina-field Attribute
-
-### Purpose
-Connects DOM elements to CMS fields; enables click-to-edit in visual mode using the `tinaField()` helper.
-
-### Format
-
-Using the `tinaField()` helper from TinaCMS:
-
-```typescript
-import { tinaField } from 'tinacms/dist/react';
-
-data-tina-field={tinaField(object, 'fieldName')}
-```
-
-### Examples
-
-```typescript
-import { tinaField } from 'tinacms/dist/react';
-
-// Top-level field
-<h1 data-tina-field={tinaField(post, 'title')}>
-  {post.title}
-</h1>
-
-// Nested field
-<p data-tina-field={tinaField(post.author, 'name')}>
-  {post.author.name}
-</p>
-
-// Array element (if supported)
-<li data-tina-field={tinaField(post.tags, '0')}>
-  {post.tags[0]}
-</li>
-
-// Rich text / body (with TinaMarkdown)
-<div data-tina-field={tinaField(post, 'body')}>
-  <TinaMarkdown content={post.body} />
-</div>
-
-// Optional field with fallback
-<p data-tina-field={tinaField(post, 'subtitle')}>
-  {post.subtitle || "No subtitle"}
-</p>
-```
-
-### Guidelines
-
-- ✅ Use `tinaField(object, 'fieldName')` for proper field tracking
-- ✅ Add `data-tina-field` to every user-editable element
-- ✅ Must match schema path exactly
-- ✅ Enable visual editing; users click to edit inline
-- ✅ Pass parent object to `tinaField()`, not computed values
-- ❌ Don't add to metadata or non-visible elements
-- ❌ Don't add to computed/derived content
-- ❌ Don't use string literals like `` `post.title` ``
-
-## useTina Hook
-
-### Signature
-
-```typescript
-const { data } = useTina({
-  query: string;
-  data: <CollectionName>Query;
-  variables: <CollectionName>QueryVariables;
-});
-```
-
-### Usage
-
-```typescript
-import { PostQuery, PostQueryVariables } from "@/tina/__generated__/types";
-
-interface ClientPageProps {
-  query: string;
-  data: PostQuery;
-  variables: PostQueryVariables;
-}
-
-export default function ClientPage({
-  query,
-  data,
-  variables,
-}: ClientPageProps) {
-  const { data: tinaData } = useTina({
-    query,   // GraphQL string from server
-    data,    // Server-fetched data (typed as PostQuery)
-    variables, // Query variables (typed as PostQueryVariables)
-  });
-
-  // tinaData is live-editable in visual mode
-  const content = tinaData.post;
-}
-```
-
-### Typing Pattern
-
-For any collection (e.g., `post`, `page`, `article`):
-
-- **Single item query**: Use `<CollectionName>Query` and `<CollectionName>QueryVariables`
-  - Example: `PostQuery`, `PostQueryVariables`
-  - Example: `PageQuery`, `PageQueryVariables`
-
-- **Connection query**: Use `<CollectionName>ConnectionQuery` and `<CollectionName>ConnectionQueryVariables`
-  - Example: `PostConnectionQuery`, `PostConnectionQueryVariables`
-  - Example: `PageConnectionQuery`, `PageConnectionQueryVariables`
-
-### Behavior
-
-- Receives server-fetched `data`, `query`, and `variables`
-- Enables real-time visual editing on client
-- Handles subscription to CMS updates
-- Returns `data` (editable content)
-- **Note**: Does not return `isLoading` or `error` states
-
-### Guidelines
-
-- ✅ Always use with server-fetched `data`
-- ✅ Pass all three: `query`, `data`, `variables`
-- ✅ Use proper TypeScript types: `<CollectionName>Query` and `<CollectionName>QueryVariables`
-- ✅ Handle loading/error states on server side
-- ❌ Don't call `client.queries()` in component
-- ❌ Don't use in server components
-
-## TinaMarkdown with Click-to-Edit
-
-### Basic Usage
-
-```typescript
-import { tinaField, useTina } from 'tinacms/dist/react';
-import { TinaMarkdown } from 'tinacms/dist/rich-text';
-import { PostQuery, PostQueryVariables } from "@/tina/__generated__/types";
-
-interface ClientPageProps {
-  query: string;
-  data: PostQuery;
-  variables: PostQueryVariables;
-}
-
-export default function ClientPage({
-  query,
-  data,
-  variables,
-}: ClientPageProps) {
-  const { data: tinaData } = useTina({
-    query,
-    data,
-    variables,
-  });
-
-  const post = tinaData.post;
-
-  return (
-    <article>
-      <h1 data-tina-field={tinaField(post, 'title')}>
-        {post.title}
-      </h1>
-      <p data-tina-field={tinaField(post, 'description')}>
-        {post.description}
-      </p>
-      <div data-tina-field={tinaField(post, 'body')}>
-        <TinaMarkdown content={post.body} />
-      </div>
-    </article>
-  );
-}
-```
-
-### Determining Field Type
-
-Check your TinaCMS schema:
-
-- **String fields** (`type: 'string'`): Use direct text rendering
-- **Rich text fields** (`type: 'rich-text'`): Use `TinaMarkdown`
-- **Object fields**: Render nested properties individually
-- **Array fields**: Map over items with `array.map()`
-
-**Example:**
-```typescript
-const post = tinaData.post;
-
-return (
-  <article>
-    {/* Simple string */}
-    <h1 data-tina-field={tinaField(post, 'title')}>
-      {post.title}
-    </h1>
-
-    {/* Rich text */}
-    <div data-tina-field={tinaField(post, 'body')}>
-      <TinaMarkdown content={post.body} />
-    </div>
-
-    {/* Array of items */}
-    <ul data-tina-field={tinaField(post, 'tags')}>
-      {post.tags?.map((tag, i) => (
-        <li key={i}>{tag}</li>
-      ))}
-    </ul>
-
-    {/* Nested object */}
-    <div data-tina-field={tinaField(post.author, 'name')}>
-      By {post.author?.name}
-    </div>
-  </article>
-);
-```
-
-### Passing Props to TinaMarkdown
-
-TinaMarkdown accepts custom components for consistent rendering:
-
-```typescript
-import { tinaField } from 'tinacms/dist/react';
-import { TinaMarkdown } from 'tinacms/dist/rich-text';
-import { components } from '@/components/mdx-components';
-
-export default function ClientPage({...}: ClientPageProps) {
-  const { data: tinaData } = useTina({...});
-  const post = tinaData.post;
-
-  return (
-    <article>
-      <div data-tina-field={tinaField(post, 'body')}>
-        <TinaMarkdown content={post.body} components={components} />
-      </div>
-    </article>
-  );
-}
-```
-
-## Custom MDX Components
-
-### Create `components/mdx-components.tsx`
-
-**Centralized component definitions for consistent rendering across all TinaMarkdown instances.**
-
-```typescript
-import { format } from 'date-fns';
-import React from 'react';
-import { Components, TinaMarkdown, TinaMarkdownContent } from 'tinacms/dist/rich-text';
-import Image from 'next/image';
-import { Prism } from 'tinacms/dist/rich-text/prism';
-import { Video } from './blocks/video';
-import { PageBlocksVideo } from '@/tina/__generated__/types';
-import { Mermaid } from './blocks/mermaid';
-
-export const components: Components<{
-  BlockQuote: {
-    children: TinaMarkdownContent;
-    authorName: string;
-  };
-  DateTime: {
-    format?: string;
-  };
-  NewsletterSignup: {
-    placeholder: string;
-    buttonText: string;
-    children: TinaMarkdownContent;
-    disclaimer?: TinaMarkdownContent;
-  };
-  video: PageBlocksVideo;
-}> = {
-  code_block: (props) => {
-    if (!props) {
-      return <></>;
-    }
-
-    if (props.lang === 'mermaid') {
-      return <Mermaid value={props.value} />;
-    }
-
-    return <Prism lang={props.lang} value={props.value} />;
-  },
-
-  BlockQuote: (props: {
-    children: TinaMarkdownContent;
-    authorName: string;
-  }) => {
-    return (
-      <div className="my-8 pl-4 border-l-4 border-gray-300">
-        <blockquote className="italic text-gray-700">
-          <TinaMarkdown content={props.children} />
-          <footer className="mt-2 text-sm font-semibold">
-            — {props.authorName}
-          </footer>
-        </blockquote>
-      </div>
-    );
-  },
-
-  DateTime: (props) => {
-    const dt = React.useMemo(() => {
-      return new Date();
-    }, []);
-
-    switch (props.format) {
-      case 'iso':
-        return <span>{format(dt, 'yyyy-MM-dd')}</span>;
-      case 'utc':
-        return <span>{format(dt, 'eee, dd MMM yyyy HH:mm:ss OOOO')}</span>;
-      case 'local':
-        return <span>{format(dt, 'P')}</span>;
-      default:
-        return <span>{format(dt, 'P')}</span>;
-    }
-  },
-
-  NewsletterSignup: (props) => {
-    return (
-      <div className="bg-white my-8">
-        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-          <div className="mb-4">
-            <TinaMarkdown content={props.children} />
-          </div>
-          <div className="mt-8">
-            <form className="sm:flex">
-              <label htmlFor="email-address" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email-address"
-                name="email-address"
-                type="email"
-                autoComplete="email"
-                required
-                className="w-full px-5 py-3 border border-gray-300 shadow-xs placeholder-gray-400 focus:ring-1 focus:ring-teal-500 focus:border-teal-500 sm:max-w-xs rounded-md"
-                placeholder={props.placeholder}
-              />
-              <div className="mt-3 rounded-md shadow-sm sm:mt-0 sm:ml-3 sm:shrink-0">
-                <button
-                  type="submit"
-                  className="w-full flex items-center justify-center py-3 px-5 border border-transparent text-base font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-                >
-                  {props.buttonText}
-                </button>
-              </div>
-            </form>
-            {props.disclaimer && (
-              <div className="mt-3 text-sm text-gray-500">
-                <TinaMarkdown content={props.disclaimer} />
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  },
-
-  img: (props) => {
-    if (!props) {
-      return <></>;
-    }
-    return (
-      <span className="flex items-center justify-center my-4">
-        <Image
-          src={props.url}
-          alt={props.alt || 'Image'}
-          width={500}
-          height={500}
-          className="rounded-lg"
-        />
-      </span>
-    );
-  },
-
-  mermaid: (props: any) => <Mermaid {...props} />,
-
-  video: (props: PageBlocksVideo) => {
-    return <Video data={props} />;
-  },
-};
-```
-
-### Using Custom Components
-
-```typescript
-import { tinaField } from 'tinacms/dist/react';
-import { TinaMarkdown } from 'tinacms/dist/rich-text';
-import { components } from '@/components/mdx-components';
-
-export default function ClientPage({...}: ClientPageProps) {
-  const { data: tinaData } = useTina({...});
-  const post = tinaData.post;
-
-  return (
-    <article>
-      <h1 data-tina-field={tinaField(post, 'title')}>
-        {post.title}
-      </h1>
-      <div data-tina-field={tinaField(post, 'body')}>
-        <TinaMarkdown content={post.body} components={components} />
-      </div>
-    </article>
-  );
-}
-```
-
-### Benefits of Centralized Components
-
-- ✅ **Consistency**: Same styling across all markdown content
-- ✅ **Reusability**: Import `components` in any page
-- ✅ **Maintainability**: Update all markdown rendering from one file
-- ✅ **Type Safety**: TypeScript definitions for custom templates
-- ✅ **Scalability**: Easy to add new custom components
-
-### Adding New Custom Components
-
-```typescript
-// components/mdx-components.tsx
-
-export const components: Components<{
-  // ... existing types
-  Alert: {
-    type: 'info' | 'warning' | 'error';
-    children: TinaMarkdownContent;
-  };
-}> = {
-  // ... existing components
-
-  Alert: (props: {
-    type: 'info' | 'warning' | 'error';
-    children: TinaMarkdownContent;
-  }) => {
-    const styles = {
-      info: 'bg-blue-100 text-blue-800 border-blue-300',
-      warning: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-      error: 'bg-red-100 text-red-800 border-red-300',
-    };
-
-    return (
-      <div className={`border-l-4 p-4 my-4 rounded ${styles[props.type]}`}>
-        <TinaMarkdown content={props.children} />
-      </div>
-    );
-  },
-};
-```
-
-Then use in your schema:
-
-```typescript
-// tina/config.ts
-{
-  type: 'rich-text',
-  name: 'body',
-  templates: [
-    {
-      name: 'Alert',
-      ui: {
-        defaultItem: {
-          type: 'info',
-        },
-      },
-      fields: [
-        {
-          name: 'type',
-          type: 'string',
-          options: ['info', 'warning', 'error'],
-        },
-      ],
-    },
-  ],
-}
-```
-
 ## TypeScript Best Practices
 
-### Generate Types
-
-Use TinaCMS code generation to auto-generate types:
-
-```bash
-tinacms codegen
-```
-
-### Import Generated Types
+### Type Definitions
 
 ```typescript
-import { Post, PostQuery, PostQueryVariables } from "@/tina/__generated__/types";
-
-interface ClientPageProps {
-  query: string;
-  data: PostQuery;
-  variables: PostQueryVariables;
+// lib/posts.ts
+export interface Post {
+  title: string;
+  date: string;
+  author?: {
+    name: string;
+    avatar?: string;
+  };
+  excerpt?: string;
+  heroImg?: string;
+  heroImgCaption?: string;
+  slug: string;
+  bodyHtml?: string;
+  // ... other fields from frontmatter
 }
 ```
 
-### Type useTina Hook
+### Props Typing
 
 ```typescript
-import { PostQuery, PostQueryVariables } from "@/tina/__generated__/types";
-
 interface ClientPageProps {
-  query: string;
-  data: PostQuery;
-  variables: PostQueryVariables;
+  post: Post;
+  bodyHtml: string;
 }
 
-export default function ClientPage({
-  query,
-  data,
-  variables,
-}: ClientPageProps) {
-  const { data: tinaData } = useTina({
-    query,
-    data,
-    variables,
-  });
-
-  // tinaData.post is fully typed based on PostQuery
-  const post = tinaData.post;
+export default function ClientPage({ post, bodyHtml }: ClientPageProps) {
+  // Fully typed props
 }
 ```
 
@@ -753,59 +234,66 @@ export default function ClientPage({
 ### File Organization
 
 ```
-src/
-├── app/                    # Next.js App Router routes
-│   ├── blog/
-│   │   ├── [slug]/
-│   │   │   ├── page.tsx           # Server component
-│   │   │   └── client-page.tsx    # Client component
-│   │   ├── page.tsx               # Index server
-│   │   └── client-page.tsx        # Index client
-├── components/
-│   ├── ClientPage.tsx      # Reusable client component
-│   └── mdx-components.tsx  # TinaMarkdown custom components
-├── tina/
-│   ├── config.ts           # TinaCMS config
-│   └── __generated__/      # Auto-generated (don't edit)
-└── utils/
-    └── tina-client.ts      # TinaClient setup
+app/
+├── posts/
+│   ├── [...urlSegments]/
+│   │   ├── page.tsx           # Server component
+│   │   └── client-page.tsx    # Client component
+│   ├── page.tsx               # Index server
+│   └── client-page.tsx        # Index client
+components/
+├── layout/
+│   └── nav/
+├── ui/
+└── mdx-components.tsx
+content/
+├── posts/                     # Markdown files
+├── authors/
+└── pages/
+lib/
+├── posts.ts                   # Data fetching utilities
+└── utils.ts
+public/
+├── admin/
+│   └── config.yml             # Sveltia CMS config
+└── uploads/                   # Images
 ```
 
 ### Naming Conventions
 
 - **Files**: kebab-case (e.g., `client-page.tsx`, `mdx-components.tsx`)
 - **Components**: PascalCase (e.g., `ClientPage`)
-- **Fields**: camelCase (e.g., `postTitle`)
-- **Queries**: camelCase (e.g., `postConnection`)
-- **Types**: PascalCase (e.g., `Post`, `PostQuery`, `PostQueryVariables`)
+- **Functions**: camelCase (e.g., `getPostBySlug`)
+- **Types/Interfaces**: PascalCase (e.g., `Post`, `ClientPageProps`)
 
 ### Component Structure
 
 ```typescript
-"use client";
+"use client"; // Only in client components
 
-import { tinaField, useTina } from 'tinacms/dist/react';
-import { PostQuery, PostQueryVariables } from "@/tina/__generated__/types";
+import { useState } from 'react';
+import { Post } from '@/lib/posts';
 
-interface ClientPageProps {
-  query: string;
-  data: PostQuery;
-  variables: PostQueryVariables;
+// Types/Interfaces
+interface ComponentProps {
+  post: Post;
 }
 
-export default function ClientPage({
-  query,
-  data,
-  variables,
-}: ClientPageProps) {
-  const { data: tinaData } = useTina({
-    query,
-    data,
-    variables,
-  });
+// Constants (if any)
+const TAB_OPTIONS = ['story', 'recipe', 'video'] as const;
 
-  // Render content
-  return <article>{/* render tinaData */}</article>;
+// Main component
+export default function Component({ post }: ComponentProps) {
+  // State
+  const [activeTab, setActiveTab] = useState('story');
+  
+  // Handlers
+  function handleTabChange(tab: string) {
+    setActiveTab(tab);
+  }
+  
+  // Render
+  return <div>{/* JSX */}</div>;
 }
 ```
 
@@ -817,37 +305,25 @@ export default function ClientPage({
 import { notFound } from "next/navigation";
 
 export default async function Page({ params }: PageProps) {
-  try {
-    const { query, data, variables } = await client.queries.post({
-      relativePath: `${params.slug}.md`,
-    });
+  const slug = params.urlSegments?.join('/');
+  const post = await getPostBySlug(slug);
 
-    if (!data.post) {
-      notFound();
-    }
-
-    return <ClientPage query={query} data={data} variables={variables} />;
-  } catch (error) {
-    console.error("Failed to fetch post:", error);
+  if (!post) {
     notFound();
   }
+
+  return <ClientPage post={post} bodyHtml={post.bodyHtml} />;
 }
 ```
 
 ### Client-Side
 
-Since `useTina` only returns `data`, handle errors on the server side before passing to the client component.
-
 ```typescript
-export default function ClientPage(props: ClientPageProps) {
-  const { data: tinaData } = useTina({
-    query: props.query,
-    data: props.data,
-    variables: props.variables,
-  });
-
+export default function ClientPage({ post, bodyHtml }: ClientPageProps) {
   // Data is guaranteed to be valid if passed from server
-  return <article>{/* render tinaData */}</article>;
+  // No need for loading/error states here
+  
+  return <article>{/* render post */}</article>;
 }
 ```
 
@@ -856,7 +332,7 @@ export default function ClientPage(props: ClientPageProps) {
 ### Before Making Changes
 
 1. Check existing patterns in the codebase
-2. Review `/docs` for architecture and guidelines
+2. Review this guide for architecture decisions
 3. Ensure changes align with project goals
 
 ### Making Changes
@@ -868,82 +344,42 @@ export default function ClientPage(props: ClientPageProps) {
 
 ### After Making Changes
 
-1. ✅ Verify TypeScript compiles: `tsc --noEmit`
-2. ✅ Test TinaCMS locally in visual editing mode
-3. ✅ Verify `tinaField()` attributes are correct
-4. ✅ Test server and client components separately
-5. ✅ Document significant changes
+1. ✅ Verify TypeScript compiles: `pnpm run build`
+2. ✅ Test locally: `pnpm run dev`
+3. ✅ Check responsive design on mobile
+4. ✅ Verify images load correctly
+5. ✅ Test navigation and links
 6. ✅ Commit with clear messages
 
-### Commit Guidelines
+### Testing Checklist
 
-```bash
-# Small, focused commits
-git add .
-git commit -m "feat: Add blog post page with TinaCMS integration
-
-- Create page.tsx for server-side data fetching
-- Create client-page.tsx with useTina integration
-- Add tinaField attributes for visual editing
-
-Co-authored-by: Name <email@example.com>"
-```
-
-## Testing and Quality
-
-### Before Committing
-
-- ✅ TypeScript compiles without errors
-- ✅ Components render correctly
-- ✅ TinaCMS visual editing works
-- ✅ All `tinaField()` calls match schema
-- ✅ Error states handled on server
-- ✅ No console errors or warnings
-
-### Edge Cases to Consider
-
-- Missing or null data from TinaCMS
-- Network failures when fetching data
-- Schema mismatches in tinaField
-- Nested/optional fields with fallbacks
-- Different data types (strings, arrays, objects)
+- [ ] TypeScript compiles without errors
+- [ ] Components render correctly
+- [ ] Responsive design works on mobile/tablet/desktop
+- [ ] Images load properly
+- [ ] Links work correctly
+- [ ] No console errors or warnings
 
 ## Patterns to Avoid
 
 ### ❌ Don't Do This
 
 ```typescript
-// ❌ Calling client.queries in client component
+// ❌ Fetching data in client component
 "use client";
-const data = await client.queries.post(); // Can't await here!
+const data = await fetch('/api/posts'); // Use server component!
 
 // ❌ Forgetting "use client" in client component
+// If you use hooks or event handlers, you need "use client"
 export default function ClientPage() {
-  const { data } = useTina(); // useTina needs "use client"
+  const [state, setState] = useState(); // Error without "use client"
 }
 
-// ❌ Using string literals for data-tina-field
-<h1 data-tina-field="post.title">{post.title}</h1> // Use tinaField()!
+// ❌ Using any types
+const post: any = getPost(); // Loses type safety
 
-// ❌ Omitting tinaField attributes
-<h1>{post.title}</h1> // Can't click to edit!
-
-// ❌ Rendering all UI in server component
-export default async function Page() {
-  return <h1>{data.post.title}</h1>; // No editing!
-}
-
-// ❌ Using any types for TinaCMS data
-const tinaData: any = useData(); // Loses type safety
-
-// ❌ Hardcoding relative paths
-const data = await client.queries.post({
-  relativePath: "fixed-post.md", // Not dynamic!
-});
-
-// ❌ Not destructuring variables from query response
-const { query, data } = await client.queries.post({...});
-// Missing: variables
+// ❌ Hardcoding paths
+const post = await getPostBySlug('fixed-slug'); // Not dynamic!
 ```
 
 ### ✅ Do This Instead
@@ -951,32 +387,21 @@ const { query, data } = await client.queries.post({...});
 ```typescript
 // ✅ Fetch in server, render in client
 // page.tsx (server)
-const { query, data, variables } = await client.queries.post({...});
-return <ClientPage query={query} data={data} variables={variables} />;
+const post = await getPostBySlug(slug);
+return <ClientPage post={post} bodyHtml={post.bodyHtml} />;
 
 // client-page.tsx (client)
-const { data: tinaData } = useTina({ query, data, variables });
-
-// ✅ Use "use client" in client components
 "use client";
-const { data } = useTina({...});
+export default function ClientPage({ post, bodyHtml }: ClientPageProps) {
+  // ... interactive UI
+}
 
-// ✅ Use tinaField() helper for data-tina-field
-<h1 data-tina-field={tinaField(post, 'title')}>{post.title}</h1>
+// ✅ Use proper TypeScript types
+const post: Post = await getPostBySlug(slug);
 
 // ✅ Pass dynamic paths
-const { query, data, variables } = await client.queries.post({
-  relativePath: `${params.slug}.md`,
-});
-
-// ✅ Use generated types
-import { PostQuery, PostQueryVariables } from "@/tina/__generated__/types";
-
-interface ClientPageProps {
-  query: string;
-  data: PostQuery;
-  variables: PostQueryVariables;
-}
+const slug = params.urlSegments?.join('/');
+const post = await getPostBySlug(slug);
 ```
 
 ## Examples
@@ -985,25 +410,23 @@ interface ClientPageProps {
 
 **page.tsx (Server)**
 ```typescript
-import { client } from "@/tina/client";
-import ClientPage from "./client-page";
-import { notFound } from "next/navigation";
+import { getPostBySlug } from '@/lib/posts';
+import ClientPage from './client-page';
+import { notFound } from 'next/navigation';
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  try {
-    const { query, data, variables } = await client.queries.post({
-      relativePath: `${params.slug}.md`,
-    });
+interface PageProps {
+  params: { urlSegments: string[] };
+}
 
-    if (!data.post) {
-      notFound();
-    }
+export default async function Page({ params }: PageProps) {
+  const slug = params.urlSegments?.join('/');
+  const post = await getPostBySlug(slug);
 
-    return <ClientPage query={query} data={data} variables={variables} />;
-  } catch (error) {
-    console.error("Failed to fetch post:", error);
+  if (!post) {
     notFound();
   }
+
+  return <ClientPage post={post} bodyHtml={post.bodyHtml} />;
 }
 ```
 
@@ -1011,92 +434,23 @@ export default async function Page({ params }: { params: { slug: string } }) {
 ```typescript
 "use client";
 
-import { tinaField, useTina } from 'tinacms/dist/react';
-import { TinaMarkdown } from 'tinacms/dist/rich-text';
-import { PostQuery, PostQueryVariables } from "@/tina/__generated__/types";
-import { components } from '@/components/mdx-components';
+import { useState } from 'react';
+import { Post } from '@/lib/posts';
 
 interface ClientPageProps {
-  query: string;
-  data: PostQuery;
-  variables: PostQueryVariables;
+  post: Post;
+  bodyHtml: string;
 }
 
-export default function ClientPage({ query, data, variables }: ClientPageProps) {
-  const { data: tinaData } = useTina({
-    query,
-    data,
-    variables,
-  });
-
-  const post = tinaData.post;
+export default function ClientPage({ post, bodyHtml }: ClientPageProps) {
+  const [activeTab, setActiveTab] = useState<'story' | 'recipe' | 'video'>('story');
 
   return (
     <article>
-      <h1 data-tina-field={tinaField(post, 'title')}>
-        {post.title}
-      </h1>
-      <p data-tina-field={tinaField(post, 'description')}>
-        {post.description}
-      </p>
-      <div data-tina-field={tinaField(post, 'body')}>
-        <TinaMarkdown content={post.body} components={components} />
-      </div>
+      <h1>{post.title}</h1>
+      {post.excerpt && <p className="excerpt">{post.excerpt}</p>}
+      <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
     </article>
-  );
-}
-```
-
-### ✅ Good: Index Page
-
-**page.tsx (Server)**
-```typescript
-import { client } from "@/tina/client";
-import ClientPage from "./client-page";
-
-export default async function BlogPage() {
-  const { query, data, variables } = await client.queries.postConnection({
-    first: 20,
-  });
-
-  return <ClientPage query={query} data={data} variables={variables} />;
-}
-```
-
-**client-page.tsx (Client)**
-```typescript
-"use client";
-
-import { tinaField, useTina } from 'tinacms/dist/react';
-import Link from "next/link";
-import { PostConnectionQuery, PostConnectionQueryVariables } from "@/tina/__generated__/types";
-
-interface ClientPageProps {
-  query: string;
-  data: PostConnectionQuery;
-  variables: PostConnectionQueryVariables;
-}
-
-export default function ClientPage({ query, data, variables }: ClientPageProps) {
-  const { data: tinaData } = useTina({ query, data, variables });
-
-  const edges = tinaData.postConnection.edges || [];
-
-  return (
-    <div>
-      <h1>Blog</h1>
-      <ul>
-        {edges.map((edge: any) => (
-          <li key={edge.node._sys.filename}>
-            <Link href={`/blog/${edge.node._sys.filename}`}>
-              <h2 data-tina-field={tinaField(edge.node, 'title')}>
-                {edge.node.title}
-              </h2>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
 ```
@@ -1105,34 +459,28 @@ export default function ClientPage({ query, data, variables }: ClientPageProps) 
 
 Before completing a feature:
 
-- [ ] Server component fetches data with `await client.queries.xxx()`
-- [ ] Server component destructures `{ query, data, variables }` from query response
-- [ ] Server component passes `{ query, data, variables }` to client
-- [ ] Client component has `"use client"` directive
-- [ ] Client component uses `useTina()` hook
-- [ ] Props typed as `<CollectionName>Query` and `<CollectionName>QueryVariables`
-- [ ] All editable elements use `tinaField()` helper
-- [ ] `tinaField()` paths match schema exactly
-- [ ] TypeScript types imported from `@/tina/__generated__/types`
-- [ ] Error handling implemented on server side
+- [ ] Server component fetches data from markdown files
+- [ ] Server component passes data to client component
+- [ ] Client component has `"use client"` directive (if needed)
+- [ ] Props properly typed with TypeScript interfaces
+- [ ] Error handling implemented (404 for missing posts)
 - [ ] Dynamic data passed (not hardcoded paths)
-- [ ] TinaMarkdown used for rich text fields
-- [ ] Custom components defined in `mdx-components.tsx`
-- [ ] Tested in visual editing mode
+- [ ] Tested on mobile and desktop
 - [ ] No console errors or TypeScript issues
-- [ ] Documented if architectural changes made
+- [ ] Code follows existing patterns
 
-## Questions?
+## Resources
 
-- **TinaCMS Docs**: https://tina.io/docs
 - **Next.js Docs**: https://nextjs.org/docs
-- **React Docs**: https://react.dev/docs
+- **Sveltia CMS**: https://github.com/sveltia/sveltia-cms
+- **Tailwind CSS**: https://tailwindcss.com/docs
+- **MDX**: https://mdxjs.com/
 
 Check existing pages in this repo for patterns and examples.
 
 ---
 
-**Last Updated**: 2025-01-28
+**Last Updated**: 2026-08-02
 **Language**: TypeScript
-**CMS**: TinaCMS
-**UI**: React
+**CMS**: Sveltia CMS
+**Framework**: Next.js 14

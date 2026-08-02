@@ -52,6 +52,8 @@ jobs:
 
       # ── 6. Build Next.js (static export → out/) ──────────────────────────
       - name: Build Next.js (static export)
+        env:
+          TZ: 'Europe/Berlin'
         run: NEXT_EXPORT=true pnpm exec next build
 
       # ── 7. Add .nojekyll so GH Pages serves files starting with _ ──────────

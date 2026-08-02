@@ -213,7 +213,7 @@ export const Header = () => {
                                   {post.heroImg ? (
                                     <Image
                                       src={withBasePath(post.heroImg)}
-                                      alt=""
+                                      alt={post.title}
                                       width={32}
                                       height={32}
                                       className="w-full h-full object-cover"

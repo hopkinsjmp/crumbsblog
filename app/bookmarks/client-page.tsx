@@ -40,7 +40,7 @@ export default function BookmarksClientPage() {
                   {b.heroImg ? (
                     <Image
                       src={withBasePath(b.heroImg)}
-                      alt=""
+                      alt={b.title}
                       width={48}
                       height={48}
                       className="w-full h-full object-cover"

@@ -28,7 +28,7 @@ export function YouTubeBanner({ videoUrl }: YouTubeBannerProps = {}) {
         <p className="mt-0.5 font-sans text-sm text-[#2c1d14]/60">
           {isVideo
             ? 'Watch the video version of this recipe on YouTube.'
-            : 'A calm little corner of Youtube. For slow living and everyday moments for academics, at every stage of their journey.'}
+            : 'A calm little corner of Youtube. Slow living and everyday moments for academics, at every stage of their journey.'}
         </p>
       </div>
 

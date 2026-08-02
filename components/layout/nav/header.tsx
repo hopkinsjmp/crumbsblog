@@ -38,6 +38,7 @@ export const Header = () => {
   const router = useRouter();
   const [blogOpen, setBlogOpen] = useState(false);
   const [socialsOpen, setSocialsOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -282,6 +283,50 @@ export const Header = () => {
                     {/* ── Bookmarks ── */}
                     <li className="m-0 p-0">
                       <BookmarksNavLink />
+                    </li>
+
+                    <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14] sm:hidden">·</li>
+
+                    {/* ── More (mobile only) ── */}
+                    <li
+                      className="relative m-0 p-0 sm:hidden"
+                      onMouseEnter={() => setMoreOpen(true)}
+                      onMouseLeave={() => setMoreOpen(false)}
+                    >
+                      <button
+                        onClick={() => setMoreOpen((o) => !o)}
+                        className="inline-flex items-center gap-0.5 font-sans text-sm font-normal uppercase tracking-wider text-[#2c1d14]/80 hover:text-[#2c1d14] transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2c1d14]/40"
+                      >
+                        More
+                        <BiChevronDown className={`text-base opacity-60 transition-transform duration-150 ${moreOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                      {moreOpen && (
+                        <div className="absolute right-0 top-full z-50 pt-1">
+                          <div className="min-w-[180px] rounded-md border border-[#2c1d14]/10 bg-[#f7f4ef] shadow-lg py-1">
+                            <Link
+                              href="/contribute"
+                              onClick={() => setMoreOpen(false)}
+                              className="flex items-center gap-2.5 px-4 py-2 font-sans text-xs text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] no-underline"
+                            >
+                              How to contribute
+                            </Link>
+                            <div className="border-t border-[#2c1d14]/10 my-1"></div>
+                            {SOCIALS.map((s) => (
+                              <a
+                                key={s.href}
+                                href={s.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => setMoreOpen(false)}
+                                className="flex items-center gap-2.5 px-4 py-2 font-sans text-xs text-[#2c1d14] hover:bg-[#e8e4db] hover:text-[#a93e33] no-underline"
+                              >
+                                {s.icon}
+                                {s.label}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </li>
 
                     <li aria-hidden="true" className="select-none px-1.5 text-sm text-[#2c1d14] hidden sm:block">·</li>

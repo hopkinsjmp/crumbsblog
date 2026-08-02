@@ -61,9 +61,21 @@ page/
 - **Config**: `public/admin/config.yml`
 - **Storage**: Content saved as `.mdx` files in `/content/posts/`
 - **Workflow**: 
-  - **Drafts**: Stored in separate Git branches
-  - **Published**: Merged to `main` branch
+  - All content commits directly to `main` branch (no draft branches)
+  - Click "Save" to commit changes
+  - Publishing controlled by `date` field in frontmatter
+- **Draft/Published Filter**:
+  - Shows posts with past dates as "Published"
+  - Shows posts with future/missing dates as "Drafts"
+  - Filter is for organization only - actual visibility controlled by date logic
 - **Authentication**: Git-based (GitHub, GitLab, etc.)
+
+### Publishing Logic
+
+Posts appear on the site when:
+1. Post has a valid `date` in frontmatter
+2. Date is less than or equal to current server time
+3. See `CLAUDE.md` for detailed publishing rules
 
 ### Data Fetching Pattern
 

@@ -16,6 +16,17 @@ A post is considered published when all of the following are true:
 
 If any of those checks fail, the post is not published.
 
+### Sveltia CMS Integration
+
+Sveltia CMS uses the `date` field to determine draft/published status:
+
+- **"Published" filter in Sveltia**: Shows posts with valid past dates
+- **"Drafts" filter in Sveltia**: Shows posts with future dates or missing/invalid dates
+- **No separate Git branches**: All content lives on `main` branch
+- **Only one "Save" button**: Sveltia commits directly to `main` on save
+
+The CMS filter is purely for organization - the actual visibility on the site is controlled by the date logic in `lib/posts.ts`.
+
 ### Deprecated Field
 
 The `draft` field is removed from the content model and is no longer used for visibility.

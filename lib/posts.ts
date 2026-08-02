@@ -36,6 +36,8 @@ export interface Post extends PostSummary {
   handOffTime?: string | null;
   servings?: number | null;
   dietaryNotes?: string | null;
+  recipeCuisine?: string | null;
+  recipeCategory?: string | null;
   ingredients?: string | null;
   method?: string | null;
   storage?: string | null;

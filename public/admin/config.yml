@@ -49,6 +49,8 @@ collections:
       - { label: Hands Off Time, name: handOffTime, widget: string, required: false }
       - { label: Servings, name: servings, widget: number, required: false }
       - { label: Dietary Notes, name: dietaryNotes, widget: string, required: false }
+      - { label: Recipe Cuisine, name: recipeCuisine, widget: string, required: false, hint: "e.g., British, Asian, Mediterranean" }
+      - { label: Recipe Category, name: recipeCategory, widget: string, required: false, hint: "e.g., Dessert, Main Course, Appetizer" }
       - { label: Ingredients, name: ingredients, widget: text, required: false }
       - { label: Method, name: method, widget: text, required: false }
       - { label: Storage, name: storage, widget: string, required: false }

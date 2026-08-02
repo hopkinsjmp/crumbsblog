@@ -31,9 +31,15 @@ export async function generateMetadata({
   const post = getPostBySlug(slug);
   if (!post || !isPublishedPost(post)) return {};
 
+  const siteUrl = 'https://crumbsofsanity.com';
   const description = getSeoDescription(post);
   const ogImage = post.heroImg
-    ? [{ url: post.heroImg, width: 1200, height: 630, alt: post.title }]
+    ? [{ 
+        url: `${siteUrl}${post.heroImg}`, 
+        width: 1200, 
+        height: 630, 
+        alt: post.title 
+      }]
     : undefined;
 
   return {
@@ -43,6 +49,8 @@ export async function generateMetadata({
       title: post.title,
       description: description || undefined,
       type: 'article',
+      url: `${siteUrl}/posts/${slug}`,
+      siteName: 'Crumbs of Sanity',
       publishedTime: post.date ?? undefined,
       authors: post.author?.name ? [post.author.name] : undefined,
       images: ogImage,
@@ -75,7 +83,7 @@ export default async function PostPage({
         '@context': 'https://schema.org',
         '@type': 'Recipe',
         name: post.title,
-        description: getSeoDescription(post) || undefined,
+        description: getSeoDescription(post) || post.title,
         image: post.heroImg ? [`https://crumbsofsanity.com${post.heroImg}`] : undefined,
         author: post.author?.name
           ? { '@type': 'Person', name: post.author.name }
@@ -83,7 +91,14 @@ export default async function PostPage({
         datePublished: post.date ?? undefined,
         prepTime: toIsoDuration(post.handsOnTime),
         cookTime: toIsoDuration(post.handOffTime),
+        totalTime: toIsoDuration(
+          post.handsOnTime && post.handOffTime
+            ? `${(parseInt(post.handsOnTime) || 0) + (parseInt(post.handOffTime) || 0)} minutes`
+            : undefined
+        ),
         recipeYield: post.servings ? String(post.servings) : undefined,
+        recipeCuisine: post.recipeCuisine || undefined,
+        recipeCategory: post.recipeCategory || undefined,
         recipeIngredient: post.ingredients
           .split('\n')
           .map((l) => l.replace(/^\s*[\*\-]\s*/, '').trim())
@@ -97,6 +112,16 @@ export default async function PostPage({
                 position: i + 1,
                 text: l.replace(/^\s*\d+\.\s*/, '').trim(),
               }))
+          : undefined,
+        keywords: post.tags && post.tags.length > 0 ? post.tags.join(', ') : undefined,
+        video: post.videoUrl
+          ? {
+              '@type': 'VideoObject',
+              name: post.title,
+              description: getSeoDescription(post) || post.title,
+              thumbnailUrl: post.heroImg ? `https://crumbsofsanity.com${post.heroImg}` : undefined,
+              contentUrl: post.videoUrl,
+            }
           : undefined,
       }
     : null;

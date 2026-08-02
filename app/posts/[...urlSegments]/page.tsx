@@ -2,7 +2,7 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { marked } from 'marked';
-import { getAllPosts, getPostBySlug, getSeoDescription } from '@/lib/posts';
+import { getAllPosts, getPostBySlug, getSeoDescription, isPublishedPost } from '@/lib/posts';
 import Layout from '@/components/layout/layout';
 import PostClientPage from './client-page';
 
@@ -29,7 +29,7 @@ export async function generateMetadata({
   const resolvedParams = await params;
   const slug = resolvedParams.urlSegments.join('/');
   const post = getPostBySlug(slug);
-  if (!post) return {};
+  if (!post || !isPublishedPost(post)) return {};
 
   const description = getSeoDescription(post);
   const ogImage = post.heroImg
@@ -65,7 +65,7 @@ export default async function PostPage({
   const slug = resolvedParams.urlSegments.join('/');
   const post = getPostBySlug(slug);
 
-  if (!post) notFound();
+  if (!post || !isPublishedPost(post)) notFound();
 
   const bodyHtml = await marked(post.body ?? '');
 
@@ -115,7 +115,7 @@ export default async function PostPage({
 }
 
 export async function generateStaticParams() {
-  return getAllPosts(true).map((post) => ({
+  return getAllPosts().map((post) => ({
     urlSegments: [post.slug],
   }));
 }

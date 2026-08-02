@@ -5,7 +5,6 @@
  * content/posts/ and patches its frontmatter so that:
  *   - author   → content/authors/Carmel.md
  *   - date     → <published> from the atom entry (ISO string)
- *   - draft    → true  if blogger:status is DRAFT, omitted (or false) if LIVE
  *
  * Matching strategy: normalise both the atom <title> and the mdx filename to
  * lower-case alphanumeric tokens and pick the best overlap score.
@@ -51,7 +50,6 @@ for (const match of atomXml.matchAll(entryRegex)) {
   const typeMatch = block.match(/<blogger:type>(.*?)<\/blogger:type>/);
   if (!typeMatch || typeMatch[1] !== 'POST') continue;
 
-  const statusMatch = block.match(/<blogger:status>(.*?)<\/blogger:status>/);
   const titleMatch = block.match(/<title>(.*?)<\/title>/);
   const publishedMatch = block.match(/<published>(.*?)<\/published>/);
 
@@ -60,7 +58,6 @@ for (const match of atomXml.matchAll(entryRegex)) {
   posts.push({
     title: titleMatch[1].trim(),
     published: publishedMatch[1].trim(),
-    status: statusMatch ? statusMatch[1].trim() : 'LIVE',
   });
 }
 
@@ -111,8 +108,6 @@ for (const post of posts) {
   }
 
   let fm = fmMatch[1];
-  const isDraft = post.status === 'DRAFT';
-
   // --- author ---
   if (/^author:/m.test(fm)) {
     fm = fm.replace(/^author:.*$/m, `author: ${AUTHOR_REF}`);
@@ -127,24 +122,12 @@ for (const post of posts) {
     fm += `\ndate: '${post.published}'`;
   }
 
-  // --- draft ---
-  if (isDraft) {
-    if (/^draft:/m.test(fm)) {
-      fm = fm.replace(/^draft:.*$/m, `draft: true`);
-    } else {
-      fm += `\ndraft: true`;
-    }
-  } else {
-    // Remove draft line if present (LIVE posts shouldn't have it)
-    fm = fm.replace(/^draft:.*\n?/m, '');
-  }
-
   const newContent = content.replace(/^---\n[\s\S]*?\n---/, `---\n${fm}\n---`);
 
   if (newContent !== content) {
     fs.writeFileSync(filePath, newContent, 'utf8');
     console.log(
-      `✅  ${best.file}\n    title:   "${post.title}"\n    date:    ${post.published}\n    status:  ${post.status}\n`
+      `✅  ${best.file}\n    title:   "${post.title}"\n    date:    ${post.published}\n`
     );
     patched++;
   } else {

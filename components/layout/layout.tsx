@@ -14,7 +14,7 @@ type LayoutProps = PropsWithChildren & {
 export default async function Layout({ children, rawPageData }: LayoutProps) {
   const globalData = getGlobalSettings();
 
-  // Fetch the 30 most recent non-draft posts for the "The Blog" nav dropdown
+  // Fetch the 30 most recent published posts for the "The Blog" nav dropdown
   const recentPosts = getAllPosts()
     .slice(0, 30)
     .map((p) => ({

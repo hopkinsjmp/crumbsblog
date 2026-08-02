@@ -210,7 +210,6 @@ function frontmatterFor(post) {
     'dietaryNotes: null',
     'storage: null',
     `author: ${AUTHOR_REF}`,
-    'draft: false',
     '---',
     '',
   ];

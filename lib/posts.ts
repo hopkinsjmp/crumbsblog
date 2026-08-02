@@ -42,6 +42,17 @@ export interface Post extends PostSummary {
   body: string;
 }
 
+export function isPublishableDate(date: string | null | undefined, now = new Date()): boolean {
+  if (!date) return false;
+  const parsed = new Date(date);
+  if (isNaN(parsed.getTime())) return false;
+  return parsed <= now;
+}
+
+export function isPublishedPost(post: Pick<PostSummary, 'date'>, now = new Date()): boolean {
+  return isPublishableDate(post.date ?? null, now);
+}
+
 function resolveAuthor(authorRef: string | null | undefined): Author | null {
   if (!authorRef) return null;
 
@@ -121,7 +132,7 @@ function parseTags(tagsData: unknown): string[] {
     .filter((name): name is string => !!name);
 }
 
-export function getAllPosts(includeDrafts = false): PostSummary[] {
+export function getAllPosts(includeFutureDated = false): PostSummary[] {
   const files = fs
     .readdirSync(POSTS_DIR)
     .filter((f) => f.endsWith('.mdx') || f.endsWith('.md'));
@@ -144,9 +155,9 @@ export function getAllPosts(includeDrafts = false): PostSummary[] {
   });
 
   const now = new Date();
-  const filtered = includeDrafts
+  const filtered = includeFutureDated
     ? posts
-    : posts.filter((p) => p.date && new Date(p.date) <= now);
+    : posts.filter((p) => isPublishedPost(p, now));
 
   return filtered.sort((a, b) => {
     if (!a.date) return 1;

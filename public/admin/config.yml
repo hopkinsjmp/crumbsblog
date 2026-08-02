@@ -20,15 +20,12 @@ collections:
     format: frontmatter
     summary: "{{title}} — {{date}}"
     view_filters:
-      - label: Published (2026 & Earlier)
+      - label: Published
         field: date
         pattern: "^'?202[0-6]"
-      - label: Future/Draft (2027+)
+      - label: Drafts (Future/Missing Date)
         field: date
-        pattern: "^'?20(2[7-9]|[3-9]\\d|99)"
-      - label: Missing Date
-        field: date
-        pattern: "^\\s*$"
+        pattern: "^('?20(2[7-9]|[3-9]\\d|99)|\\s*$)"
     sortable_fields: ['date', 'title']
     fields:
       - { label: Title, name: title, widget: string, required: true }

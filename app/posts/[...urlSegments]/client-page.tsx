@@ -192,24 +192,26 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
 
         {/* Tabs + actions row */}
         {hasTabs && (
-          <div className="mb-6 flex items-end gap-0 border-b border-[#2c1d14]/15">
-            <button onClick={() => setActiveTab('story')} className={tabClass('story')}>
-              The Story
-            </button>
-            {hasRecipe && (
-              <button onClick={() => setActiveTab('recipe')} className={tabClass('recipe')}>
-                The Recipe
+          <div className="mb-6 border-b border-[#2c1d14]/15">
+            <div className="flex items-end gap-0 overflow-x-auto">
+              <button onClick={() => setActiveTab('story')} className={tabClass('story')}>
+                The Story
               </button>
-            )}
-            {hasVideo && (
-              <button onClick={() => setActiveTab('video')} className={tabClass('video')}>
-                <span className="flex items-center gap-1.5">
-                  <FaYoutube className="text-base text-[#ff0000]" />
-                  Watch
-                </span>
-              </button>
-            )}
-            <div className="ml-auto flex items-end">
+              {hasRecipe && (
+                <button onClick={() => setActiveTab('recipe')} className={tabClass('recipe')}>
+                  The Recipe
+                </button>
+              )}
+              {hasVideo && (
+                <button onClick={() => setActiveTab('video')} className={tabClass('video')}>
+                  <span className="flex items-center gap-1.5 whitespace-nowrap">
+                    <FaYoutube className="text-base text-[#ff0000]" />
+                    Watch
+                  </span>
+                </button>
+              )}
+            </div>
+            <div className="flex justify-end py-2 sm:py-0 sm:-mt-10">
               <PostActions
                 bookmark={{ url: postPath, title: post.title, heroImg: post.heroImg, date: post.date }}
                 shareTitle={post.title}
@@ -241,13 +243,14 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
             <div
               className="prose prose-stone max-w-none
                 prose-headings:font-heading prose-headings:font-semibold prose-headings:text-[#2c1d14]
+                prose-h2:mt-6 prose-h2:mb-3
                 prose-p:font-serif prose-p:text-[#2c1d14] prose-p:leading-relaxed prose-p:text-justify
                 prose-a:text-[#a93e33] prose-a:no-underline hover:prose-a:underline
                 prose-strong:text-[#2c1d14]
                 prose-blockquote:border-l-[#a93e33] prose-blockquote:text-[#2c1d14]/70"
             >
               {hasPhotos && (
-                <div className="not-prose mb-6 w-full overflow-hidden md:float-right md:ml-8 md:mb-4 md:w-[50%]">
+                <div className="not-prose mb-6 w-full overflow-hidden md:float-right md:ml-8 md:mb-4 md:w-[65%]">
                   <div className="overflow-hidden rounded-lg">
                     <Image
                       priority
@@ -293,18 +296,24 @@ export default function PostClientPage({ post, bodyHtml }: ClientPostProps) {
           <div className="font-sans text-sm text-[#2c1d14]">
             {/* Meta row: servings, dietary, time */}
             {(post.servings || post.dietaryNotes || post.handsOnTime || post.handOffTime) && (
-              <div className="mb-6 flex flex-wrap gap-x-6 gap-y-1">
-                {post.servings && (
-                  <span><strong>Servings:</strong> {post.servings}</span>
-                )}
-                {post.dietaryNotes && (
-                  <span><strong>Dietary:</strong> {post.dietaryNotes}</span>
-                )}
-                {post.handsOnTime && (
-                  <span>👐 <strong>Hands-on:</strong> {post.handsOnTime}</span>
-                )}
-                {post.handOffTime && (
-                  <span>⏳ <strong>Hands-off:</strong> {post.handOffTime}</span>
+              <div className="mb-6">
+                <div className="flex flex-wrap gap-x-6 gap-y-1">
+                  {post.servings && (
+                    <span><strong>Servings:</strong> {post.servings}</span>
+                  )}
+                  {post.dietaryNotes && (
+                    <span><strong>Dietary:</strong> {post.dietaryNotes}</span>
+                  )}
+                </div>
+                {(post.handsOnTime || post.handOffTime) && (
+                  <div className="mt-2 flex flex-wrap gap-x-6 gap-y-1">
+                    {post.handsOnTime && (
+                      <span>👐 <strong>Hands-on:</strong> {post.handsOnTime}</span>
+                    )}
+                    {post.handOffTime && (
+                      <span>⏳ <strong>Hands-off:</strong> {post.handOffTime}</span>
+                    )}
+                  </div>
                 )}
               </div>
             )}

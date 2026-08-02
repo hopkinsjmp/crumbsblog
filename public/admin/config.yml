@@ -4,7 +4,8 @@ backend:
   branch: main
   base_url: https://wandering-sea-62bc.hopkinsjmp.workers.dev
 
-publish_mode: editorial_workflow
+# All content commits directly to main - no draft branches
+# Publishing controlled by date field in frontmatter
 
 media_folder: public/uploads
 public_folder: /uploads

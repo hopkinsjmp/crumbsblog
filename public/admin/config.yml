@@ -22,13 +22,13 @@ collections:
     view_filters:
       - label: Published (2026 & Earlier)
         field: date
-        pattern: '^202[0-6]'
+        pattern: "^'?202[0-6]"
       - label: Future/Draft (2027+)
         field: date
-        pattern: '^20(2[7-9]|[3-9]\d|99)'
+        pattern: "^'?20(2[7-9]|[3-9]\\d|99)"
       - label: Missing Date
         field: date
-        pattern: '^$'
+        pattern: "^\\s*$"
     sortable_fields: ['date', 'title']
     fields:
       - { label: Title, name: title, widget: string, required: true }

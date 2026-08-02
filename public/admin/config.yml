@@ -20,9 +20,6 @@ collections:
     format: frontmatter
     summary: "{{title}} — {{date}}"
     view_filters:
-      - label: All Posts
-        field: date
-        pattern: ''
       - label: Published (2026 & Earlier)
         field: date
         pattern: '^202[0-6]'

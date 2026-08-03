@@ -35,6 +35,9 @@ const BLOGGER_REDIRECTS: Record<string, string> = {
   "2025/06/soak-blend-breathe-or-cashew-milk-for.html": "/posts/soak-blend-breathe-or-cashew-milk-for-when-everythings-a-lot",
   "2025/06/the-classic-broccoli-and-gorgonzola-soup.html": "/posts/a-vegetable-soup-for-a-fruitless-mind",
   "2025/06/courgettes-for-the-countdown.html": "/posts/courgettes-for-the-countdown",
+  "posts/hello-sunshine-skyr-mousse-with-strawberry-%E2%80%98jam%E2%80%99": "/posts/hello-sunshine-skyr-mousse-with-strawberry-jam",
+  "posts/bob’s-your-uncle-sage-pesto": "/posts/bobs-your-uncle-sage-pesto",
+  "posts/za’atar-a-musing": "/posts/zaatar-a-musing",
 };
 
 interface NotFoundProps {
@@ -58,8 +61,9 @@ export default function NotFound({
   description = "Lost, this page is. In another system, it may be.",
 }: NotFoundProps) {
   useEffect(() => {
-    const path = window.location.pathname.replace(/^\//, "");
-    const dest = BLOGGER_REDIRECTS[path];
+    const rawPath = window.location.pathname.replace(/^\//, "");
+    const candidates = [rawPath, decodeURIComponent(rawPath)];
+    const dest = candidates.map((path) => BLOGGER_REDIRECTS[path]).find(Boolean);
     if (dest) {
       window.location.replace(dest);
     }

@@ -34,6 +34,20 @@ describe("BLOGGER_REDIRECTS", () => {
     expect(entries.length).toBeGreaterThan(0);
   });
 
+  it("redirects legacy smart-quote slugs to the ASCII-safe URLs", () => {
+    const legacy = "posts/hello-sunshine-skyr-mousse-with-strawberry-%E2%80%98jam%E2%80%99";
+    const decoded = decodeURIComponent(legacy);
+    expect(redirects[legacy] || redirects[decoded]).toBe(
+      "/posts/hello-sunshine-skyr-mousse-with-strawberry-jam"
+    );
+    expect(redirects["posts/bob’s-your-uncle-sage-pesto"]).toBe(
+      "/posts/bobs-your-uncle-sage-pesto"
+    );
+    expect(redirects["posts/za’atar-a-musing"]).toBe(
+      "/posts/zaatar-a-musing"
+    );
+  });
+
   it.each(entries)(
     '"%s" → destination is a non-empty string starting with /posts/',
     (_from, to) => {
@@ -44,9 +58,9 @@ describe("BLOGGER_REDIRECTS", () => {
   );
 
   it.each(entries)(
-    '"%s" → source key looks like a Blogger path (YYYY/MM/slug.html)',
+    '"%s" → source key is either a Blogger path (YYYY/MM/slug.html) or a legacy post URL alias',
     (from) => {
-      expect(from).toMatch(/^\d{4}\/\d{2}\/.+\.html$/);
+      expect(from).toMatch(/^(\d{4}\/\d{2}\/.*\.html|posts\/.*)$/);
     }
   );
 
